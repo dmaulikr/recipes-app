@@ -3,8 +3,8 @@
 include "constants.php";
 
 const UPDATE_RECIPE_SQL = "UPDATE " . Constants::RECIPES_TABLE . " SET name = ?, description = ? WHERE recipe_id = ?";
-const UPDATE_INGREDIENTS_SQL = "UPDATE " . Constants::RECIPE_INGREDIENTS_TABLE . " SET ";
-const UPDATE_INSTRUCTIONS_SQL = "UPDATE " . Constants::RECIPE_INSTRUCTIONS_TABLE . " SET ";
+const UPDATE_INGREDIENTS_SQL = "UPDATE " . Constants::RECIPE_INGREDIENTS_TABLE . " SET ingredient = ? WHERE ingredient_id = ?";
+const UPDATE_INSTRUCTIONS_SQL = "UPDATE " . Constants::RECIPE_INSTRUCTIONS_TABLE . " SET instruction = ? WHERE instruction_id = ?";
 
 const INSERT_INGREDIENTS_SQL = "INSERT INTO " . Constants::RECIPE_INGREDIENTS_TABLE . " (recipe_id, ingredient) VALUES ";
 const INSERT_INSTRUCTIONS_SQL = "INSERT INTO " . Constants::RECIPE_INSTRUCTIONS_TABLE . " (recipe_id, instruction) VALUES ";
@@ -54,40 +54,86 @@ else {
 // Update ingredients
 if(count($ingredients) > 0) {
 
-	$update_ingredients_sql_values = array();
+	// Find any new ingredients by checking that they don't have an associated ID
 	$insert_ingredient_sql_values = array();
-
 	foreach($ingredients as $ingredient) {
-		if(array_key_exists($ingredient, $ingredientToIdMap)) {
-			// Add to update string
-			$value_str = "(ingredient = $ingredient WHERE recipe_id = $recipe_id)";
-			array_push($update_ingredients_sql_values, $value_str);
-		}
-		else {
+		if(!array_key_exists($ingredient, $ingredientToIdMap)) {		
 			// Add to insert string
-			$value_str = "($recipe_id, $ingredient)";
+			$value_str = "($recipe_id, '$ingredient')";
 			array_push($insert_ingredient_sql_values, $value_str);
 		}
 	}
 	
-	$update_ingredients_sql = UPDATE_INGREDIENTS_SQL . implode(",", $update_ingredients_sql_values);
-	if($conn->query($update_ingredients_sql)) {
-		echo Constants::SUCCESS_STRING;
-	}
-	else {
-		die("Error updating ingredients");
+	// Insert new ingredients
+	$insert_ingredients_sql = INSERT_INGREDIENTS_SQL . implode(",", $insert_ingredient_sql_values);
+	if(count($insert_ingredient_sql_values) > 0) {
+		if($conn->query($insert_ingredients_sql)) {
+			echo Constants::SUCCESS_STRING;
+		}
+		else {
+			die("Error inserting new ingredients");
+		}
 	}
 
-	$insert_ingredients_sql = INSERT_INGREDIENTS_SQL . implode(",", $insert_ingredient_sql_values);
-	if($conn->query($insert_ingredients_sql)) {
-		echo Constants::SUCCESS_STRING;
-	}
-	else {
-		die("Error inserting new ingredients");
-	}
+	// Update existing ingredients
+	if(count($ingredientToIdMap) > 0) {
+		foreach($ingredientToIdMap as $ingredient => $ingredient_id) {
+
+			$update_ingredient_ps = $conn->prepare(UPDATE_INGREDIENTS_SQL);
+			$update_ingredient_ps->bind_param("si", $ingredient, $ingredient_id);
+
+			if($update_ingredient_ps->execute()) {
+				echo Constants::SUCCESS_STRING;
+			}
+			else {
+				die("Error updating ingredient: " . $update_ingredient_ps->error);
+			}
+		}
+	}  
+
 }
 
 // Update instructions
+if(count($instructions) > 0) {
+
+	// Find any new instruction by checking that they don't have an associated ID
+	$insert_instruction_sql_values = array();
+	foreach($instructions as $instruction) {
+		if(!array_key_exists($instruction, $instructionToIdMap)) {		
+			// Add to insert string
+			$value_str = "($recipe_id, '$instruction')";
+			array_push($insert_instruction_sql_values, $value_str);
+		}
+	}
+
+	// Insert new instructions
+	$insert_instructions_sql = INSERT_INSTRUCTIONS_SQL . implode(",", $insert_instruction_sql_values);
+	if(count($insert_instruction_sql_values) > 0) {
+		if($conn->query($insert_instructions_sql)) {
+			echo Constants::SUCCESS_STRING;
+		}
+		else {
+			die("Error inserting new instructions");
+		}
+	}
+
+	// Update existing instructions
+	if(count($instructionToIdMap) > 0) {
+		foreach($instructionToIdMap as $instruction => $instruction_id) {
+
+			$update_instruction_ps = $conn->prepare(UPDATE_INSTRUCTIONS_SQL);
+			$update_instruction_ps->bind_param("si", $instruction, $instruction_id);
+
+			if($update_instruction_ps->execute()) {
+				echo Constants::SUCCESS_STRING;
+			}
+			else {
+				die("Error updating instruction: " . $update_instruction_ps->error);
+			}
+		}
+	}  
+}
+
 
 
 // End transaction

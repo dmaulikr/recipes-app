@@ -27,8 +27,8 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
     var editRecipeUrl:String = "http://iosrecipes.com/editRecipe.php"
     var updateRecipeUrl:String = "http://iosrecipes.com/updateRecipe.php"
     
-    var ingredientsList:[String] = [String]()
-    var instructionsList:[String] = [String]()
+    var ingredientsList:[StackViewTextField] = [StackViewTextField]()
+    var instructionsList:[StackViewTextField] = [StackViewTextField]()
     var recipeImage:UIImage?
     
     var editingRecipe:Bool = false
@@ -94,12 +94,19 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         
         var ingredients:[String] = (self.recipeToEdit?.ingredients)!
         for i in 0 ..< ingredients.count {
-            self.addTextFieldToView(num: i + 1, textFieldText: ingredients[i], stackView: self.ingredientsListStackView, heightConstraint: self.ingredientsListHeightConstraint)
+            let textField:StackViewTextField = self.addStackViewTextField(textFieldText: ingredients[i], stackView: self.ingredientsListStackView, heightConstraint: self.ingredientsListHeightConstraint)
+            
+            textField.ingredientId = self.recipeToEdit?.ingredientToIdMap[ingredients[i]]
+            self.ingredientsList.append(textField)
+
         }
         
         var instructions:[String] = (self.recipeToEdit?.instructions)!
         for i in 0 ..< instructions.count {
-            self.addTextFieldToView(num: i + 1, textFieldText: instructions[i], stackView: self.instructionsListStackView, heightConstraint: self.instructionsListHeightConstraint)
+            let textField:StackViewTextField = self.addStackViewTextField(textFieldText: instructions[i], stackView: self.instructionsListStackView, heightConstraint: self.instructionsListHeightConstraint)
+            
+            textField.instructionId = self.recipeToEdit?.instructiontToIdMap[instructions[i]]
+            self.instructionsList.append(textField)
         }
 
     }
@@ -114,11 +121,12 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
             return
         }
         
-        // Add to array
-        self.ingredientsList.append(self.ingredientTextField.text!)
-        
         // Add to view
-        self.addTextFieldToView(num: self.ingredientsList.count, textFieldText: self.ingredientTextField.text!, stackView: self.ingredientsListStackView, heightConstraint: self.ingredientsListHeightConstraint)
+        let textField:StackViewTextField = self.addStackViewTextField(textFieldText: self.ingredientTextField.text!, stackView: self.ingredientsListStackView, heightConstraint: self.ingredientsListHeightConstraint)
+        
+        // Add to array
+        self.ingredientsList.append(textField)
+
         
         self.ingredientTextField.text = ""
         self.view.layoutIfNeeded()
@@ -131,31 +139,29 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
             return
         }
         
-        // Add to array
-        self.instructionsList.append(self.instructionTextField.text!)
+        let textField:StackViewTextField = self.addStackViewTextField(textFieldText: self.instructionTextField.text!, stackView: self.instructionsListStackView, heightConstraint: self.instructionsListHeightConstraint)
         
-        self.addTextFieldToView(num: self.instructionsList.count, textFieldText: self.instructionTextField.text!, stackView: self.instructionsListStackView, heightConstraint: self.instructionsListHeightConstraint)
+        // Add to array
+        self.instructionsList.append(textField)
         
         self.instructionTextField.text = ""
         self.view.layoutIfNeeded()
         
     }
     
-    func addTextFieldToView(num:Int, textFieldText:String, stackView:UIStackView, heightConstraint: NSLayoutConstraint) {
-        
-        if textFieldText == "" {
-            return
-        }
+    func addStackViewTextField(textFieldText:String, stackView:UIStackView, heightConstraint: NSLayoutConstraint) -> StackViewTextField {
         
         // Initialize text view
-        let newTextField:UITextField = UITextField()
-        newTextField.text = String(format: "%d. ", num) + textFieldText
+        let newTextField:StackViewTextField = StackViewTextField()
+        newTextField.text = textFieldText
         newTextField.borderStyle = UITextBorderStyle.none
         
         // Add to view
         stackView.addArrangedSubview(newTextField)
         heightConstraint.constant += 30 // 30 is default height for label
         self.contentViewHeightConstraint.constant += 30
+        
+        return newTextField
     }
 
     
@@ -169,17 +175,38 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         
         recipe.name = recipeNameTextField.text!
         recipe.recipeDescription = descriptionTextView.text
-        recipe.ingredients = self.ingredientsList
-        recipe.instructions = self.instructionsList
+        
+
+        for i in 0 ..< self.ingredientsList.count {
+            let ingredient:StackViewTextField = self.ingredientsList[i]
+            
+            recipe.ingredients.append(ingredient.text!)
+            if ingredient.ingredientId != nil {
+                recipe.ingredientToIdMap[ingredient.text!] = ingredient.ingredientId!
+            }
+        }
+        
+        for i in 0 ..< self.instructionsList.count {
+            let instruction:StackViewTextField = self.instructionsList[i]
+            
+            recipe.instructions.append(instruction.text!)
+            if instruction.instructionId != nil {
+                recipe.instructiontToIdMap[instruction.text!] = instruction.instructionId
+            }
+        }
         
         if self.recipeImage != nil {
             recipe.image = self.recipeImage
         }
         
+        if self.editingRecipe && self.recipeToEdit != nil {
+            recipe.recipeId = (self.recipeToEdit?.recipeId)!
+        }
+        
         var data:Data?
         do {
         
-            var json:[String:AnyObject] = [
+            let json:[String:AnyObject] = [
                 "recipe_id" : recipe.recipeId as AnyObject,
                 "name" : recipe.name as AnyObject,
                 "description" : recipe.recipeDescription as AnyObject,
@@ -188,12 +215,6 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
                 "ingredientToIdMap" : recipe.ingredientToIdMap as AnyObject,
                 "instructionToIdMap" : recipe.instructiontToIdMap as AnyObject
             ]
-            
-            if self.editingRecipe && self.recipeToEdit != nil {
-                json["recipe_id"] = self.recipeToEdit!.recipeId as AnyObject
-                json["ingredientToIdMap"] = self.recipeToEdit!.ingredientToIdMap as AnyObject
-                json["instructionToIdMap"] = self.recipeToEdit!.instructiontToIdMap as AnyObject
-            }
                         
             data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
             
@@ -322,8 +343,6 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         // TODO: dismiss keyboard
     }
     
-
-    
     /*
     // MARK: - Navigation
 
@@ -333,5 +352,12 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         // Pass the selected object to the new view controller.
     }
     */
+    
+    // MARK: - StackViewTextField Inner Class
+    class StackViewTextField: UITextField {
+        var ingredientId:Int?
+        var instructionId:Int?
+        
+    }
 
 }

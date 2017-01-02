@@ -39,11 +39,11 @@ class RecipeViewController: UIViewController {
             self.descriptionTextView.isUserInteractionEnabled = false
             
             for i in 0 ..< unwrappedRecipe.ingredients.count {
-                addLabelToView(num: i + 1, labelText: unwrappedRecipe.ingredients[i], stackView: self.ingredientsStackView, heightConstraint: self.ingredientsListHeightConstraint)
+                addLabelToView(labelText: unwrappedRecipe.ingredients[i], stackView: self.ingredientsStackView, heightConstraint: self.ingredientsListHeightConstraint)
             }
             
             for i in 0 ..< unwrappedRecipe.instructions.count {
-                addLabelToView(num: i + 1, labelText: unwrappedRecipe.instructions[i], stackView: self.instructionsStackView, heightConstraint: self.instructionsListHeightConstraint)
+                addLabelToView(labelText: unwrappedRecipe.instructions[i], stackView: self.instructionsStackView, heightConstraint: self.instructionsListHeightConstraint)
             }
             
             self.view.layoutIfNeeded()
@@ -56,7 +56,7 @@ class RecipeViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func addLabelToView(num:Int, labelText:String, stackView:UIStackView, heightConstraint: NSLayoutConstraint) {
+    func addLabelToView(labelText:String, stackView:UIStackView, heightConstraint: NSLayoutConstraint) {
         
         if labelText == "" {
             return
@@ -64,7 +64,7 @@ class RecipeViewController: UIViewController {
         
         // Initialize label
         let newLabel:UILabel = UILabel()
-        newLabel.text = String(format: "%d. ", num) + labelText
+        newLabel.text = labelText
         
         // Add to view
         stackView.addArrangedSubview(newLabel)
@@ -80,6 +80,7 @@ class RecipeViewController: UIViewController {
         
         // Initialize recipe to edit
         editRecipeVC.recipeToEdit = self.recipe
+        editRecipeVC.editingRecipe = true
         
         // Present view 
         self.present(editRecipeVC, animated: true, completion: nil)
