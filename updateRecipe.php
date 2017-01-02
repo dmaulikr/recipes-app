@@ -9,15 +9,7 @@ const UPDATE_INSTRUCTIONS_SQL = "UPDATE " . Constants::RECIPE_INSTRUCTIONS_TABLE
 const INSERT_INGREDIENTS_SQL = "INSERT INTO " . Constants::RECIPE_INGREDIENTS_TABLE . " (recipe_id, ingredient) VALUES ";
 const INSERT_INSTRUCTIONS_SQL = "INSERT INTO " . Constants::RECIPE_INSTRUCTIONS_TABLE . " (recipe_id, instruction) VALUES ";
 
-function createSQLValuesArray($recipe_id, $values) {
-	$sql_values = array();
-	foreach($values as $value) {
-		$value_str = "($recipe_id, '$value')";
-		array_push($sql_values, $value_str);
-	}
-	return $sql_values;
-}
-
+// Create connection to sql
 $conn = mysqli_connect(Constants::SERVER_NAME, Constants::USER_NAME, Constants::PASSWORD);
 
 // Check connection
@@ -41,7 +33,7 @@ $instructionToIdMap = ($json["instructionToIdMap"] == "") ? array() : $json["ins
 // Begin transaction
 $conn->begin_transaction(MYSQLI_TRANS_START_READ_WRITE);
 
-// Update recipes table
+// Update recipes table with name and description
 $update_recipe_sql_ps = $conn->prepare(UPDATE_RECIPE_SQL);
 $update_recipe_sql_ps->bind_param("ssi", $recipe_name, $recipe_description, $recipe_id);
 if($update_recipe_sql_ps->execute()) {
@@ -54,19 +46,23 @@ else {
 // Update ingredients
 if(count($ingredients) > 0) {
 
+	// Create array to store all recipe id and ingredient pairs
+	$recipe_ingredient_sql_pairs = array();
+
 	// Find any new ingredients by checking that they don't have an associated ID
-	$insert_ingredient_sql_values = array();
 	foreach($ingredients as $ingredient) {
 		if(!array_key_exists($ingredient, $ingredientToIdMap)) {		
-			// Add to insert string
-			$value_str = "($recipe_id, '$ingredient')";
-			array_push($insert_ingredient_sql_values, $value_str);
+			// Add to sql pairs array
+			$recipe_ingredient_pair = "($recipe_id, '$ingredient')";
+			array_push($recipe_ingredient_sql_pairs, $recipe_ingredient_pair);
 		}
 	}
 	
-	// Insert new ingredients
-	$insert_ingredients_sql = INSERT_INGREDIENTS_SQL . implode(",", $insert_ingredient_sql_values);
-	if(count($insert_ingredient_sql_values) > 0) {
+	// Add sql pairs to insert sql string
+	$insert_ingredients_sql = INSERT_INGREDIENTS_SQL . implode(",", $recipe_ingredient_sql_pairs);
+
+	// Insert any new ingredients
+	if(count($recipe_ingredient_sql_pairs) > 0) {
 		if($conn->query($insert_ingredients_sql)) {
 			echo Constants::SUCCESS_STRING;
 		}
@@ -75,13 +71,15 @@ if(count($ingredients) > 0) {
 		}
 	}
 
-	// Update existing ingredients
+	// Update existing ingredients by checking if they have an associated ingredient id
 	if(count($ingredientToIdMap) > 0) {
 		foreach($ingredientToIdMap as $ingredient => $ingredient_id) {
 
+			// Create prepared statement 
 			$update_ingredient_ps = $conn->prepare(UPDATE_INGREDIENTS_SQL);
 			$update_ingredient_ps->bind_param("si", $ingredient, $ingredient_id);
 
+			// Update ingredient
 			if($update_ingredient_ps->execute()) {
 				echo Constants::SUCCESS_STRING;
 			}
@@ -96,19 +94,23 @@ if(count($ingredients) > 0) {
 // Update instructions
 if(count($instructions) > 0) {
 
+	// Create array to store all recipe id and ingredient pairs
+	$recipe_instruction_sql_pairs = array();
+
 	// Find any new instruction by checking that they don't have an associated ID
-	$insert_instruction_sql_values = array();
 	foreach($instructions as $instruction) {
 		if(!array_key_exists($instruction, $instructionToIdMap)) {		
-			// Add to insert string
-			$value_str = "($recipe_id, '$instruction')";
-			array_push($insert_instruction_sql_values, $value_str);
+			// Add to sql pairs
+			$recipe_instruction_pair = "($recipe_id, '$instruction')";
+			array_push($recipe_instruction_sql_pairs, $recipe_instruction_pair);
 		}
 	}
 
-	// Insert new instructions
-	$insert_instructions_sql = INSERT_INSTRUCTIONS_SQL . implode(",", $insert_instruction_sql_values);
-	if(count($insert_instruction_sql_values) > 0) {
+	// Add sql pairs to insert instructions string
+	$insert_instructions_sql = INSERT_INSTRUCTIONS_SQL . implode(",", $recipe_instruction_sql_pairs);
+
+	// Insert any new instructions
+	if(count($recipe_instruction_sql_pairs) > 0) {
 		if($conn->query($insert_instructions_sql)) {
 			echo Constants::SUCCESS_STRING;
 		}
@@ -117,13 +119,15 @@ if(count($instructions) > 0) {
 		}
 	}
 
-	// Update existing instructions
+	// Update existing instructions by checking if they have an associated instruction id
 	if(count($instructionToIdMap) > 0) {
 		foreach($instructionToIdMap as $instruction => $instruction_id) {
 
+			// Create prepared statement
 			$update_instruction_ps = $conn->prepare(UPDATE_INSTRUCTIONS_SQL);
 			$update_instruction_ps->bind_param("si", $instruction, $instruction_id);
 
+			// Update instruction
 			if($update_instruction_ps->execute()) {
 				echo Constants::SUCCESS_STRING;
 			}

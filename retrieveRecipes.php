@@ -18,15 +18,16 @@ if ($conn->connect_error) {
 $result = $conn->query(RETRIEVE_RECIPE_SQL);
 $recipes = array();
 
+// Create map of recipe id to recipe json respresentation
 while ($row = $result->fetch_assoc()) {
     $recipes[$row["recipe_id"]] = array(   
     	"recipe_id" => $row["recipe_id"], 	
     	"name" => $row["name"], 
     	"description" => $row["description"], 
     	"image_id" => $row["image_id"], 
-    	"ingredients" => array(), 
-    	"instructions" => array()
-    	);
+    	"ingredients" => array(), // initialize empty ingredients 
+    	"instructions" => array() // initialize empty instructions
+    );
 
 }
 
@@ -34,24 +35,32 @@ if(count($recipes) > 0) {
 
 	// Retrieve ingredients
 	$result = $conn->query(RETRIEVE_INGREDIENTS_SQL);
-	$ingredients = array();
 	while($row = $result->fetch_assoc()) {
-		$ingredients[] = $row;
+
+		// Retrieve ingredientId and ingredient name
 		$ingredient = array("ingredient_id" => $row["ingredient_id"], "ingredient" => $row["ingredient"]);
+
+		// Add to ingredients array for appropriate recipe
 		array_push($recipes[$row["recipe_id"]]["ingredients"], $ingredient);
 	}
 
+	// Retrieve instructions
 	$result = $conn->query(RETRIEVE_INSTRUCTIONS_SQL);
-	$instructions = array();
 	while($row = $result->fetch_assoc()) {
-		$instructions[] = $row;
+
+		// Retrieve instructionId and instruction 
 		$instruction = array("instruction_id" => $row["instruction_id"], "instruction" => $row["instruction"]);
+
+		// Add to instructions array for appropriate recipe
 		array_push($recipes[$row["recipe_id"]]["instructions"], $instruction);
 	}
 
 }
 
+// Create json array of recipes
 $recipes_for_json = array("recipes" => array());
+
+// Push each recipe to array
 foreach($recipes as $recipe_id => $recipe) {
 	array_push($recipes_for_json["recipes"], $recipe);
 }
