@@ -10,6 +10,7 @@ import UIKit
 
 class RecipeViewController: UIViewController {
     
+    // UI Outlets
     @IBOutlet weak var navItem: UINavigationItem!
     
     @IBOutlet weak var titleLabel: UILabel!
@@ -25,6 +26,7 @@ class RecipeViewController: UIViewController {
     @IBOutlet weak var ingredientsListHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var instructionsListHeightConstraint: NSLayoutConstraint!
     
+    // Recipe object to be initialized before view is presented
     var recipe:Recipe?
     
     override func viewDidLoad() {
@@ -32,9 +34,12 @@ class RecipeViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
+        // Check if recipe object has been initialized
         if let unwrappedRecipe = recipe {
-            self.titleLabel.text = unwrappedRecipe.name
             
+            // Initialize view with recipe details
+            self.titleLabel.text = unwrappedRecipe.name
+        
             self.descriptionTextView.text = unwrappedRecipe.recipeDescription
             self.descriptionTextView.isUserInteractionEnabled = false
             

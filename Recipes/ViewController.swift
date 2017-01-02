@@ -10,11 +10,14 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    // UI outlets
     @IBOutlet weak var recipesTableView: UITableView!
+    
+    // Constants
+    let retrieveRecipesURL:String = "http://iosrecipes.com/retrieveRecipes.php"
     
     var recipes:[Recipe] = [Recipe]()
     var selectedRecipe:Recipe?
-    var retrieveRecipesURL:String = "http://iosrecipes.com/retrieveRecipes.php"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +31,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(self.addButtonClicked(_:)))
         
-        // Retreive recipes
+        // Retreive recipes and populate view
         self.retrieveRecipes()
         
     }
@@ -42,6 +45,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
         let url:URL = URL(string: self.retrieveRecipesURL)!
         
+        // Create task to retrieve recipes from url
         let task:URLSessionDataTask = URLSession.shared.dataTask(with: url) { (data, response, error) in
             
             if error != nil {
@@ -50,11 +54,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             
             do {
-                // Convert data into json
+                // Convert recipe data to json array
                 let dataDictionary:[String:Any] = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as! [String:Any]
                 
-                // Parse and save each recipe in the json array
+                // Get array of json recipe objects
                 let dataArray = dataDictionary["recipes"] as! NSArray
+                
+                // Loop through array and parse each recipe
                 for i in 0 ..< dataArray.count {
                     let recipeDictionary = dataArray[i] as! NSDictionary
 
@@ -88,12 +94,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     }
                     
                     // Add to recipes array
-                    // print(recipe.toString())
                     self.recipes.append(recipe)
                     
                 }
                 
                 DispatchQueue.main.async {
+                    // Reload table view in main thread
                     self.recipesTableView.reloadData()
                 }
             }
@@ -103,6 +109,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
         }
         
+        // Run the task
         task.resume()
         
     }
@@ -119,6 +126,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let newRecipeVC:UIViewController = storyBoard.instantiateViewController(withIdentifier: "createRecipeController")
         
+        // Present view controller
         self.present(newRecipeVC, animated: true, completion: nil)
         
     }
@@ -126,6 +134,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Initialize recipe object for RecipeViewController
         let recipeVC:RecipeViewController = segue.destination as! RecipeViewController
         recipeVC.recipe = self.selectedRecipe
     }
@@ -136,9 +145,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // Get reusable cell
         let cell:UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "TableCell")!
+        
+        // Get recipe
         let recipe:Recipe = self.recipes[indexPath.row]
         
+        // Initialize label text with recipe name
         let label:UILabel? = cell.viewWithTag(1) as! UILabel?
         if let unwrappedLabel = label {
             unwrappedLabel.text = recipe.name
@@ -149,9 +162,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Present Recipe details for the one selected
         self.selectedRecipe = self.recipes[indexPath.row]
-        NSLog((self.selectedRecipe?.name)! + " clicked")
-        
         self.performSegue(withIdentifier: "toRecipeView", sender: self)
     }
 }

@@ -10,7 +10,7 @@ import UIKit
 
 class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
     
-    
+    // UI Outlets
     @IBOutlet weak var recipeNameTextField: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var ingredientTextField: UITextField!
@@ -23,14 +23,18 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
     @IBOutlet weak var instructionsListHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
     
-    var saveRecipeUrl:String = "http://iosrecipes.com/saveRecipe.php"
-    var editRecipeUrl:String = "http://iosrecipes.com/editRecipe.php"
-    var updateRecipeUrl:String = "http://iosrecipes.com/updateRecipe.php"
+    // Constants
+    let saveRecipeUrl:String = "http://iosrecipes.com/saveRecipe.php"
+    let editRecipeUrl:String = "http://iosrecipes.com/editRecipe.php"
+    let updateRecipeUrl:String = "http://iosrecipes.com/updateRecipe.php"
+    let defaultTextFieldHeight:CGFloat = 30
     
+    // Recipe ingredient and instruction lists
     var ingredientsList:[StackViewTextField] = [StackViewTextField]()
     var instructionsList:[StackViewTextField] = [StackViewTextField]()
     var recipeImage:UIImage?
     
+    // Member variables to be set before presenting view if editing a recipe
     var editingRecipe:Bool = false
     var recipeToEdit:Recipe?
     
@@ -64,6 +68,7 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         // Add keyboard listener
         NotificationCenter.default.addObserver(self, selector:#selector(self.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         
+        // If there's a recipe to edit, initialize the view with its details
         if self.recipeToEdit != nil {
             self.editingRecipe = true
             self.populateViewWithRecipeToEdit()
@@ -76,36 +81,33 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         // Dispose of any resources that can be recreated.
     }
     
-    func keyboardWillShow(notification: NSNotification) {
-        let frame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-        NSLog(frame.debugDescription)
-        
-        // do stuff with the frame...
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.endEditing(textFieldTag: TextFieldTags.ALL.rawValue)
-    }
     
     func populateViewWithRecipeToEdit() {
-        print("populating recipe to edit")
         self.recipeNameTextField.text = self.recipeToEdit?.name
         self.descriptionTextView.text = self.recipeToEdit?.recipeDescription
         
+        // Add each ingredient to view
         var ingredients:[String] = (self.recipeToEdit?.ingredients)!
         for i in 0 ..< ingredients.count {
             let textField:StackViewTextField = self.addStackViewTextField(textFieldText: ingredients[i], stackView: self.ingredientsListStackView, heightConstraint: self.ingredientsListHeightConstraint)
             
+            // Set textfields ingredientId in order to add to ingredientToIdMap when saving recipe
             textField.ingredientId = self.recipeToEdit?.ingredientToIdMap[ingredients[i]]
+            
+            // Add to ingredients array
             self.ingredientsList.append(textField)
 
         }
         
+        // Add each instruction to view
         var instructions:[String] = (self.recipeToEdit?.instructions)!
         for i in 0 ..< instructions.count {
             let textField:StackViewTextField = self.addStackViewTextField(textFieldText: instructions[i], stackView: self.instructionsListStackView, heightConstraint: self.instructionsListHeightConstraint)
             
+            // Set textfields instructionId in order to add to instructionToIdMap when saving recipe
             textField.instructionId = self.recipeToEdit?.instructiontToIdMap[instructions[i]]
+            
+            // Add to instructions array
             self.instructionsList.append(textField)
         }
 
@@ -124,10 +126,9 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         // Add to view
         let textField:StackViewTextField = self.addStackViewTextField(textFieldText: self.ingredientTextField.text!, stackView: self.ingredientsListStackView, heightConstraint: self.ingredientsListHeightConstraint)
         
-        // Add to array
+        // Add to ingredients array
         self.ingredientsList.append(textField)
 
-        
         self.ingredientTextField.text = ""
         self.view.layoutIfNeeded()
         
@@ -141,7 +142,7 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         
         let textField:StackViewTextField = self.addStackViewTextField(textFieldText: self.instructionTextField.text!, stackView: self.instructionsListStackView, heightConstraint: self.instructionsListHeightConstraint)
         
-        // Add to array
+        // Add to instructions array
         self.instructionsList.append(textField)
         
         self.instructionTextField.text = ""
@@ -151,15 +152,16 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
     
     func addStackViewTextField(textFieldText:String, stackView:UIStackView, heightConstraint: NSLayoutConstraint) -> StackViewTextField {
         
-        // Initialize text view
+        // Initialize stack view text field
+        // Use StackViewTextField so we can associate an id with it later
         let newTextField:StackViewTextField = StackViewTextField()
         newTextField.text = textFieldText
         newTextField.borderStyle = UITextBorderStyle.none
         
         // Add to view
         stackView.addArrangedSubview(newTextField)
-        heightConstraint.constant += 30 // 30 is default height for label
-        self.contentViewHeightConstraint.constant += 30
+        heightConstraint.constant += self.defaultTextFieldHeight
+        self.contentViewHeightConstraint.constant += self.defaultTextFieldHeight
         
         return newTextField
     }
@@ -171,38 +173,51 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
     
     
     @IBAction func saveRecipeClicked(_ sender: UIBarButtonItem) {
+        // Create recipe object to save
         let recipe:Recipe = Recipe()
         
         recipe.name = recipeNameTextField.text!
         recipe.recipeDescription = descriptionTextView.text
         
-
+        // Loop through each ingredient
         for i in 0 ..< self.ingredientsList.count {
             let ingredient:StackViewTextField = self.ingredientsList[i]
             
+            // Add ingredient to recipe
             recipe.ingredients.append(ingredient.text!)
+            
+            // If the ingredient has an id, add it to the map
+            // This map is needed by the php script to update existing ingredients
             if ingredient.ingredientId != nil {
                 recipe.ingredientToIdMap[ingredient.text!] = ingredient.ingredientId!
             }
         }
         
+        // Loop through each instruction
         for i in 0 ..< self.instructionsList.count {
             let instruction:StackViewTextField = self.instructionsList[i]
             
+            // Add instruction to recipe
             recipe.instructions.append(instruction.text!)
+            
+            // If the instruction has an id, add it to the map
+            // This map is needed by the php script to update existing instructions
             if instruction.instructionId != nil {
                 recipe.instructiontToIdMap[instruction.text!] = instruction.instructionId
             }
         }
         
+        // Add the image, if one has been added
         if self.recipeImage != nil {
             recipe.image = self.recipeImage
         }
         
+        // Save the recipeId if this is recipe is being edited
         if self.editingRecipe && self.recipeToEdit != nil {
             recipe.recipeId = (self.recipeToEdit?.recipeId)!
         }
         
+        // Save the recipe as a json data object
         var data:Data?
         do {
         
@@ -225,7 +240,7 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         }
         
         
-        // Create a request
+        // Create url object
         var url:URL?
         if self.editingRecipe {
             url = URL(string: self.updateRecipeUrl)!
@@ -234,14 +249,17 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
             url = URL(string: self.saveRecipeUrl)!
         }
         
+        // Create and initialize request
         var request:URLRequest = URLRequest(url: url!)
         
         request.httpMethod = "POST"
         request.httpBody = data!
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
+        // Create task to save or update the recipe
         let task:URLSessionDataTask = URLSession.shared.dataTask(with: request, completionHandler: { (data:Data?, response:URLResponse?, error:Error?) in
             
+            // Log status result of task
             if error != nil {
                 NSLog("There was an error running the task to save the recipe")
                 NSLog((error?.localizedDescription)!)
@@ -256,6 +274,7 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
                 NSLog(String(format: "Error: Status code: %d", httpResponse.statusCode))
             }
             
+            // Go back to ViewController
             DispatchQueue.main.async {
                 self.presentNavigationController()
             }
@@ -268,6 +287,8 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
 
     }
     
+    // MARK: - Misc functions
+    
     func isValidJSON(json: AnyObject) -> Bool {
         return JSONSerialization.isValidJSONObject(json)
     }
@@ -277,6 +298,17 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         let recipesVC:UIViewController = storyBoard.instantiateViewController(withIdentifier: "navigationController")
         
         self.present(recipesVC, animated: false, completion: nil)
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        let frame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        NSLog(frame.debugDescription)
+        
+        // do stuff with the frame...
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.endEditing(textFieldTag: TextFieldTags.ALL.rawValue)
     }
     
     
@@ -295,6 +327,7 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
     }
     
     func endEditing(textFieldTag:Int) {
+        // Dismiss the appropriate text field keyboard
         UIView.animate(withDuration: 0.25, animations: {
             switch(textFieldTag) {
                 case TextFieldTags.RECIPE.rawValue:
