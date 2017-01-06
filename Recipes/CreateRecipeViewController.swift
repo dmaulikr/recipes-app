@@ -11,6 +11,8 @@ import UIKit
 class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
     
     // UI Outlets
+    @IBOutlet weak var navigationBar: UINavigationBar!
+    
     @IBOutlet weak var recipeNameTextField: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var ingredientTextField: UITextField!
@@ -52,12 +54,17 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         
         // Style description text view
         let borderColor:UIColor = UIColor(displayP3Red: 204.0/255.0, green: 204.0/255.0, blue: 204.0/255.0, alpha: 1.0)
-        
+    
         descriptionTextView.layer.borderWidth = 0.5
         descriptionTextView.layer.borderColor = borderColor.cgColor
         descriptionTextView.layer.cornerRadius = 5.0
         descriptionTextView.text = "Add description"
         descriptionTextView.textColor = UIColor.lightGray
+        
+        // Set nav bar colors
+        self.navigationBar.barTintColor = DefaultColors.darkBlueColor
+        self.navigationBar.tintColor = UIColor.white
+        self.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
         // Assign self to delegates
         recipeNameTextField.delegate = self
@@ -392,5 +399,13 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         var instructionId:Int?
         
     }
+    
+    // TODO: Change to struct
+//    struct StackViewTextField {
+//        var textField:UITextField = UITextField()
+//        var ingredientId:Int?
+//        var instructionId:Int?
+//    }
+    
 
 }

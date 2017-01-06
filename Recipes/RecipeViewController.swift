@@ -26,6 +26,9 @@ class RecipeViewController: UIViewController {
     @IBOutlet weak var ingredientsListHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var instructionsListHeightConstraint: NSLayoutConstraint!
     
+    // Constants
+    let defaultLabelHeight:CGFloat = 30
+    
     // Recipe object to be initialized before view is presented
     var recipe:Recipe?
     
@@ -52,8 +55,13 @@ class RecipeViewController: UIViewController {
             }
             
             self.view.layoutIfNeeded()
-            
+                        
         }
+        
+        // Set nav bar colors
+        self.navigationController?.navigationBar.barTintColor = DefaultColors.darkBlueColor
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
     }
 
     override func didReceiveMemoryWarning() {
@@ -73,8 +81,8 @@ class RecipeViewController: UIViewController {
         
         // Add to view
         stackView.addArrangedSubview(newLabel)
-        heightConstraint.constant += 30 // 30 is default height for label
-        self.contentViewHeightConstraint.constant += 30
+        heightConstraint.constant += self.defaultLabelHeight // 30 is default height for label
+        self.contentViewHeightConstraint.constant += self.defaultLabelHeight
     }
     
     

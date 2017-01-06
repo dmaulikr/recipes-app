@@ -15,7 +15,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // Constants
     let retrieveRecipesURL:String = "http://iosrecipes.com/retrieveRecipes.php"
-    
+
     var recipes:[Recipe] = [Recipe]()
     var selectedRecipe:Recipe?
     
@@ -30,10 +30,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: #selector(self.editButtonClicked(_:)))
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(self.addButtonClicked(_:)))
+
+        // Set nav bar colors
+        self.navigationController?.navigationBar.barTintColor = DefaultColors.darkBlueColor
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
         // Retreive recipes and populate view
         self.retrieveRecipes()
-        
+                
     }
 
     override func didReceiveMemoryWarning() {
