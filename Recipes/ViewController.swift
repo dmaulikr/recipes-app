@@ -36,6 +36,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.navigationController?.navigationBar.tintColor = UIColor.white
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
+        // Dismiss keyboard when user taps outside
+        self.hideKeyboardWhenTappedAround()
+        
         // Retreive recipes and populate view
         self.retrieveRecipes()
                 

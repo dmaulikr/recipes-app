@@ -12,6 +12,7 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
     
     // UI Outlets
     @IBOutlet weak var navigationBar: UINavigationBar!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     @IBOutlet weak var recipeNameTextField: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!
@@ -39,6 +40,9 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
     // Member variables to be set before presenting view if editing a recipe
     var editingRecipe:Bool = false
     var recipeToEdit:Recipe?
+    
+    // Misc
+    var activeTextField:UITextField?
     
     enum TextFieldTags:Int {
         case RECIPE = 1
@@ -73,13 +77,21 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         descriptionTextView.delegate = self
         
         // Add keyboard listener
-        NotificationCenter.default.addObserver(self, selector:#selector(self.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        self.registerForKeyboardNotifications()
+        
+        // Dismiss keyboard when user taps outside
+        self.hideKeyboardWhenTappedAround()
         
         // If there's a recipe to edit, initialize the view with its details
         if self.recipeToEdit != nil {
             self.editingRecipe = true
             self.populateViewWithRecipeToEdit()
         }
+
+    }
+    
+    deinit {
+        self.deregisterFromKeyboardNotifications()
 
     }
 
@@ -294,7 +306,7 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
 
     }
     
-    // MARK: - Misc functions
+    // MARK: - Utility functions
     
     func isValidJSON(json: AnyObject) -> Bool {
         return JSONSerialization.isValidJSONObject(json)
@@ -307,25 +319,58 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         self.present(recipesVC, animated: false, completion: nil)
     }
     
-    func keyboardWillShow(notification: NSNotification) {
-        let frame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-        NSLog(frame.debugDescription)
-        
-        // do stuff with the frame...
+    // MARK: - Keyboard functions
+    
+    func registerForKeyboardNotifications(){
+        //Adding notifies on keyboard appearing
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.endEditing(textFieldTag: TextFieldTags.ALL.rawValue)
+    func deregisterFromKeyboardNotifications(){
+        //Removing notifies on keyboard appearing
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    func keyboardWasShown(notification: NSNotification){
+        // Calculate the keyboards size
+        var info = notification.userInfo!
+        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
+        
+        // Define the insets for the content to be displayed above the keyboard
+        let contentInsets : UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize!.height + 10, 0.0)
+        
+        // Set the scroll view to the new insets
+        self.scrollView.contentInset = contentInsets
+        self.scrollView.scrollIndicatorInsets = contentInsets
+        
+        // Find the CGRect of the view above the keyboard
+        var aRect : CGRect = self.view.frame
+        aRect.size.height -= keyboardSize!.height
+        
+        // Scroll the active text field above the keyboard if it's hidden
+        if let activeField = self.activeTextField {
+            if (!aRect.contains(activeField.frame.origin)){
+                self.scrollView.scrollRectToVisible(activeField.frame, animated: true)
+            }
+        }
+    }
+    
+    func keyboardWillBeHidden(notification: NSNotification){
+        //Once keyboard disappears, restore original positions
+        self.scrollView.contentInset = UIEdgeInsets.zero
+        self.view.endEditing(true)
     }
     
     
     // MARK: - Text Field Delegate Methods
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-
+    func textFieldDidBeginEditing(_ textField: UITextField){
+        self.activeTextField = textField
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-
+    func textFieldDidEndEditing(_ textField: UITextField){
+        self.activeTextField = nil
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -377,10 +422,6 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
             descriptionTextView.text = "Add description"
             descriptionTextView.textColor = UIColor.lightGray
         }
-    }
-    
-    func endEditing(textView:UITextView) {
-        // TODO: dismiss keyboard
     }
     
     /*

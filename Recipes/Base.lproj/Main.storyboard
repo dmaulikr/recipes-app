@@ -222,6 +222,7 @@
                         <outlet property="instructionsListStackView" destination="wCO-uc-K5o" id="KCw-L2-WAG"/>
                         <outlet property="navigationBar" destination="uEL-BN-nYo" id="hT1-KV-Gn2"/>
                         <outlet property="recipeNameTextField" destination="a3c-Ia-U5u" id="gg4-5o-5Ji"/>
+                        <outlet property="scrollView" destination="M6N-Rp-Iyz" id="h0p-bB-F5S"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="54K-Ov-K2w" userLabel="First Responder" sceneMemberID="firstResponder"/>
