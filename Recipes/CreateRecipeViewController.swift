@@ -8,11 +8,13 @@
 
 import UIKit
 
-class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
+class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     // UI Outlets
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var scrollView: UIScrollView!
+    
+    @IBOutlet weak var recipeImageView: UIImageView!
     
     @IBOutlet weak var recipeNameTextField: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!
@@ -25,17 +27,18 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
     @IBOutlet weak var ingredientsListHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var instructionsListHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var recipeImageHeightConstraint: NSLayoutConstraint!
     
     // Constants
     let saveRecipeUrl:String = "http://iosrecipes.com/saveRecipe.php"
     let editRecipeUrl:String = "http://iosrecipes.com/editRecipe.php"
     let updateRecipeUrl:String = "http://iosrecipes.com/updateRecipe.php"
     let defaultTextFieldHeight:CGFloat = 30
+    let textViewPlaceholder:String = "Add description"
     
     // Recipe ingredient and instruction lists
     var ingredientsList:[StackViewTextField] = [StackViewTextField]()
     var instructionsList:[StackViewTextField] = [StackViewTextField]()
-    var recipeImage:UIImage?
     
     // Member variables to be set before presenting view if editing a recipe
     var editingRecipe:Bool = false
@@ -62,7 +65,8 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         descriptionTextView.layer.borderWidth = 0.5
         descriptionTextView.layer.borderColor = borderColor.cgColor
         descriptionTextView.layer.cornerRadius = 5.0
-        descriptionTextView.text = "Add description"
+        descriptionTextView.text = self.textViewPlaceholder
+        descriptionTextView.font = UIFont.italicSystemFont(ofSize: UIFont.systemFontSize)
         descriptionTextView.textColor = UIColor.lightGray
         
         // Set nav bar colors
@@ -81,6 +85,10 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         
         // Dismiss keyboard when user taps outside
         self.hideKeyboardWhenTappedAround()
+        
+        // Set content height
+        let screenSize: CGRect = UIScreen.main.bounds
+        self.contentViewHeightConstraint.constant = screenSize.height + 50 // extra buffer
         
         // If there's a recipe to edit, initialize the view with its details
         if self.recipeToEdit != nil {
@@ -133,6 +141,55 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
     }
     
     @IBAction func addImageClicked(_ sender: UIButton) {
+        
+        let me:UIViewController = self
+        
+        // Check if the device has a camera
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
+                        
+            let picker = UIImagePickerController()
+            picker.allowsEditing = false
+            picker.delegate = self
+            
+            // Create a new alert controller to ask user whether to get picture from camera or library
+            let actionSheet:UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+            
+            // Action for choosing camera
+            let cameraAction:UIAlertAction = UIAlertAction(title: "Take Photo", style: UIAlertActionStyle.default, handler: {
+                (alertAction:UIAlertAction!) in
+            
+                picker.sourceType = UIImagePickerControllerSourceType.camera
+                picker.cameraCaptureMode = .photo
+                picker.modalPresentationStyle = .fullScreen
+                me.present(picker,animated: true,completion: nil)
+                
+            })
+            
+            // Action for choosing photo library
+            let photoLibraryAction:UIAlertAction = UIAlertAction(title: "Photo Library", style: UIAlertActionStyle.default, handler: {
+                (alertAction:UIAlertAction!) in
+                
+                picker.sourceType = .photoLibrary
+                picker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
+                me.present(picker,animated: true,completion: nil)
+            })
+            
+            // Action for canceling
+            let cancelAction:UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.destructive, handler: {
+                (alertAction:UIAlertAction!) in
+                
+                NSLog("cancel")
+            })
+            
+            // Add actions
+            actionSheet.addAction(cameraAction)
+            actionSheet.addAction(photoLibraryAction)
+            actionSheet.addAction(cancelAction)
+            
+            // Display it to the user
+            self.present(actionSheet, animated: true, completion: nil)
+        }
+        
         
     }
     
@@ -227,8 +284,8 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         }
         
         // Add the image, if one has been added
-        if self.recipeImage != nil {
-            recipe.image = self.recipeImage
+        if self.recipeImageView != nil {
+//            recipe.image = self.recipeImage
         }
         
         // Save the recipeId if this is recipe is being edited
@@ -408,21 +465,37 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
     }
     
     // MARK: - Text View Delegate Methods
-    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        if(descriptionTextView.text == "Add description") {
-            descriptionTextView.text = ""
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == self.textViewPlaceholder {
+            textView.text = nil
+            textView.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+            textView.textColor = UIColor.black
         }
-        
-        descriptionTextView.textColor = UIColor.black
-        return true
     }
     
-    func textViewDidChange(_ textView: UITextView) {
-        if(textView.text == "") {
-            descriptionTextView.text = "Add description"
-            descriptionTextView.textColor = UIColor.lightGray
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = self.textViewPlaceholder
+            textView.font = UIFont.italicSystemFont(ofSize: UIFont.systemFontSize)
+            textView.textColor = UIColor.lightGray
         }
     }
+    
+    // MARK: - Image Picker Delegate Methods
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        self.recipeImageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        self.recipeImageHeightConstraint.constant = UIScreen.main.bounds.height / 2
+        self.contentViewHeightConstraint.constant += self.recipeImageHeightConstraint.constant
+        
+        // To dismiss the image picker
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     
     /*
     // MARK: - Navigation

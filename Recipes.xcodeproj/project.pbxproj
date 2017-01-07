@@ -70,11 +70,11 @@
 				8D9B15A81DD62BBE00855D3B /* CreateRecipeViewController.swift */,
 				8D8402531DD4D14F009BBA62 /* Recipe.swift */,
 				8D0BF8741E1CA20100C3B563 /* DefaultColors.swift */,
+				8D0BF87C1E216AB500C3B563 /* Extensions.swift */,
 				8D8402451DD4D0E7009BBA62 /* Main.storyboard */,
 				8D8402481DD4D0E7009BBA62 /* Assets.xcassets */,
 				8D84024A1DD4D0E7009BBA62 /* LaunchScreen.storyboard */,
 				8D84024D1DD4D0E7009BBA62 /* Info.plist */,
-				8D0BF87C1E216AB500C3B563 /* Extensions.swift */,
 			);
 			path = Recipes;
 			sourceTree = "<group>";

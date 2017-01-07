@@ -58,6 +58,10 @@ class RecipeViewController: UIViewController {
                         
         }
         
+        // Set content height
+        let screenSize: CGRect = UIScreen.main.bounds
+        self.contentViewHeightConstraint.constant = screenSize.height
+        
         // Set nav bar colors
         self.navigationController?.navigationBar.barTintColor = DefaultColors.darkBlueColor
         self.navigationController?.navigationBar.tintColor = UIColor.white
