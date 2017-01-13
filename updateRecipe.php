@@ -2,7 +2,7 @@
 
 include "constants.php";
 
-const UPDATE_RECIPE_SQL = "UPDATE " . Constants::RECIPES_TABLE . " SET name = ?, description = ? WHERE recipe_id = ?";
+const UPDATE_RECIPE_SQL = "UPDATE " . Constants::RECIPES_TABLE . " SET name = ?, description = ?, image_id = ? WHERE recipe_id = ?";
 const UPDATE_INGREDIENTS_SQL = "UPDATE " . Constants::RECIPE_INGREDIENTS_TABLE . " SET ingredient = ? WHERE ingredient_id = ?";
 const UPDATE_INSTRUCTIONS_SQL = "UPDATE " . Constants::RECIPE_INSTRUCTIONS_TABLE . " SET instruction = ? WHERE instruction_id = ?";
 
@@ -27,15 +27,16 @@ $recipe_id = $json["recipe_id"];
 $recipe_description = ($json["description"] == "") ? null : $json["description"];
 $ingredients = ($json["ingredients"] == "") ? array() : $json["ingredients"];
 $instructions = ($json["instructions"] == "") ? array() : $json["instructions"];
-$ingredientToIdMap = ($json["ingredientToIdMap"] == "") ? array() : $json["ingredientToIdMap"];
-$instructionToIdMap = ($json["instructionToIdMap"] == "") ? array() : $json["instructionToIdMap"];
+$ingredient_to_id_map = ($json["ingredientToIdMap"] == "") ? array() : $json["ingredientToIdMap"];
+$instruction_to_id_map = ($json["instructionToIdMap"] == "") ? array() : $json["instructionToIdMap"];
+$image_id = ($json["imageId"] == "") ? null : $json["imageId"];
 
 // Begin transaction
 $conn->begin_transaction(MYSQLI_TRANS_START_READ_WRITE);
 
 // Update recipes table with name and description
 $update_recipe_sql_ps = $conn->prepare(UPDATE_RECIPE_SQL);
-$update_recipe_sql_ps->bind_param("ssi", $recipe_name, $recipe_description, $recipe_id);
+$update_recipe_sql_ps->bind_param("ssii", $recipe_name, $recipe_description, $image_id, $recipe_id);
 if($update_recipe_sql_ps->execute()) {
 	echo Constants::SUCCESS_STRING;
 }
@@ -51,7 +52,7 @@ if(count($ingredients) > 0) {
 
 	// Find any new ingredients by checking that they don't have an associated ID
 	foreach($ingredients as $ingredient) {
-		if(!array_key_exists($ingredient, $ingredientToIdMap)) {		
+		if(!array_key_exists($ingredient, $ingredient_to_id_map)) {		
 			// Add to sql pairs array
 			$recipe_ingredient_pair = "($recipe_id, '$ingredient')";
 			array_push($recipe_ingredient_sql_pairs, $recipe_ingredient_pair);
@@ -72,8 +73,8 @@ if(count($ingredients) > 0) {
 	}
 
 	// Update existing ingredients by checking if they have an associated ingredient id
-	if(count($ingredientToIdMap) > 0) {
-		foreach($ingredientToIdMap as $ingredient => $ingredient_id) {
+	if(count($ingredient_to_id_map) > 0) {
+		foreach($ingredient_to_id_map as $ingredient => $ingredient_id) {
 
 			// Create prepared statement 
 			$update_ingredient_ps = $conn->prepare(UPDATE_INGREDIENTS_SQL);
@@ -99,7 +100,7 @@ if(count($instructions) > 0) {
 
 	// Find any new instruction by checking that they don't have an associated ID
 	foreach($instructions as $instruction) {
-		if(!array_key_exists($instruction, $instructionToIdMap)) {		
+		if(!array_key_exists($instruction, $instruction_to_id_map)) {		
 			// Add to sql pairs
 			$recipe_instruction_pair = "($recipe_id, '$instruction')";
 			array_push($recipe_instruction_sql_pairs, $recipe_instruction_pair);
@@ -120,8 +121,8 @@ if(count($instructions) > 0) {
 	}
 
 	// Update existing instructions by checking if they have an associated instruction id
-	if(count($instructionToIdMap) > 0) {
-		foreach($instructionToIdMap as $instruction => $instruction_id) {
+	if(count($instruction_to_id_map) > 0) {
+		foreach($instruction_to_id_map as $instruction => $instruction_id) {
 
 			// Create prepared statement
 			$update_instruction_ps = $conn->prepare(UPDATE_INSTRUCTIONS_SQL);

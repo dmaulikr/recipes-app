@@ -31,6 +31,7 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
     
     // Constants
     let saveRecipeUrl:String = "http://iosrecipes.com/saveRecipe.php"
+    let saveRecipeImageUrl:String = "http://iosrecipes.com/saveRecipeImage.php"
     let editRecipeUrl:String = "http://iosrecipes.com/editRecipe.php"
     let updateRecipeUrl:String = "http://iosrecipes.com/updateRecipe.php"
     let defaultTextFieldHeight:CGFloat = 30
@@ -249,6 +250,80 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
     
     
     @IBAction func saveRecipeClicked(_ sender: UIBarButtonItem) {
+        
+        // If no image, just save the recipe data
+        if self.recipeImageView == nil || self.recipeImageView.image == nil {
+//            self.saveRecipeData()
+            return
+        }
+        
+        // Otherwise, we want to save the image and then save the recipe data on success
+        
+        // Create request object
+        let url:URL = URL(string: self.saveRecipeImageUrl)!
+        var request:URLRequest = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        // Create and initialize the body
+        let body:NSMutableData = NSMutableData()
+        
+        let imageData:Data = UIImageJPEGRepresentation(self.recipeImageView.image!, 1)!
+        let boundary:String = "Boundary-\(NSUUID().uuidString)"
+        let filePathKey:String = "file"
+        let filename:String = "tmp.jpg" // the script will create the actual file name
+        let mimetype:String = "image/jpg"
+        
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        body.appendString(string: "--\(boundary)\r\n")
+        body.appendString(string: "Content-Disposition: form-data; name=\"\(filePathKey)\"; filename=\"\(filename)\"\r\n")
+        body.appendString(string: "Content-Type: \(mimetype)\r\n\r\n")
+        body.append(imageData)
+        body.appendString(string: "\r\n")
+        body.appendString(string: "--\(boundary)--\r\n")
+        
+        request.httpBody = body as Data
+        
+        let saveImageTask:URLSessionDataTask = URLSession.shared.dataTask(with: request, completionHandler: { (data:Data?, response:URLResponse?, error:Error?) in
+            
+            // Log status result of task
+            if error != nil {
+                print("There was an error running the task to save the image")
+                print((error?.localizedDescription)!)
+                return
+            }
+            
+            // Create variable to store image blob id returned from script
+            var imageId:Int?
+            do {
+                // Parse response data into json
+                let json:NSDictionary = try JSONSerialization.jsonObject(with: data!, options: []) as! NSDictionary
+                
+                // Check status
+                if String(describing: json["status"]).lowercased().range(of: "error") != nil {
+                    print("Error saving image: " + String(describing: json["message"]))
+                    return
+                }
+                
+                imageId = json["imageId"] as? Int
+            }
+            catch let e as NSError {
+                print("Error: couldn't convert response to valid json, " + e.localizedDescription)
+                return
+            }
+            
+            // Go back to ViewController
+            DispatchQueue.main.async {
+                self.saveRecipeData(imageId: imageId)
+//                self.presentNavigationController()
+            }
+            
+        })
+        
+        saveImageTask.resume()
+    }
+    
+    func saveRecipeData(imageId:Int?) {
+        
         // Create recipe object to save
         let recipe:Recipe = Recipe()
         
@@ -283,11 +358,6 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
             }
         }
         
-        // Add the image, if one has been added
-        if self.recipeImageView != nil {
-//            recipe.image = self.recipeImage
-        }
-        
         // Save the recipeId if this is recipe is being edited
         if self.editingRecipe && self.recipeToEdit != nil {
             recipe.recipeId = (self.recipeToEdit?.recipeId)!
@@ -296,8 +366,8 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         // Save the recipe as a json data object
         var data:Data?
         do {
-        
-            let json:[String:AnyObject] = [
+            
+            var json:[String:AnyObject] = [
                 "recipe_id" : recipe.recipeId as AnyObject,
                 "name" : recipe.name as AnyObject,
                 "description" : recipe.recipeDescription as AnyObject,
@@ -306,7 +376,11 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
                 "ingredientToIdMap" : recipe.ingredientToIdMap as AnyObject,
                 "instructionToIdMap" : recipe.instructiontToIdMap as AnyObject
             ]
-                        
+            
+            if imageId != nil {
+                json["imageId"] = imageId! as AnyObject
+            }
+            
             data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
             
         }
@@ -314,7 +388,6 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
             NSLog("Error: couldn't convert recipe object to valid json, " + e.localizedDescription)
             return
         }
-        
         
         // Create url object
         var url:URL?
@@ -331,9 +404,11 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         request.httpMethod = "POST"
         request.httpBody = data!
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         // Create task to save or update the recipe
-        let task:URLSessionDataTask = URLSession.shared.dataTask(with: request, completionHandler: { (data:Data?, response:URLResponse?, error:Error?) in
+        let session:URLSession = URLSession.shared
+        let saveRecipeTask:URLSessionDataTask = session.dataTask(with: request, completionHandler: { (data:Data?, response:URLResponse?, error:Error?) in
             
             // Log status result of task
             if error != nil {
@@ -359,12 +434,10 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         
         
         // Run the task
-        task.resume()
-
+        saveRecipeTask.resume()
     }
     
     // MARK: - Utility functions
-    
     func isValidJSON(json: AnyObject) -> Bool {
         return JSONSerialization.isValidJSONObject(json)
     }

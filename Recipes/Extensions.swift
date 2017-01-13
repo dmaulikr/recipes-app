@@ -22,3 +22,10 @@ extension UIViewController {
         view.endEditing(true)
     }
 }
+
+extension NSMutableData {
+    func appendString(string: String) {
+        let data:Data = string.data(using: String.Encoding.utf8, allowLossyConversion: true)!
+        append(data)
+    }
+}
