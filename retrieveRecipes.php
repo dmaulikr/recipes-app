@@ -23,11 +23,13 @@ while ($row = $result->fetch_assoc()) {
     $recipes[$row["recipe_id"]] = array(   
     	"recipe_id" => $row["recipe_id"], 	
     	"name" => $row["name"], 
-    	"description" => $row["description"], 
+    	"description" => (is_null($row["description"])) ? "" : $row["description"], 
     	"image_id" => $row["image_id"], 
     	"ingredients" => array(), // initialize empty ingredients 
     	"instructions" => array() // initialize empty instructions
     );
+
+
 
 }
 

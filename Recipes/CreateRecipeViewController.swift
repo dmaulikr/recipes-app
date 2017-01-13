@@ -253,7 +253,7 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         
         // If no image, just save the recipe data
         if self.recipeImageView == nil || self.recipeImageView.image == nil {
-//            self.saveRecipeData()
+            self.saveRecipeData(imageId: nil)
             return
         }
         
@@ -328,7 +328,11 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         let recipe:Recipe = Recipe()
         
         recipe.name = recipeNameTextField.text!
-        recipe.recipeDescription = descriptionTextView.text
+        
+        // Save recipe description if it's not the placeholder
+        if descriptionTextView.text != self.textViewPlaceholder {
+            recipe.recipeDescription = descriptionTextView.text
+        }
         
         // Loop through each ingredient
         for i in 0 ..< self.ingredientsList.count {
