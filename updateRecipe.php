@@ -2,7 +2,8 @@
 
 include "constants.php";
 
-const UPDATE_RECIPE_SQL = "UPDATE " . Constants::RECIPES_TABLE . " SET name = ?, description = ?, image_id = ? WHERE recipe_id = ?";
+const UPDATE_RECIPE_SQL = "UPDATE " . Constants::RECIPES_TABLE . " SET name = ?, description = ? WHERE recipe_id = ?";
+const UPDATE_RECIPE_SQL_WITH_IMAGE = "UPDATE " . Constants::RECIPES_TABLE . " SET name = ?, description = ?, image_id = ? WHERE recipe_id = ?";
 const UPDATE_INGREDIENTS_SQL = "UPDATE " . Constants::RECIPE_INGREDIENTS_TABLE . " SET ingredient = ? WHERE ingredient_id = ?";
 const UPDATE_INSTRUCTIONS_SQL = "UPDATE " . Constants::RECIPE_INSTRUCTIONS_TABLE . " SET instruction = ? WHERE instruction_id = ?";
 
@@ -34,9 +35,20 @@ $image_id = ($json["imageId"] == "") ? null : $json["imageId"];
 // Begin transaction
 $conn->begin_transaction(MYSQLI_TRANS_START_READ_WRITE);
 
-// Update recipes table with name and description
-$update_recipe_sql_ps = $conn->prepare(UPDATE_RECIPE_SQL);
-$update_recipe_sql_ps->bind_param("ssii", $recipe_name, $recipe_description, $image_id, $recipe_id);
+// Initialize prepared statement for updating recipes table
+$update_recipe_sql_ps = "";
+if(is_null($image_id)) {
+	// If theres no image, just update recipe name and description
+	$update_recipe_sql_ps = $conn->prepare(UPDATE_RECIPE_SQL);
+	$update_recipe_sql_ps->bind_param("ssi", $recipe_name, $recipe_description, $recipe_id);
+}
+else {
+	// If there is an image, update image id as well
+	$update_recipe_sql_ps = $conn->prepare(UPDATE_RECIPE_SQL_WITH_IMAGE);
+	$update_recipe_sql_ps->bind_param("ssii", $recipe_name, $recipe_description, $image_id, $recipe_id);
+}
+
+// Update recipes table
 if($update_recipe_sql_ps->execute()) {
 	echo Constants::SUCCESS_STRING;
 }
