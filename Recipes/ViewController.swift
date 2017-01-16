@@ -61,58 +61,63 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 return
             }
             
+            var dataDictionary:[String:Any]?
             do {
                 // Convert recipe data to json array
-                let dataDictionary:[String:Any] = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as! [String:Any]
-                
-                // Get array of json recipe objects
-                let dataArray = dataDictionary["recipes"] as! NSArray
-                
-                // Loop through array and parse each recipe
-                for i in 0 ..< dataArray.count {
-                    let recipeDictionary = dataArray[i] as! NSDictionary
-
-                    let recipe:Recipe = Recipe()
-                    recipe.recipeId = Int(recipeDictionary["recipe_id"] as! String)!
-                    recipe.name = recipeDictionary["name"] as! String
-                    recipe.recipeDescription =  recipeDictionary["description"] as! String
-                    
-                    // Parse and save each ingredient
-                    let ingredientsArray = recipeDictionary["ingredients"] as! NSArray
-                    for j in 0 ..< ingredientsArray.count {
-                        let ingredientsDictionary = ingredientsArray[j] as! NSDictionary
-                        
-                        let ingredient:String = ingredientsDictionary["ingredient"] as! String
-                        let ingredient_id:String = ingredientsDictionary["ingredient_id"] as! String
-                        
-                        recipe.ingredients.append(ingredient)
-                        recipe.ingredientToIdMap[ingredient] = Int(ingredient_id)
-                    }
-                    
-                    // Parse and save each instruction
-                    let instructionsArray = recipeDictionary["instructions"] as! NSArray
-                    for j in 0 ..< instructionsArray.count {
-                        let instructionsDictionary = instructionsArray[j] as! NSDictionary
-                        
-                        let instruction:String = instructionsDictionary["instruction"] as! String
-                        let instruction_id:String = instructionsDictionary["instruction_id"] as! String
-                        
-                        recipe.instructions.append(instruction)
-                        recipe.instructiontToIdMap[instruction] = Int(instruction_id)
-                    }
-                    
-                    // Add to recipes array
-                    self.recipes.append(recipe)
-                    
-                }
-                
-                DispatchQueue.main.async {
-                    // Reload table view in main thread
-                    self.recipesTableView.reloadData()
-                }
+                dataDictionary = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any]
             }
             catch let e as NSError {
                 NSLog("Error: couldn't parse json, " + e.localizedDescription)
+                return
+            }
+                
+            // Get array of json recipe objects
+            let dataArray = dataDictionary?["recipes"] as! NSArray
+                
+            // Loop through array and parse each recipe
+            for i in 0 ..< dataArray.count {
+                let recipeDictionary = dataArray[i] as! NSDictionary
+
+                let recipe:Recipe = Recipe()
+                recipe.recipeId = Int(recipeDictionary["recipe_id"] as! String)!
+                recipe.name = recipeDictionary["name"] as! String
+                recipe.recipeDescription =  recipeDictionary["description"] as! String
+                recipe.imageUrl = recipeDictionary["image_url"] as! String
+                    
+                // Parse and save each ingredient
+                let ingredientsArray = recipeDictionary["ingredients"] as! NSArray
+                for j in 0 ..< ingredientsArray.count {
+                    let ingredientsDictionary = ingredientsArray[j] as! NSDictionary
+                    
+                    let ingredient:String = ingredientsDictionary["ingredient"] as! String
+                    let ingredient_id:String = ingredientsDictionary["ingredient_id"] as! String
+                        
+                    recipe.ingredients.append(ingredient)
+                    recipe.ingredientToIdMap[ingredient] = Int(ingredient_id)
+                }
+                    
+                // Parse and save each instruction
+                let instructionsArray = recipeDictionary["instructions"] as! NSArray
+                for j in 0 ..< instructionsArray.count {
+                    let instructionsDictionary = instructionsArray[j] as! NSDictionary
+                    
+                    let instruction:String = instructionsDictionary["instruction"] as! String
+                    let instruction_id:String = instructionsDictionary["instruction_id"] as! String
+                    
+                    recipe.instructions.append(instruction)
+                    recipe.instructiontToIdMap[instruction] = Int(instruction_id)
+                }
+                    
+                print(recipe.toString())
+                // Add to recipes array
+                self.recipes.append(recipe)
+                    
+            }
+                
+            DispatchQueue.main.async {
+                // Reload table view in main thread
+                self.getRecipeImages()
+                self.recipesTableView.reloadData()
             }
 
         }
@@ -120,6 +125,55 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Run the task
         task.resume()
         
+    }
+    
+    func getRecipeImages() {
+        
+        // Create queue for running the download tasks in parallel
+        let queue:OperationQueue = OperationQueue()
+        
+        let session:URLSession = URLSession.shared
+        let domainName:String = "http://iosrecipes.com/"
+        
+        for i in 0..<self.recipes.count {
+            let recipe:Recipe = self.recipes[i]
+            
+            // If there is no image url, just continue
+            if recipe.imageUrl == "" {
+                continue
+            }
+            
+            // Add a download task for each recipe image
+            queue.addOperation { () -> Void in
+                
+                // Create request to download image
+                let url:URL? = URL(string: domainName + recipe.imageUrl)
+                let imageRequest:URLRequest = URLRequest(url: url!)
+                
+                let task:URLSessionDataTask = session.dataTask(with: imageRequest, completionHandler: {
+                    (data, response, error) -> Void in
+                    
+                    if error != nil {
+                        print("There was an error downloading the image, " + (error?.localizedDescription)!)
+                        return
+                    }
+                    
+                    let httpResponse:HTTPURLResponse = (response as? HTTPURLResponse)!
+                    if httpResponse.statusCode != 200 {
+                        print("There was an error downloading the image, status code")
+                        print("Status code = " + String(httpResponse.statusCode))
+                    }
+                    
+                    // Update the recipe image in the main thread
+                    DispatchQueue.main.async {
+                        self.recipes[i].image = UIImage(data: data!)
+                        
+                    }
+                })
+                
+                task.resume()
+            }
+        }
     }
     
     

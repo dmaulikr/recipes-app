@@ -13,6 +13,8 @@ class RecipeViewController: UIViewController {
     // UI Outlets
     @IBOutlet weak var navItem: UINavigationItem!
     
+    @IBOutlet weak var recipeImageView: UIImageView!
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var ingredientsLabel: UILabel!
     @IBOutlet weak var instructionsLabel: UILabel!
@@ -23,6 +25,7 @@ class RecipeViewController: UIViewController {
     @IBOutlet weak var instructionsStackView: UIStackView!
     
     @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var recipeImageHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var ingredientsListHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var instructionsListHeightConstraint: NSLayoutConstraint!
     
@@ -37,11 +40,26 @@ class RecipeViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
+        // Set content height
+        let screenSize: CGRect = UIScreen.main.bounds
+        self.contentViewHeightConstraint.constant = screenSize.height
+        
+        // Set nav bar colors
+        self.navigationController?.navigationBar.barTintColor = DefaultColors.darkBlueColor
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+        
         // Check if recipe object has been initialized
         if let unwrappedRecipe = recipe {
             
             // Initialize view with recipe details
             self.titleLabel.text = unwrappedRecipe.name
+            
+            if unwrappedRecipe.image != nil {
+                recipeImageView.image = unwrappedRecipe.image!
+                self.recipeImageHeightConstraint.constant = UIScreen.main.bounds.height / 2
+                self.contentViewHeightConstraint.constant += self.recipeImageHeightConstraint.constant
+            }
         
             self.descriptionTextView.text = unwrappedRecipe.recipeDescription
             self.descriptionTextView.isUserInteractionEnabled = false
@@ -58,14 +76,6 @@ class RecipeViewController: UIViewController {
                         
         }
         
-        // Set content height
-        let screenSize: CGRect = UIScreen.main.bounds
-        self.contentViewHeightConstraint.constant = screenSize.height
-        
-        // Set nav bar colors
-        self.navigationController?.navigationBar.barTintColor = DefaultColors.darkBlueColor
-        self.navigationController?.navigationBar.tintColor = UIColor.white
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
     }
 
     override func didReceiveMemoryWarning() {

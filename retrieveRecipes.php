@@ -2,7 +2,8 @@
 
 include "constants.php";
 
-const RETRIEVE_RECIPE_SQL = "SELECT * FROM " . Constants::RECIPES_TABLE . " ORDER BY recipe_id asc";
+const RETRIEVE_RECIPE_SQL = "SELECT recipes.*, images.image_url FROM " . Constants::RECIPES_TABLE . 
+							" LEFT OUTER JOIN " . Constants::IMAGES_TABLE . " on recipes.image_id = images.image_id ORDER BY recipes.recipe_id ASC";
 const RETRIEVE_INGREDIENTS_SQL = "SELECT * FROM " . Constants::RECIPE_INGREDIENTS_TABLE . " ORDER BY ingredient_id asc";
 const RETRIEVE_INSTRUCTIONS_SQL = "SELECT * FROM " . Constants::RECIPE_INSTRUCTIONS_TABLE . " ORDER BY instruction_id asc";
 
@@ -24,7 +25,7 @@ while ($row = $result->fetch_assoc()) {
     	"recipe_id" => $row["recipe_id"], 	
     	"name" => $row["name"], 
     	"description" => (is_null($row["description"])) ? "" : $row["description"], 
-    	"image_id" => $row["image_id"], 
+    	"image_url" => (is_null($row["image_url"])) ? "" : $row["image_url"], 
     	"ingredients" => array(), // initialize empty ingredients 
     	"instructions" => array() // initialize empty instructions
     );

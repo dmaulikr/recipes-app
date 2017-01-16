@@ -14,25 +14,20 @@ class Recipe: NSObject {
     var recipeDescription:String = ""
     var ingredients:[String] = [String]()
     var instructions:[String] = [String]()
-    var image:UIImage?
     var ingredientToIdMap:[String:Int] = [String:Int]()
     var instructiontToIdMap:[String:Int] = [String:Int]()
+    var image:UIImage?
+    var imageUrl:String = ""
     
     func toString() -> String {
-        var str = self.name + "\n"
-        str += recipeDescription + "\n"
-        str += ingredients.description + "\n"
-        str += instructions.description + "\n"
-        str += ingredientToIdMap.description + "\n"
-        str += instructiontToIdMap.description + "\n"
+        var str = "name: " + self.name + "\n"
         str += String(format: "recipe id: %d", recipeId) + "\n"
-        str += "image: "
-        if image != nil {
-            str += "true"
-        }
-        else {
-            str += "false"
-        }
+        str += "description: " + recipeDescription + "\n"
+        str += "ingredients: " + ingredients.description + "\n"
+        str += "instructions: " + instructions.description + "\n"
+        str += "ingredientsToIdMap: " + ingredientToIdMap.description + "\n"
+        str += "instructionsToIdMap: " + instructiontToIdMap.description + "\n"
+        str += "imageUrl: " + imageUrl + "\n"
         
         return str
     }
