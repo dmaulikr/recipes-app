@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		8D0BF8751E1CA20100C3B563 /* DefaultColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0BF8741E1CA20100C3B563 /* DefaultColors.swift */; };
 		8D0BF87D1E216AB500C3B563 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0BF87C1E216AB500C3B563 /* Extensions.swift */; };
+		8D0BF8831E2D6B7400C3B563 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D0BF87F1E2D6B7300C3B563 /* Bolts.framework */; };
+		8D0BF8841E2D6B7400C3B563 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D0BF8801E2D6B7300C3B563 /* FBSDKCoreKit.framework */; };
+		8D0BF8851E2D6B7400C3B563 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D0BF8811E2D6B7300C3B563 /* FBSDKLoginKit.framework */; };
+		8D0BF8861E2D6B7400C3B563 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D0BF8821E2D6B7300C3B563 /* FBSDKShareKit.framework */; };
+		8D0BF8881E2D721A00C3B563 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0BF8871E2D721A00C3B563 /* LoginViewController.swift */; };
 		8D4AEEB31DD5063B00127BEB /* RecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4AEEB21DD5063B00127BEB /* RecipeViewController.swift */; };
 		8D8402421DD4D0E7009BBA62 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8402411DD4D0E7009BBA62 /* AppDelegate.swift */; };
 		8D8402441DD4D0E7009BBA62 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8402431DD4D0E7009BBA62 /* ViewController.swift */; };
@@ -22,6 +27,12 @@
 /* Begin PBXFileReference section */
 		8D0BF8741E1CA20100C3B563 /* DefaultColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultColors.swift; sourceTree = "<group>"; };
 		8D0BF87C1E216AB500C3B563 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		8D0BF87F1E2D6B7300C3B563 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		8D0BF8801E2D6B7300C3B563 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		8D0BF8811E2D6B7300C3B563 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		8D0BF8821E2D6B7300C3B563 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
+		8D0BF8871E2D721A00C3B563 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		8D0BF8891E2D750300C3B563 /* Recipes.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Recipes.entitlements; sourceTree = "<group>"; };
 		8D4AEEB21DD5063B00127BEB /* RecipeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeViewController.swift; sourceTree = "<group>"; };
 		8D84023E1DD4D0E7009BBA62 /* Recipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Recipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D8402411DD4D0E7009BBA62 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -39,15 +50,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D0BF8861E2D6B7400C3B563 /* FBSDKShareKit.framework in Frameworks */,
+				8D0BF8831E2D6B7400C3B563 /* Bolts.framework in Frameworks */,
+				8D0BF8841E2D6B7400C3B563 /* FBSDKCoreKit.framework in Frameworks */,
+				8D0BF8851E2D6B7400C3B563 /* FBSDKLoginKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8D0BF87E1E2D690300C3B563 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8D0BF87F1E2D6B7300C3B563 /* Bolts.framework */,
+				8D0BF8801E2D6B7300C3B563 /* FBSDKCoreKit.framework */,
+				8D0BF8811E2D6B7300C3B563 /* FBSDKLoginKit.framework */,
+				8D0BF8821E2D6B7300C3B563 /* FBSDKShareKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8D8402351DD4D0E7009BBA62 = {
 			isa = PBXGroup;
 			children = (
+				8D0BF87E1E2D690300C3B563 /* Frameworks */,
 				8D8402401DD4D0E7009BBA62 /* Recipes */,
 				8D84023F1DD4D0E7009BBA62 /* Products */,
 			);
@@ -65,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				8D8402411DD4D0E7009BBA62 /* AppDelegate.swift */,
+				8D0BF8871E2D721A00C3B563 /* LoginViewController.swift */,
 				8D8402431DD4D0E7009BBA62 /* ViewController.swift */,
 				8D4AEEB21DD5063B00127BEB /* RecipeViewController.swift */,
 				8D9B15A81DD62BBE00855D3B /* CreateRecipeViewController.swift */,
@@ -74,6 +102,7 @@
 				8D8402451DD4D0E7009BBA62 /* Main.storyboard */,
 				8D8402481DD4D0E7009BBA62 /* Assets.xcassets */,
 				8D84024A1DD4D0E7009BBA62 /* LaunchScreen.storyboard */,
+				8D0BF8891E2D750300C3B563 /* Recipes.entitlements */,
 				8D84024D1DD4D0E7009BBA62 /* Info.plist */,
 			);
 			path = Recipes;
@@ -113,6 +142,11 @@
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = 522ZNNMW8Z;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -156,6 +190,7 @@
 				8D9B15A91DD62BBE00855D3B /* CreateRecipeViewController.swift in Sources */,
 				8D8402441DD4D0E7009BBA62 /* ViewController.swift in Sources */,
 				8D0BF8751E1CA20100C3B563 /* DefaultColors.swift in Sources */,
+				8D0BF8881E2D721A00C3B563 /* LoginViewController.swift in Sources */,
 				8D8402421DD4D0E7009BBA62 /* AppDelegate.swift in Sources */,
 				8D4AEEB31DD5063B00127BEB /* RecipeViewController.swift in Sources */,
 				8D0BF87D1E216AB500C3B563 /* Extensions.swift in Sources */,
@@ -279,9 +314,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Recipes/Recipes.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 522ZNNMW8Z;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Recipes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tusharverma.Recipes;
@@ -294,9 +334,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Recipes/Recipes.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 522ZNNMW8Z;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Recipes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tusharverma.Recipes;

@@ -51,5 +51,27 @@
 			</dict>
 		</dict>
 	</dict>
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>fb650310318487645</string>
+            </array>
+        </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>650310318487645</string>
+    <key>FacebookDisplayName</key>
+    <string>Recipes</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>fbapi</string>
+        <string>fb-messenger-api</string>
+        <string>fbauth2</string>
+        <string>fbshareextension</string>
+    </array>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>We need access to your camera to take pictures of your recipes</string>
 </dict>
 </plist>
