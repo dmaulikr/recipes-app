@@ -16,6 +16,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // Constants
     let retrieveRecipesURL:String = "http://iosrecipes.com/retrieveRecipes.php"
 
+    // Misc
     var recipes:[Recipe] = [Recipe]()
     var selectedRecipe:Recipe?
     
@@ -50,11 +51,26 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func retrieveRecipes() {
-
+        
+        // Create json object
+        var json:[String:String] = [String:String]()
+        json["fb_user_id"] = CurrentUser.userId
+        
+        let data:Data = try! JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
+        
+        // Create url object
         let url:URL = URL(string: self.retrieveRecipesURL)!
         
+        // Create and initialize request
+        var request:URLRequest = URLRequest(url: url)
+        
+        request.httpMethod = "POST"
+        request.httpBody = data
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
         // Create task to retrieve recipes from url
-        let task:URLSessionDataTask = URLSession.shared.dataTask(with: url) { (data, response, error) in
+        let task:URLSessionDataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
             
             if error != nil {
                 NSLog("There was an error loading the url, " + (error?.localizedDescription)!)
@@ -79,7 +95,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let recipeDictionary = dataArray[i] as! NSDictionary
 
                 let recipe:Recipe = Recipe()
-                recipe.recipeId = Int(recipeDictionary["recipe_id"] as! String)!
+                recipe.recipeId = recipeDictionary["recipe_id"] as! Int
                 recipe.name = recipeDictionary["name"] as! String
                 recipe.recipeDescription =  recipeDictionary["description"] as! String
                 recipe.imageUrl = recipeDictionary["image_url"] as! String
@@ -90,10 +106,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     let ingredientsDictionary = ingredientsArray[j] as! NSDictionary
                     
                     let ingredient:String = ingredientsDictionary["ingredient"] as! String
-                    let ingredient_id:String = ingredientsDictionary["ingredient_id"] as! String
+                    let ingredient_id:Int = ingredientsDictionary["ingredient_id"] as! Int
                         
                     recipe.ingredients.append(ingredient)
-                    recipe.ingredientToIdMap[ingredient] = Int(ingredient_id)
+                    recipe.ingredientToIdMap[ingredient] = ingredient_id
                 }
                     
                 // Parse and save each instruction
@@ -102,10 +118,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     let instructionsDictionary = instructionsArray[j] as! NSDictionary
                     
                     let instruction:String = instructionsDictionary["instruction"] as! String
-                    let instruction_id:String = instructionsDictionary["instruction_id"] as! String
+                    let instruction_id:Int = instructionsDictionary["instruction_id"] as! Int
                     
                     recipe.instructions.append(instruction)
-                    recipe.instructiontToIdMap[instruction] = Int(instruction_id)
+                    recipe.instructiontToIdMap[instruction] = instruction_id
                 }
                     
                 print(recipe.toString())
