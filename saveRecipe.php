@@ -2,7 +2,7 @@
 
 include "constants.php";
 
-const INSERT_RECIPE_SQL = "INSERT INTO " . Constants::RECIPES_TABLE . " (name, description, image_id) VALUES (?, ?, ?)";
+const INSERT_RECIPE_SQL = "INSERT INTO " . Constants::RECIPES_TABLE . " (name, description, image_id, fb_user_id) VALUES (?, ?, ?, ?)";
 const INSERT_INGREDIENT_SQL = "INSERT INTO " . Constants::RECIPE_INGREDIENTS_TABLE . " (recipe_id, ingredient) VALUES ";
 const INSERT_INSTRUCTION_SQL = "INSERT INTO " . Constants::RECIPE_INSTRUCTIONS_TABLE . " (recipe_id, instruction) VALUES ";
 
@@ -29,18 +29,19 @@ $data = file_get_contents('php://input');
 $json = json_decode($data, true);
 
 // Grab JSON data
+$fb_user_id = $json["fb_user_id"];
 $recipe_name = $json["name"];
 $recipe_description = ($json["description"] == "") ? null : $json["description"];
 $ingredients = ($json["ingredients"] == "") ? array() : $json["ingredients"];
 $instructions = ($json["instructions"] == "") ? array() : $json["instructions"];
-$image_id = ($json["imageId"] == "") ? null : $json["imageId"];
+$image_id = ($json["image_id"] == "") ? null : $json["image_id"];
 
 // Begin transaction
 $conn->begin_transaction(MYSQLI_TRANS_START_READ_WRITE);
 
 // Insert recipe name and description into recipes table
 $insert_recipe_sql_ps = $conn->prepare(INSERT_RECIPE_SQL);
-$insert_recipe_sql_ps->bind_param("ssi", $recipe_name, $recipe_description, $image_id);
+$insert_recipe_sql_ps->bind_param("ssis", $recipe_name, $recipe_description, $image_id, $fb_user_id);
 if($insert_recipe_sql_ps->execute()) {
 	echo Constants::SUCCESS_STRING;
 }

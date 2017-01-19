@@ -8,7 +8,7 @@ const INSERT_IMAGE_SQL = "INSERT INTO " . Constants::IMAGES_TABLE . " (image_blo
 function print_json_result($message, $success, $image_id = -1) {
 	$status = ($success) ? "success" : "error"; 
 	echo json_encode([
-		"imageId" => $image_id,
+		"image_id" => $image_id,
 		"message" => $message,
 		"status" => $status
 	]);

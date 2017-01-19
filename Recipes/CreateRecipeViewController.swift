@@ -304,7 +304,7 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
                     return
                 }
                 
-                imageId = json["imageId"] as? Int
+                imageId = json["image_id"] as? Int
             }
             catch let e as NSError {
                 print("Error: couldn't convert response to valid json, " + e.localizedDescription)
@@ -372,17 +372,19 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         do {
             
             var json:[String:AnyObject] = [
+                "fb_user_id" : CurrentUser.userId as AnyObject,
                 "recipe_id" : recipe.recipeId as AnyObject,
                 "name" : recipe.name as AnyObject,
                 "description" : recipe.recipeDescription as AnyObject,
                 "ingredients" : recipe.ingredients as AnyObject,
                 "instructions" : recipe.instructions as AnyObject,
-                "ingredientToIdMap" : recipe.ingredientToIdMap as AnyObject,
-                "instructionToIdMap" : recipe.instructiontToIdMap as AnyObject
+                "ingredient_to_id_map" : recipe.ingredientToIdMap as AnyObject,
+                "instruction_to_id_map" : recipe.instructiontToIdMap as AnyObject,
+                "image_id" : "" as AnyObject
             ]
             
             if imageId != nil {
-                json["imageId"] = imageId! as AnyObject
+                json["image_id"] = imageId! as AnyObject
             }
             
             data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)

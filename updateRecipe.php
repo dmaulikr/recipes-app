@@ -28,9 +28,9 @@ $recipe_id = $json["recipe_id"];
 $recipe_description = ($json["description"] == "") ? null : $json["description"];
 $ingredients = ($json["ingredients"] == "") ? array() : $json["ingredients"];
 $instructions = ($json["instructions"] == "") ? array() : $json["instructions"];
-$ingredient_to_id_map = ($json["ingredientToIdMap"] == "") ? array() : $json["ingredientToIdMap"];
-$instruction_to_id_map = ($json["instructionToIdMap"] == "") ? array() : $json["instructionToIdMap"];
-$image_id = ($json["imageId"] == "") ? null : $json["imageId"];
+$ingredient_to_id_map = ($json["ingredient_to_id_map"] == "") ? array() : $json["ingredient_to_id_map"];
+$instruction_to_id_map = ($json["instruction_to_id_map"] == "") ? array() : $json["instruction_to_id_map"];
+$image_id = ($json["image_id"] == "") ? null : $json["image_id"];
 
 // Begin transaction
 $conn->begin_transaction(MYSQLI_TRANS_START_READ_WRITE);
