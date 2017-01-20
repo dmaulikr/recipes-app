@@ -15,10 +15,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // Constants
     let retrieveRecipesURL:String = "http://iosrecipes.com/retrieveRecipes.php"
+    let deleteRecipesUrl:String = "http://iosrecipes.com/deleteRecipeData.php"
 
     // Misc
     var recipes:[Recipe] = [Recipe]()
     var selectedRecipe:Recipe?
+    var currentLeftBarButtonItem:UIBarButtonSystemItem = UIBarButtonSystemItem.edit
+    var recipeIdsToDelete:[Int] = [Int]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +31,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.recipesTableView.dataSource = self
         
         // Assign function handlers for nav bar buttons
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: #selector(self.editButtonClicked(_:)))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: #selector(self.leftBarButtonClicked(_:)))
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(self.addButtonClicked(_:)))
 
@@ -193,8 +196,34 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     
-    @IBAction func editButtonClicked(_ sender: UIBarButtonItem) {
+    @IBAction func leftBarButtonClicked(_ sender: UIBarButtonItem) {
+
+        // Assume currentLeftBarButtonItem is edit
+        var setEditing:Bool = true
+        var setBarButtonItem:UIBarButtonSystemItem = UIBarButtonSystemItem.done
         
+        // If currentLeftBarButtonItem is actually done, finish editing
+        // and delete the recipes
+        if self.currentLeftBarButtonItem == UIBarButtonSystemItem.done {
+            setEditing = false
+            setBarButtonItem = UIBarButtonSystemItem.edit
+            self.deleteRecipes(recipeIds: self.recipeIdsToDelete)
+        }
+        
+        // Set editing
+        self.recipesTableView.setEditing(setEditing, animated: setEditing)
+        
+        // Set left bar button
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: setBarButtonItem,
+            target: self,
+            action: #selector(self.leftBarButtonClicked(_:))
+        )
+        
+        // Update current bar button and clear recipes to delete array
+        self.currentLeftBarButtonItem = setBarButtonItem
+        self.recipeIdsToDelete = [Int]()
+
     }
 
     
@@ -207,6 +236,64 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Present view controller
         self.present(newRecipeVC, animated: true, completion: nil)
         
+    }
+    
+    func deleteRecipes(recipeIds:[Int]) {
+        
+        if recipeIds.count == 0 {
+            print("No recipes to delete")
+            return
+        }
+        
+        // Create json object
+        var json:[String:[Int]] = [String:[Int]]()
+        json["recipe_ids"] = recipeIds
+                
+        let data:Data = try! JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
+        
+        // Create url object
+        let url:URL = URL(string: self.deleteRecipesUrl)!
+        
+        // Create and initialize request
+        var request:URLRequest = URLRequest(url: url)
+        
+        request.httpMethod = "POST"
+        request.httpBody = data
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        let task:URLSessionDataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+            if error != nil {
+                print("There was an error running the delete recipes task")
+                print((error?.localizedDescription)!)
+                return
+            }
+            
+            do {
+                // Parse response data into json
+                let jsonResponse:NSDictionary = try JSONSerialization.jsonObject(with: data!, options: []) as! NSDictionary
+                
+                // Check status
+                let status:String = String(describing: jsonResponse["status"])
+                if status.lowercased().range(of: "error") != nil {
+                    print("Error deleting recipes: " +
+                        String(describing: jsonResponse["message"]))
+                    return
+                }
+                
+                print(jsonResponse)
+            }
+            catch let e as NSError {
+                print("Error: couldn't convert response to valid json, " + e.localizedDescription)
+                return
+            }
+
+            print("Successfully removed recipes")
+            
+        }
+        
+        task.resume()
     }
 
 
@@ -234,7 +321,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if let unwrappedLabel = label {
             unwrappedLabel.text = recipe.name
         }
-        
+                
         return cell
         
     }
@@ -244,5 +331,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.selectedRecipe = self.recipes[indexPath.row]
         self.performSegue(withIdentifier: "toRecipeView", sender: self)
     }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return UITableViewCellEditingStyle.delete
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.delete {
+            self.recipeIdsToDelete.append(self.recipes[indexPath.row].recipeId)
+            self.recipes.remove(at: indexPath.row)
+            self.recipesTableView.reloadData()
+        }
+    }
+    
 }
 
