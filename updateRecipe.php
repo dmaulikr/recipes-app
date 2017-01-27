@@ -10,8 +10,11 @@ const UPDATE_INSTRUCTIONS_SQL = "UPDATE " . Constants::RECIPE_INSTRUCTIONS_TABLE
 const INSERT_INGREDIENTS_SQL = "INSERT INTO " . Constants::RECIPE_INGREDIENTS_TABLE . " (recipe_id, ingredient) VALUES ";
 const INSERT_INSTRUCTIONS_SQL = "INSERT INTO " . Constants::RECIPE_INSTRUCTIONS_TABLE . " (recipe_id, instruction) VALUES ";
 
+const DELETE_INGREDIENTS_SQL = "UPDATE " . Constants::RECIPE_INGREDIENTS_TABLE . " SET deleted = true WHERE ingredient_id IN (?)";
+const DELETE_INSTRUCTION_SQL = "UPDATE " . Constants::RECIPE_INSTRUCTIONS_TABLE . " SET deleted = true WHERE instruction_id IN (?)";
+
 // Create connection to sql
-$conn = mysqli_connect(Constants::SERVER_NAME, Constants::USER_NAME, Constants::PASSWORD);
+$conn = mysqli_connect(Constants::SERVER_NAME, Constants::USER_NAME, Constants::PASSWORD); 
 
 // Check connection
 if ($conn->connect_error) {
@@ -31,6 +34,9 @@ $instructions = ($json["instructions"] == "") ? array() : $json["instructions"];
 $ingredient_to_id_map = ($json["ingredient_to_id_map"] == "") ? array() : $json["ingredient_to_id_map"];
 $instruction_to_id_map = ($json["instruction_to_id_map"] == "") ? array() : $json["instruction_to_id_map"];
 $image_id = ($json["image_id"] == "") ? null : $json["image_id"];
+
+$ingredients_to_delete = ($json["ingredients_to_delete"] == "") ? array() : $json["ingredients_to_delete"];
+$instructions_to_delete = ($json["instructions_to_delete"] == "") ? array() : $json["instructions_to_delete"];
 
 // Begin transaction
 $conn->begin_transaction(MYSQLI_TRANS_START_READ_WRITE);
@@ -151,6 +157,25 @@ if(count($instructions) > 0) {
 	}  
 }
 
+// Delete any ingredients
+if(count($ingredients_to_delete) > 0) {
+	$ingredient_ids_string = implode(",", $ingredients_to_delete);
+	$delete_ingredients_sql = str_replace("?", $ingredient_ids_string, DELETE_INGREDIENTS_SQL);
+
+	if(!$conn->query($delete_ingredients_sql)) {
+		die("Error deleting recipe ingredients: " . $conn->error);
+	}
+}
+
+// Delete any instructions
+if(count($instructions_to_delete) > 0) {
+	$instruction_ids_string = implode(",", $instructions_to_delete);
+	$delete_instructions_sql = str_replace("?", $instruction_ids_string, DELETE_INSTRUCTION_SQL);
+
+	if(!$conn->query($delete_instructions_sql)) {
+		die("Error deleting recipe instructions: " . $conn-> error);
+	}
+}
 
 
 // End transaction

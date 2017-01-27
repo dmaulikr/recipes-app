@@ -15,7 +15,7 @@ class Recipe: NSObject {
     var ingredients:[String] = [String]()
     var instructions:[String] = [String]()
     var ingredientToIdMap:[String:Int] = [String:Int]()
-    var instructiontToIdMap:[String:Int] = [String:Int]()
+    var instructionToIdMap:[String:Int] = [String:Int]()
     var image:UIImage?
     var imageUrl:String = ""
     
@@ -26,7 +26,7 @@ class Recipe: NSObject {
         str += "ingredients: " + ingredients.description + "\n"
         str += "instructions: " + instructions.description + "\n"
         str += "ingredientsToIdMap: " + ingredientToIdMap.description + "\n"
-        str += "instructionsToIdMap: " + instructiontToIdMap.description + "\n"
+        str += "instructionsToIdMap: " + instructionToIdMap.description + "\n"
         str += "imageUrl: " + imageUrl + "\n"
         
         return str

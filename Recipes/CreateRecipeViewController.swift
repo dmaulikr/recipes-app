@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     // UI Outlets
     @IBOutlet weak var navigationBar: UINavigationBar!
@@ -21,13 +21,13 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
     @IBOutlet weak var ingredientTextField: UITextField!
     @IBOutlet weak var instructionTextField: UITextField!
     
-    @IBOutlet weak var ingredientsListStackView: UIStackView!
-    @IBOutlet weak var instructionsListStackView: UIStackView!
+    @IBOutlet weak var ingredientsTableView: UITableView!
+    @IBOutlet weak var instructionsTableView: UITableView!
     
-    @IBOutlet weak var ingredientsListHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var instructionsListHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var recipeImageHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var ingredientsTableHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var instructionsTableHeightConstraint: NSLayoutConstraint!
     
     // Constants
     let saveRecipeUrl:String = "http://iosrecipes.com/saveRecipe.php"
@@ -35,17 +35,23 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
     let editRecipeUrl:String = "http://iosrecipes.com/editRecipe.php"
     let updateRecipeUrl:String = "http://iosrecipes.com/updateRecipe.php"
     let defaultTextFieldHeight:CGFloat = 30
+    let defaultTableRowHeight:CGFloat = 45
     let textViewPlaceholder:String = "Add description"
-    
-    // Recipe ingredient and instruction lists
-    var ingredientsList:[StackViewTextField] = [StackViewTextField]()
-    var instructionsList:[StackViewTextField] = [StackViewTextField]()
     
     // Member variables to be set before presenting view if editing a recipe
     var editingRecipe:Bool = false
     var recipeToEdit:Recipe?
+    // array of table row to its associated id (ids are needed when users edit ingredients/instructions)
+    var ingredientRowIds:[Int] = [Int]()
+    var instructionRowIds:[Int] = [Int]()
     
     // Misc
+    var ingredients:[String] = [String]()
+    var instructions:[String] = [String]()
+    
+    var ingredientIdsToDelete:[Int] = [Int]()
+    var instructionIdsToDelete:[Int] = [Int]()
+    
     var activeTextField:UITextField?
     
     enum TextFieldTags:Int {
@@ -75,11 +81,16 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         self.navigationBar.tintColor = UIColor.white
         self.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
-        // Assign self to delegates
+        // Assign self to delegates and datasources
         recipeNameTextField.delegate = self
         ingredientTextField.delegate = self
         instructionTextField.delegate = self
         descriptionTextView.delegate = self
+        ingredientsTableView.delegate = self
+        instructionsTableView.delegate = self
+        
+        ingredientsTableView.dataSource = self
+        instructionsTableView.dataSource = self
         
         // Add keyboard listener
         self.registerForKeyboardNotifications()
@@ -115,29 +126,40 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         self.descriptionTextView.text = self.recipeToEdit?.recipeDescription
         
         // Add each ingredient to view
-        var ingredients:[String] = (self.recipeToEdit?.ingredients)!
-        for i in 0 ..< ingredients.count {
-            let textField:StackViewTextField = self.addStackViewTextField(textFieldText: ingredients[i], stackView: self.ingredientsListStackView, heightConstraint: self.ingredientsListHeightConstraint)
-            
-            // Set textfields ingredientId in order to add to ingredientToIdMap when saving recipe
-            textField.ingredientId = self.recipeToEdit?.ingredientToIdMap[ingredients[i]]
-            
+        let recipeIngredients:[String] = (self.recipeToEdit?.ingredients)!
+        for i in 0 ..< recipeIngredients.count {
+        
             // Add to ingredients array
-            self.ingredientsList.append(textField)
-
+            let ingredient:String = recipeIngredients[i]
+            self.ingredients.append(ingredient)
+            
+            // Add to row ids array
+            self.ingredientRowIds.append((self.recipeToEdit?.ingredientToIdMap[ingredient])!)
+            
+            // Adjust height constraints
+            self.ingredientsTableHeightConstraint.constant += self.defaultTableRowHeight
+            self.contentViewHeightConstraint.constant += self.defaultTableRowHeight
         }
         
-        // Add each instruction to view
-        var instructions:[String] = (self.recipeToEdit?.instructions)!
-        for i in 0 ..< instructions.count {
-            let textField:StackViewTextField = self.addStackViewTextField(textFieldText: instructions[i], stackView: self.instructionsListStackView, heightConstraint: self.instructionsListHeightConstraint)
-            
-            // Set textfields instructionId in order to add to instructionToIdMap when saving recipe
-            textField.instructionId = self.recipeToEdit?.instructiontToIdMap[instructions[i]]
+        // Add each instruction to the table
+        let recipeInstructions:[String] = (self.recipeToEdit?.instructions)!
+        for i in 0 ..< recipeInstructions.count {
             
             // Add to instructions array
-            self.instructionsList.append(textField)
+            let instruction:String = recipeInstructions[i]
+            self.instructions.append(instruction)
+            
+            // Add to row ids array
+            self.instructionRowIds
+                    .append((self.recipeToEdit?.instructionToIdMap[instruction])!)
+            
+            // Adjust height constraints
+            self.instructionsTableHeightConstraint.constant += self.defaultTableRowHeight
+            self.contentViewHeightConstraint.constant += self.defaultTableRowHeight
         }
+        
+        self.ingredientsTableView.reloadData()
+        self.instructionsTableView.reloadData()
 
     }
     
@@ -199,17 +221,20 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         if self.ingredientTextField.text == "" {
             return
         }
-        
-        // Add to view
-        let textField:StackViewTextField = self.addStackViewTextField(textFieldText: self.ingredientTextField.text!, stackView: self.ingredientsListStackView, heightConstraint: self.ingredientsListHeightConstraint)
-        
-        // Add to ingredients array
-        self.ingredientsList.append(textField)
 
-        self.ingredientTextField.text = ""
-        self.view.layoutIfNeeded()
+        self.ingredientsTableHeightConstraint.constant += self.defaultTableRowHeight
+        self.contentViewHeightConstraint.constant += self.defaultTableRowHeight
+        
+        self.ingredients.append(self.ingredientTextField.text!)
+        self.ingredientsTableView.reloadData()
         
     }
+    
+    
+    @IBAction func editIngredientClicked(_ sender: UIButton) {
+        self.ingredientsTableView.isEditing = !self.ingredientsTableView.isEditing
+    }
+    
     
     @IBAction func addInstructionClicked(_ sender: UIButton) {
         
@@ -217,32 +242,19 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
             return
         }
         
-        let textField:StackViewTextField = self.addStackViewTextField(textFieldText: self.instructionTextField.text!, stackView: self.instructionsListStackView, heightConstraint: self.instructionsListHeightConstraint)
+        self.instructionsTableHeightConstraint.constant += self.defaultTableRowHeight
+        self.contentViewHeightConstraint.constant += self.defaultTableRowHeight
         
-        // Add to instructions array
-        self.instructionsList.append(textField)
-        
-        self.instructionTextField.text = ""
-        self.view.layoutIfNeeded()
+        self.instructions.append(self.instructionTextField.text!)
+        self.instructionsTableView.reloadData()
         
     }
     
-    func addStackViewTextField(textFieldText:String, stackView:UIStackView, heightConstraint: NSLayoutConstraint) -> StackViewTextField {
-        
-        // Initialize stack view text field
-        // Use StackViewTextField so we can associate an id with it later
-        let newTextField:StackViewTextField = StackViewTextField()
-        newTextField.text = textFieldText
-        newTextField.borderStyle = UITextBorderStyle.none
-        
-        // Add to view
-        stackView.addArrangedSubview(newTextField)
-        heightConstraint.constant += self.defaultTextFieldHeight
-        self.contentViewHeightConstraint.constant += self.defaultTextFieldHeight
-        
-        return newTextField
+    
+    @IBAction func editInstructionClicked(_ sender: UIButton) {
+        self.instructionsTableView.isEditing = !self.instructionsTableView.isEditing
     }
-
+    
     
     @IBAction func cancelRecipeClicked(_ sender: UIBarButtonItem) {
         self.presentNavigationController()
@@ -314,7 +326,6 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
             // Go back to ViewController
             DispatchQueue.main.async {
                 self.saveRecipeData(imageId: imageId)
-//                self.presentNavigationController()
             }
             
         })
@@ -335,31 +346,28 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         }
         
         // Loop through each ingredient
-        for i in 0 ..< self.ingredientsList.count {
-            let ingredient:StackViewTextField = self.ingredientsList[i]
+        for i in 0 ..< self.ingredients.count {
             
-            // Add ingredient to recipe
-            recipe.ingredients.append(ingredient.text!)
+            let ingredient:String = self.ingredients[i]
+            recipe.ingredients.append(ingredient)
             
-            // If the ingredient has an id, add it to the map
-            // This map is needed by the php script to update existing ingredients
-            if ingredient.ingredientId != nil {
-                recipe.ingredientToIdMap[ingredient.text!] = ingredient.ingredientId!
+            // If the ingredient row has an id, add it to ingredientToId map
+            if i < self.ingredientRowIds.count {
+                recipe.ingredientToIdMap[ingredient] = self.ingredientRowIds[i]
             }
         }
         
         // Loop through each instruction
-        for i in 0 ..< self.instructionsList.count {
-            let instruction:StackViewTextField = self.instructionsList[i]
+        for i in 0 ..< self.instructions.count {
             
-            // Add instruction to recipe
-            recipe.instructions.append(instruction.text!)
+            let instruction:String = self.instructions[i]
+            recipe.instructions.append(instruction)
             
-            // If the instruction has an id, add it to the map
-            // This map is needed by the php script to update existing instructions
-            if instruction.instructionId != nil {
-                recipe.instructiontToIdMap[instruction.text!] = instruction.instructionId
+            // If the instruction row has an id, add it to the instructionToId map
+            if i < self.instructionRowIds.count {
+                recipe.instructionToIdMap[instruction] = self.instructionRowIds[i]
             }
+            
         }
         
         // Save the recipeId if this is recipe is being edited
@@ -379,8 +387,10 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
                 "ingredients" : recipe.ingredients as AnyObject,
                 "instructions" : recipe.instructions as AnyObject,
                 "ingredient_to_id_map" : recipe.ingredientToIdMap as AnyObject,
-                "instruction_to_id_map" : recipe.instructiontToIdMap as AnyObject,
-                "image_id" : "" as AnyObject
+                "instruction_to_id_map" : recipe.instructionToIdMap as AnyObject,
+                "image_id" : "" as AnyObject,
+                "ingredients_to_delete" : self.ingredientIdsToDelete as AnyObject,
+                "instructions_to_delete" : self.instructionIdsToDelete as AnyObject
             ]
             
             if imageId != nil {
@@ -394,7 +404,7 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
             NSLog("Error: couldn't convert recipe object to valid json, " + e.localizedDescription)
             return
         }
-        
+
         // Create url object
         var url:URL?
         if self.editingRecipe {
@@ -575,30 +585,106 @@ class CreateRecipeViewController: UIViewController, UITextFieldDelegate, UITextV
         dismiss(animated: true, completion: nil)
     }
     
+    // MARK: - Table View Delegate Methods
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if tableView == self.ingredientsTableView {
+            return self.ingredients.count
+        }
+        else {
+            return self.instructions.count
+        }
     }
-    */
     
-    // MARK: - StackViewTextField Inner Class
-    class StackViewTextField: UITextField {
-        var ingredientId:Int?
-        var instructionId:Int?
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        var cell:UITableViewCell = UITableViewCell()
+        var labelText:String = ""
+        
+        if tableView == self.ingredientsTableView {
+            cell = self.ingredientsTableView.dequeueReusableCell(withIdentifier: "ingredientCell")!
+            labelText = self.ingredients[indexPath.row]
+        }
+        else {
+            cell = self.instructionsTableView.dequeueReusableCell(withIdentifier: "instructionCell")!
+            labelText = self.instructions[indexPath.row]
+        }
+        
+        let label:UILabel = cell.viewWithTag(1) as! UILabel
+        label.text = labelText
+        
+        return cell
         
     }
     
-    // TODO: Change to struct
-//    struct StackViewTextField {
-//        var textField:UITextField = UITextField()
-//        var ingredientId:Int?
-//        var instructionId:Int?
-//    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return self.defaultTableRowHeight
+    }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return UITableViewCellEditingStyle.delete
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        // Adjust height of content
+        self.contentViewHeightConstraint.constant -= self.defaultTableRowHeight
+
+        if tableView == self.ingredientsTableView {
+            // Adjust table height
+            self.ingredientsTableHeightConstraint.constant -= self.defaultTableRowHeight
+            
+            // If this row has an id it means it's in the database so we
+            // add it to ingredientsToDelete array and stop storing its row id
+            if indexPath.row < self.ingredientRowIds.count {
+                self.ingredientIdsToDelete.append(self.ingredientRowIds[indexPath.row])
+                self.ingredientRowIds.remove(at: indexPath.row)
+            }
+            
+            // Remove from table and reload
+            self.ingredients.remove(at: indexPath.row)
+            self.ingredientsTableView.reloadData()
+        }
+        else {
+            // Adjust table height
+            self.instructionsTableHeightConstraint.constant -= self.defaultTableRowHeight
+            
+            // If this row has an id it means it's in the database so we
+            // add it to instructionsToDelete array and stop storing its row id
+            if indexPath.row < self.instructionRowIds.count {
+                self.instructionIdsToDelete.append(self.instructionRowIds[indexPath.row])
+                self.instructionRowIds.remove(at: indexPath.row)
+            }
+            
+            // Remove from table and reload
+            self.instructions.remove(at: indexPath.row)
+            self.instructionsTableView.reloadData()
+        }
+        
+    }
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        
+        if tableView == self.ingredientsTableView {
+            let ingredientToMove:String = self.ingredients[sourceIndexPath.row]
+            self.ingredients.remove(at: sourceIndexPath.row)
+            self.ingredients.insert(ingredientToMove, at: destinationIndexPath.row)
+        }
+        else {
+            let instructionToMove:String = self.instructions[sourceIndexPath.row]
+            self.instructions.remove(at: sourceIndexPath.row)
+            self.instructions.insert(instructionToMove, at: destinationIndexPath.row)
+        }
+
+    }
 
 }

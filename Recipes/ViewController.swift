@@ -124,7 +124,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     let instruction_id:Int = instructionsDictionary["instruction_id"] as! Int
                     
                     recipe.instructions.append(instruction)
-                    recipe.instructiontToIdMap[instruction] = instruction_id
+                    recipe.instructionToIdMap[instruction] = instruction_id
                 }
                     
                 print(recipe.toString())
