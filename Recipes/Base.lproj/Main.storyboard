@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -303,7 +304,7 @@
                                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0Xm-4B-yCR" id="Qyt-wa-WMr">
-                                                    <frame key="frameInset" width="375" height="43.5"/>
+                                                    <frame key="frameInset" width="375" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3MQ-cQ-O6K">
@@ -545,12 +546,41 @@
                     <view key="view" contentMode="scaleToFill" id="A23-kK-zue">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="pQP-Np-dUg"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Some Slogan" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2TG-ar-tZM">
+                                <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="64"/>
+                                <color key="textColor" red="0.79949280104712039" green="0.62688559841565039" blue="0.55598136964900269" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" red="0.79949280099999998" green="0.62688559840000002" blue="0.5559813696" alpha="1" colorSpace="calibratedRGB"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Image Designed by Valeria_aksakova - Freepik.com" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="est-28-SoS">
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" red="0.79949280099999998" green="0.62688559840000002" blue="0.5559813696" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="pQP-Np-dUg" secondAttribute="bottom" id="0hW-a4-llV"/>
+                            <constraint firstAttribute="trailing" secondItem="pQP-Np-dUg" secondAttribute="trailing" id="AhK-7j-5in"/>
+                            <constraint firstItem="2TG-ar-tZM" firstAttribute="leading" secondItem="A23-kK-zue" secondAttribute="leadingMargin" constant="20" id="SCe-j9-t9n"/>
+                            <constraint firstItem="pQP-Np-dUg" firstAttribute="top" secondItem="A23-kK-zue" secondAttribute="top" id="UUo-Nd-c3I"/>
+                            <constraint firstItem="2TG-ar-tZM" firstAttribute="centerY" secondItem="A23-kK-zue" secondAttribute="centerY" id="VBc-d1-g0S"/>
+                            <constraint firstItem="cU7-E6-oGi" firstAttribute="top" secondItem="est-28-SoS" secondAttribute="bottom" constant="15" id="Xwl-39-X3W"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="2TG-ar-tZM" secondAttribute="trailing" constant="20" id="cah-r9-FTQ"/>
+                            <constraint firstAttribute="trailing" secondItem="est-28-SoS" secondAttribute="trailing" constant="20" id="iBl-UR-VrC"/>
+                            <constraint firstItem="est-28-SoS" firstAttribute="leading" secondItem="A23-kK-zue" secondAttribute="leading" constant="20" id="p0r-7S-doE"/>
+                            <constraint firstItem="pQP-Np-dUg" firstAttribute="leading" secondItem="A23-kK-zue" secondAttribute="leading" id="tJ3-Ds-skT"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F4p-sa-xal" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-7" y="134"/>
+            <point key="canvasLocation" x="-7.2000000000000002" y="133.5832083958021"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="background" width="3144" height="4735"/>
+    </resources>
 </document>
