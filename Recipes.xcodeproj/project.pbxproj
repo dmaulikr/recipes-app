@@ -22,10 +22,13 @@
 		8D8402491DD4D0E7009BBA62 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D8402481DD4D0E7009BBA62 /* Assets.xcassets */; };
 		8D84024C1DD4D0E7009BBA62 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D84024A1DD4D0E7009BBA62 /* LaunchScreen.storyboard */; };
 		8D8402541DD4D14F009BBA62 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8402531DD4D14F009BBA62 /* Recipe.swift */; };
+		8D8413DE1E5B98D100E9AC9B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D8413DD1E5B98D100E9AC9B /* QuartzCore.framework */; };
 		8D9B15A91DD62BBE00855D3B /* CreateRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9B15A81DD62BBE00855D3B /* CreateRecipeViewController.swift */; };
+		A799C05826D6D17B4C71093D /* Pods_Recipes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 701DC4A84E39966D9FF7204F /* Pods_Recipes.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		701DC4A84E39966D9FF7204F /* Pods_Recipes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Recipes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D0BF8741E1CA20100C3B563 /* DefaultColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultColors.swift; sourceTree = "<group>"; };
 		8D0BF87C1E216AB500C3B563 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		8D0BF87F1E2D6B7300C3B563 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
@@ -44,7 +47,10 @@
 		8D84024B1DD4D0E7009BBA62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8D84024D1DD4D0E7009BBA62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D8402531DD4D14F009BBA62 /* Recipe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
+		8D8413DD1E5B98D100E9AC9B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8D9B15A81DD62BBE00855D3B /* CreateRecipeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateRecipeViewController.swift; sourceTree = "<group>"; };
+		8FF23F7FF079F72FD4F32169 /* Pods-Recipes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Recipes.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Recipes/Pods-Recipes.debug.xcconfig"; sourceTree = "<group>"; };
+		FAB3CD6830C3451B40D83217 /* Pods-Recipes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Recipes.release.xcconfig"; path = "Pods/Target Support Files/Pods-Recipes/Pods-Recipes.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,10 +58,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D8413DE1E5B98D100E9AC9B /* QuartzCore.framework in Frameworks */,
 				8D0BF8861E2D6B7400C3B563 /* FBSDKShareKit.framework in Frameworks */,
 				8D0BF8831E2D6B7400C3B563 /* Bolts.framework in Frameworks */,
 				8D0BF8841E2D6B7400C3B563 /* FBSDKCoreKit.framework in Frameworks */,
 				8D0BF8851E2D6B7400C3B563 /* FBSDKLoginKit.framework in Frameworks */,
+				A799C05826D6D17B4C71093D /* Pods_Recipes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,10 +73,12 @@
 		8D0BF87E1E2D690300C3B563 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8D8413DD1E5B98D100E9AC9B /* QuartzCore.framework */,
 				8D0BF87F1E2D6B7300C3B563 /* Bolts.framework */,
 				8D0BF8801E2D6B7300C3B563 /* FBSDKCoreKit.framework */,
 				8D0BF8811E2D6B7300C3B563 /* FBSDKLoginKit.framework */,
 				8D0BF8821E2D6B7300C3B563 /* FBSDKShareKit.framework */,
+				701DC4A84E39966D9FF7204F /* Pods_Recipes.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -79,6 +89,7 @@
 				8D0BF87E1E2D690300C3B563 /* Frameworks */,
 				8D8402401DD4D0E7009BBA62 /* Recipes */,
 				8D84023F1DD4D0E7009BBA62 /* Products */,
+				F4C2A4FB30931D7095BC658F /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -111,6 +122,15 @@
 			path = Recipes;
 			sourceTree = "<group>";
 		};
+		F4C2A4FB30931D7095BC658F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8FF23F7FF079F72FD4F32169 /* Pods-Recipes.debug.xcconfig */,
+				FAB3CD6830C3451B40D83217 /* Pods-Recipes.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -118,9 +138,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8D8402501DD4D0E7009BBA62 /* Build configuration list for PBXNativeTarget "Recipes" */;
 			buildPhases = (
+				5CBF3BDAE7B1A65E18C92DE5 /* [CP] Check Pods Manifest.lock */,
 				8D84023A1DD4D0E7009BBA62 /* Sources */,
 				8D84023B1DD4D0E7009BBA62 /* Frameworks */,
 				8D84023C1DD4D0E7009BBA62 /* Resources */,
+				1374FE70DB2AFDB7DBE170D2 /* [CP] Embed Pods Frameworks */,
+				363E1F562764EE08173ED529 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -183,6 +206,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1374FE70DB2AFDB7DBE170D2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Recipes/Pods-Recipes-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		363E1F562764EE08173ED529 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Recipes/Pods-Recipes-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5CBF3BDAE7B1A65E18C92DE5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8D84023A1DD4D0E7009BBA62 /* Sources */ = {
@@ -316,6 +387,7 @@
 		};
 		8D8402511DD4D0E7009BBA62 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8FF23F7FF079F72FD4F32169 /* Pods-Recipes.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Recipes/Recipes.entitlements;
@@ -336,6 +408,7 @@
 		};
 		8D8402521DD4D0E7009BBA62 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FAB3CD6830C3451B40D83217 /* Pods-Recipes.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Recipes/Recipes.entitlements;

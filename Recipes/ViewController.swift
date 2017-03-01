@@ -11,11 +11,17 @@ import UIKit
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // UI outlets
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var noRecipesLabel: UILabel!
+    @IBOutlet weak var getStartedLabel: UILabel!
+    @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var recipesTableView: UITableView!
+    @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     
     // Constants
     let retrieveRecipesURL:String = "http://iosrecipes.com/retrieveRecipes.php"
     let deleteRecipesUrl:String = "http://iosrecipes.com/deleteRecipeData.php"
+    let defaultTableRowHeight:CGFloat = 100
 
     // Misc
     var recipes:[Recipe] = [Recipe]()
@@ -30,15 +36,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.recipesTableView.delegate = self
         self.recipesTableView.dataSource = self
         
+        self.recipesTableView.backgroundColor = UIColor.clear
+        
         // Assign function handlers for nav bar buttons
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: #selector(self.leftBarButtonClicked(_:)))
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(self.addButtonClicked(_:)))
-
-        // Set nav bar colors
-        self.navigationController?.navigationBar.barTintColor = DefaultColors.darkBlueColor
-        self.navigationController?.navigationBar.tintColor = UIColor.white
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
         // Dismiss keyboard when user taps outside
         self.hideKeyboardWhenTappedAround()
@@ -127,16 +130,30 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     recipe.instructionToIdMap[instruction] = instruction_id
                 }
                     
-                print(recipe.toString())
                 // Add to recipes array
                 self.recipes.append(recipe)
                     
             }
                 
             DispatchQueue.main.async {
-                // Reload table view in main thread
+                // Get the images asyncronously
                 self.getRecipeImages()
+                
+                // Adjust the table view and display data
+                self.tableViewHeightConstraint.constant = CGFloat(self.recipes.count) * self.defaultTableRowHeight
                 self.recipesTableView.reloadData()
+                
+                // Display labels and icons appropriately
+                self.displayLabels()
+                
+                // If the table is about to cross the icon, hide the icon
+                // Otherwise keep it visible
+                if self.tableViewHeightConstraint.constant + self.scrollView.frame.minY > self.iconImageView.frame.minY {
+                    self.iconImageView.alpha = 0
+                }
+                else {
+                    self.iconImageView.alpha = 1
+                }
             }
 
         }
@@ -282,7 +299,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     return
                 }
                 
-                print(jsonResponse)
             }
             catch let e as NSError {
                 print("Error: couldn't convert response to valid json, " + e.localizedDescription)
@@ -294,6 +310,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         task.resume()
+    }
+    
+    func displayLabels() {
+        if self.recipes.count > 0 {
+            self.noRecipesLabel.alpha = 0
+            self.getStartedLabel.alpha = 0
+        }
+        else {
+            self.noRecipesLabel.alpha = 1
+            self.getStartedLabel.alpha = 1
+        }
     }
 
 
@@ -308,6 +335,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.recipes.count
     }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Get reusable cell
@@ -332,6 +360,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.performSegue(withIdentifier: "toRecipeView", sender: self)
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return self.defaultTableRowHeight
+    }
+    
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
@@ -342,10 +374,29 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCellEditingStyle.delete {
+            // Add to recipes to delete array
             self.recipeIdsToDelete.append(self.recipes[indexPath.row].recipeId)
+            
+            // remove from recipes array
             self.recipes.remove(at: indexPath.row)
+            
+            // Adjust table height and display data
+            self.tableViewHeightConstraint.constant -= self.defaultTableRowHeight
             self.recipesTableView.reloadData()
+            
+            // Show appropriate labels
+            displayLabels()
+            
+            // Only show the icon if there are no rows
+            if self.recipes.count == 0 {
+                self.iconImageView.alpha = 1
+            }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = UIColor.clear
+        cell.contentView.backgroundColor = UIColor.clear
     }
     
 }

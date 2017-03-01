@@ -7,30 +7,30 @@
 //
 
 import UIKit
+import QuartzCore
 
-class RecipeViewController: UIViewController {
+class RecipeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // UI Outlets
     @IBOutlet weak var navItem: UINavigationItem!
     
     @IBOutlet weak var recipeImageView: UIImageView!
-    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var ingredientsLabel: UILabel!
     @IBOutlet weak var instructionsLabel: UILabel!
-    
+
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var descriptionTextView: UITextView!
-    @IBOutlet weak var ingredientsStackView: UIStackView!
-    @IBOutlet weak var instructionsStackView: UIStackView!
+    @IBOutlet weak var ingredientsTableView: UITableView!
+    @IBOutlet weak var instructionsTableView: UITableView!
     
     @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var recipeImageHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var ingredientsListHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var instructionsListHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var ingredientsTableHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var instructionsTableHeightConstraint: NSLayoutConstraint!
     
     // Constants
-    let defaultLabelHeight:CGFloat = 30
+    let defaultTableRowHeight:CGFloat = 50
     
     // Recipe object to be initialized before view is presented
     var recipe:Recipe?
@@ -40,6 +40,12 @@ class RecipeViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
+        // Set delegates
+        self.ingredientsTableView.delegate = self
+        self.ingredientsTableView.dataSource = self
+        self.instructionsTableView.delegate = self
+        self.instructionsTableView.dataSource = self
+        
         // Set content height
         let screenSize: CGRect = UIScreen.main.bounds
         self.contentViewHeightConstraint.constant = screenSize.height
@@ -48,6 +54,10 @@ class RecipeViewController: UIViewController {
         self.navigationController?.navigationBar.barTintColor = DefaultColors.darkBlueColor
         self.navigationController?.navigationBar.tintColor = UIColor.white
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+        
+        // Set table view backgrounds to clear
+        self.ingredientsTableView.backgroundColor = UIColor.clear
+        self.instructionsTableView.backgroundColor = UIColor.clear
         
         // Check if recipe object has been initialized
         if let unwrappedRecipe = recipe {
@@ -64,14 +74,14 @@ class RecipeViewController: UIViewController {
             self.descriptionTextView.text = unwrappedRecipe.recipeDescription
             self.descriptionTextView.isUserInteractionEnabled = false
             
-            for i in 0 ..< unwrappedRecipe.ingredients.count {
-                addLabelToView(labelText: unwrappedRecipe.ingredients[i], stackView: self.ingredientsStackView, heightConstraint: self.ingredientsListHeightConstraint)
-            }
+            let numIngredients:Int = (self.recipe?.ingredients.count)!
+            self.ingredientsTableHeightConstraint.constant = CGFloat(numIngredients) * self.defaultTableRowHeight
             
-            for i in 0 ..< unwrappedRecipe.instructions.count {
-                addLabelToView(labelText: unwrappedRecipe.instructions[i], stackView: self.instructionsStackView, heightConstraint: self.instructionsListHeightConstraint)
-            }
+            let numInstructions:Int = (self.recipe?.instructions.count)!
+            self.instructionsTableHeightConstraint.constant = CGFloat(numInstructions) * self.defaultTableRowHeight
             
+            self.ingredientsTableView.reloadData()
+            self.instructionsTableView.reloadData()
             self.view.layoutIfNeeded()
                         
         }
@@ -82,23 +92,6 @@ class RecipeViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    func addLabelToView(labelText:String, stackView:UIStackView, heightConstraint: NSLayoutConstraint) {
-        
-        if labelText == "" {
-            return
-        }
-        
-        // Initialize label
-        let newLabel:UILabel = UILabel()
-        newLabel.text = labelText
-        
-        // Add to view
-        stackView.addArrangedSubview(newLabel)
-        heightConstraint.constant += self.defaultLabelHeight // 30 is default height for label
-        self.contentViewHeightConstraint.constant += self.defaultLabelHeight
-    }
-    
     
     @IBAction func editClicked(_ sender: UIBarButtonItem) {
         // Instantiate view controller for creating new recipes
@@ -114,14 +107,51 @@ class RecipeViewController: UIViewController {
         
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
-     }
-    */
     
+    // MARK: - Table View Delegate Methods
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if tableView == self.ingredientsTableView {
+            return (recipe?.ingredients.count)!
+        }
+        else {
+            return (recipe?.instructions.count)!
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        var cell:UITableViewCell = UITableViewCell()
+        var cellTitle:String = ""
+        
+        if tableView == self.ingredientsTableView {
+            cell = self.ingredientsTableView.dequeueReusableCell(withIdentifier: "ingredientCell")!
+            cellTitle = (self.recipe?.ingredients[indexPath.row])!
+        }
+        else {
+            cell = self.instructionsTableView.dequeueReusableCell(withIdentifier: "instructionCell")!
+            cellTitle = (self.recipe?.instructions[indexPath.row])!
+        }
+        
+        let cellTitleLabel:UILabel = cell.viewWithTag(1) as! UILabel
+        cellTitleLabel.text = cellTitle
+        
+        let numberLabel:UILabel = cell.viewWithTag(2) as! UILabel
+        numberLabel.text = String(indexPath.row + 1)
+        numberLabel.layer.masksToBounds = true
+        numberLabel.layer.cornerRadius = 25 / 2
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return self.defaultTableRowHeight
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = UIColor.clear
+        cell.contentView.backgroundColor = UIColor.clear
+    }
+
 
 }

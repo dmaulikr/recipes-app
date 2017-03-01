@@ -9,11 +9,12 @@
 import UIKit
 
 class DefaultColors: NSObject {
-
-    static let darkBlueColor:UIColor = UIColor(displayP3Red: 0/255, green: 73/255, blue: 133/255, alpha: 1)
-    static let darkBlueColorHex:Int = 0x004985
+    
+    static let darkBlueColor:UIColor = UIColor(displayP3Red: 3/255, green: 27/255, blue: 51/255, alpha: 1)
+    static let darkBlueColorHex:Int = 0x031B33
     
     static let lightGreyLineColor:UIColor = UIColor(displayP3Red: 136/255, green: 148/255, blue: 149/255, alpha: 0.25)
     static let lightGreyLineColorHext:Int = 0x9AABAF
     
+    static let greyBorderColor:UIColor = UIColor(displayP3Red: 204.0/255.0, green: 204.0/255.0, blue: 204.0/255.0, alpha: 1.0)
 }

@@ -34,8 +34,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     let saveRecipeImageUrl:String = "http://iosrecipes.com/saveRecipeImage.php"
     let editRecipeUrl:String = "http://iosrecipes.com/editRecipe.php"
     let updateRecipeUrl:String = "http://iosrecipes.com/updateRecipe.php"
-    let defaultTextFieldHeight:CGFloat = 30
-    let defaultTableRowHeight:CGFloat = 45
+    let defaultTableRowHeight:CGFloat = 50
     let textViewPlaceholder:String = "Add description"
     
     // Member variables to be set before presenting view if editing a recipe
@@ -66,8 +65,12 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
 
         // Do any additional setup after loading the view.
         
+        // Set table view backgrounds to clear
+        self.ingredientsTableView.backgroundColor = UIColor.clear
+        self.instructionsTableView.backgroundColor = UIColor.clear
+
         // Style description text view
-        let borderColor:UIColor = UIColor(displayP3Red: 204.0/255.0, green: 204.0/255.0, blue: 204.0/255.0, alpha: 1.0)
+        let borderColor:UIColor = DefaultColors.greyBorderColor
     
         descriptionTextView.layer.borderWidth = 0.5
         descriptionTextView.layer.borderColor = borderColor.cgColor
@@ -75,11 +78,6 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         descriptionTextView.text = self.textViewPlaceholder
         descriptionTextView.font = UIFont.italicSystemFont(ofSize: UIFont.systemFontSize)
         descriptionTextView.textColor = UIColor.lightGray
-        
-        // Set nav bar colors
-        self.navigationBar.barTintColor = DefaultColors.darkBlueColor
-        self.navigationBar.tintColor = UIColor.white
-        self.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
         // Assign self to delegates and datasources
         recipeNameTextField.delegate = self
@@ -98,16 +96,20 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         // Dismiss keyboard when user taps outside
         self.hideKeyboardWhenTappedAround()
         
-        // Set content height
-        let screenSize: CGRect = UIScreen.main.bounds
-        self.contentViewHeightConstraint.constant = screenSize.height + 50 // extra buffer
-        
         // If there's a recipe to edit, initialize the view with its details
         if self.recipeToEdit != nil {
             self.editingRecipe = true
             self.populateViewWithRecipeToEdit()
         }
 
+    }
+    
+    override func viewDidLayoutSubviews() {
+        // Check if the instruction view has been loaded and then set content height
+        // to allow the scrollview to scroll
+        if self.instructionsTableView.frame.origin.y > 0 {
+            self.contentViewHeightConstraint.constant = self.instructionsTableView.frame.maxY + 100
+        }
     }
     
     deinit {
@@ -685,6 +687,11 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             self.instructions.insert(instructionToMove, at: destinationIndexPath.row)
         }
 
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = UIColor.clear
+        cell.contentView.backgroundColor = UIColor.clear
     }
 
 }
