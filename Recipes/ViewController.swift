@@ -35,6 +35,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        // User is not currently editing, used for table view delegate method
+        self.isEditing = false
+        
         // Set up search controller
         self.searchBar.delegate = self
         
@@ -223,20 +226,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBAction func leftBarButtonClicked(_ sender: UIBarButtonItem) {
 
-        // Assume currentLeftBarButtonItem is edit
-        var setEditing:Bool = true
-        var setBarButtonItem:UIBarButtonSystemItem = UIBarButtonSystemItem.done
+        var setBarButtonItem:UIBarButtonSystemItem!
         
-        // If currentLeftBarButtonItem is actually done, finish editing
-        // and delete the recipes
-        if self.currentLeftBarButtonItem == UIBarButtonSystemItem.done {
-            setEditing = false
+        if self.currentLeftBarButtonItem == UIBarButtonSystemItem.edit {
+            // If user presses on Edit button, change button to Done
+            self.isEditing = true
+            setBarButtonItem = UIBarButtonSystemItem.done
+        }
+        else {
+            // If user presses Done, change button to Edit and delete the recipes
+            self.isEditing = false
             setBarButtonItem = UIBarButtonSystemItem.edit
             self.deleteRecipes(recipeIds: self.recipeIdsToDelete)
         }
         
         // Set editing
-        self.recipesTableView.setEditing(setEditing, animated: setEditing)
+        self.recipesTableView.setEditing(isEditing, animated: true)
         
         // Set left bar button
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(
@@ -404,7 +409,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
+        return isEditing
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
