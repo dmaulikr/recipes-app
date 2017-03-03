@@ -8,10 +8,11 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
     // UI outlets
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var noRecipesLabel: UILabel!
     @IBOutlet weak var getStartedLabel: UILabel!
     @IBOutlet weak var iconImageView: UIImageView!
@@ -25,6 +26,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     // Misc
     var recipes:[Recipe] = [Recipe]()
+    var recipesToDisplay:[Recipe] = [Recipe]()
     var selectedRecipe:Recipe?
     var currentLeftBarButtonItem:UIBarButtonSystemItem = UIBarButtonSystemItem.edit
     var recipeIdsToDelete:[Int] = [Int]()
@@ -33,6 +35,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        // Set up search controller
+        self.searchBar.delegate = self
+        
+        // Set up delegats
+        self.searchBar.delegate = self
         self.recipesTableView.delegate = self
         self.recipesTableView.dataSource = self
         
@@ -141,6 +148,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
                 // Adjust the table view and display data
                 self.tableViewHeightConstraint.constant = CGFloat(self.recipes.count) * self.defaultTableRowHeight
+                self.recipesToDisplay = self.recipes
                 self.recipesTableView.reloadData()
                 
                 // Display labels and icons appropriately
@@ -330,10 +338,41 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let recipeVC:RecipeViewController = segue.destination as! RecipeViewController
         recipeVC.recipe = self.selectedRecipe
     }
+    
+    // MARK: - Search Bar Delegate methods
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        if searchText == "" {
+            self.recipesToDisplay = self.recipes
+            self.recipesTableView.reloadData()
+            return
+        }
+        
+        let searchTextLowerCase:String = searchText.lowercased()
+        
+        self.recipesToDisplay = self.recipes.filter({ (recipe:Recipe) -> Bool in
+            
+            let match = recipe.name.lowercased().range(of: searchTextLowerCase)
+            if match != nil {
+                return true
+            }
+            else {
+                return false
+            }
+            
+        })
+        
+        self.recipesTableView.reloadData()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {       
+        self.recipesToDisplay = self.recipes
+        self.recipesTableView.reloadData()
+    }
 
     // MARK: - Table View Delegate Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.recipes.count
+        return self.recipesToDisplay.count
     }
     
     
@@ -342,7 +381,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let cell:UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "TableCell")!
         
         // Get recipe
-        let recipe:Recipe = self.recipes[indexPath.row]
+        let recipe:Recipe = self.recipesToDisplay[indexPath.row]
         
         // Initialize label text with recipe name
         let label:UILabel? = cell.viewWithTag(1) as! UILabel?
@@ -356,7 +395,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Present Recipe details for the one selected
-        self.selectedRecipe = self.recipes[indexPath.row]
+        self.selectedRecipe = self.recipesToDisplay[indexPath.row]
         self.performSegue(withIdentifier: "toRecipeView", sender: self)
     }
     
@@ -374,12 +413,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCellEditingStyle.delete {
+            let recipeToDelete = self.recipesToDisplay[indexPath.row]
+            
             // Add to recipes to delete array
-            self.recipeIdsToDelete.append(self.recipes[indexPath.row].recipeId)
+            self.recipeIdsToDelete.append(recipeToDelete.recipeId)
             
             // remove from recipes array
-            self.recipes.remove(at: indexPath.row)
-            
+            let index = self.recipes.index(of: recipeToDelete)
+            self.recipes.remove(at: index!)
+            self.recipesToDisplay = self.recipes
+
             // Adjust table height and display data
             self.tableViewHeightConstraint.constant -= self.defaultTableRowHeight
             self.recipesTableView.reloadData()
@@ -391,6 +434,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if self.recipes.count == 0 {
                 self.iconImageView.alpha = 1
             }
+            
         }
     }
     
