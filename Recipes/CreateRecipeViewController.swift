@@ -7,25 +7,26 @@
 //
 
 import UIKit
+import Fusuma
 
-class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, FusumaDelegate {
     
     // UI Outlets
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var scrollView: UIScrollView!
-    
+
     @IBOutlet weak var recipeImageView: UIImageView!
-    
+    @IBOutlet weak var recipeFiltersStackView: UIStackView!
     @IBOutlet weak var recipeNameTextField: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var ingredientTextField: UITextField!
     @IBOutlet weak var instructionTextField: UITextField!
-    
     @IBOutlet weak var ingredientsTableView: UITableView!
     @IBOutlet weak var instructionsTableView: UITableView!
     
     @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var recipeImageHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var recipeFiltersHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var ingredientsTableHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var instructionsTableHeightConstraint: NSLayoutConstraint!
     
@@ -45,6 +46,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     var instructionRowIds:[Int] = [Int]()
     
     // Misc
+    var fusama:FusumaViewController = FusumaViewController() // Image Picker Controller
     var ingredients:[String] = [String]()
     var instructions:[String] = [String]()
     
@@ -52,6 +54,18 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     var instructionIdsToDelete:[Int] = [Int]()
     
     var activeTextField:UITextField?
+    
+    let filtersToIntensity:[String:Float?] = [
+        "CIPhotoEffectChrome" : nil,
+        "CIPhotoEffectFade" : nil, // only takes image
+        "CIPhotoEffectInstant" : nil, // only image
+        "CIPhotoEffectProcess": nil, // image
+        "CIPhotoEffectTonal": nil, // image
+        "CIPhotoEffectTransfer": nil, // image
+        "CISepiaTone": 0.5,
+        "CIVignette" : 1
+    ]
+
     
     enum TextFieldTags:Int {
         case RECIPE = 1
@@ -79,7 +93,12 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         descriptionTextView.font = UIFont.italicSystemFont(ofSize: UIFont.systemFontSize)
         descriptionTextView.textColor = UIColor.lightGray
         
+        // Set properties of fusama image picker controller
+        fusama.hasVideo = false
+        
         // Assign self to delegates and datasources
+        fusama.delegate = self
+
         recipeNameTextField.delegate = self
         ingredientTextField.delegate = self
         instructionTextField.delegate = self
@@ -167,52 +186,55 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     
     @IBAction func addImageClicked(_ sender: UIButton) {
         
-        let me:UIViewController = self
+//        let me:UIViewController = self
         
         // Check if the device has a camera
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
-                        
-            let picker = UIImagePickerController()
-            picker.allowsEditing = false
-            picker.delegate = self
             
-            // Create a new alert controller to ask user whether to get picture from camera or library
-            let actionSheet:UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
             
-            // Action for choosing camera
-            let cameraAction:UIAlertAction = UIAlertAction(title: "Take Photo", style: UIAlertActionStyle.default, handler: {
-                (alertAction:UIAlertAction!) in
+            self.present(self.fusama, animated: true, completion: nil)
             
-                picker.sourceType = UIImagePickerControllerSourceType.camera
-                picker.cameraCaptureMode = .photo
-                picker.modalPresentationStyle = .fullScreen
-                me.present(picker,animated: true,completion: nil)
-                
-            })
-            
-            // Action for choosing photo library
-            let photoLibraryAction:UIAlertAction = UIAlertAction(title: "Photo Library", style: UIAlertActionStyle.default, handler: {
-                (alertAction:UIAlertAction!) in
-                
-                picker.sourceType = .photoLibrary
-                picker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
-                me.present(picker,animated: true,completion: nil)
-            })
-            
-            // Action for canceling
-            let cancelAction:UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.destructive, handler: {
-                (alertAction:UIAlertAction!) in
-                
-                NSLog("cancel")
-            })
-            
-            // Add actions
-            actionSheet.addAction(cameraAction)
-            actionSheet.addAction(photoLibraryAction)
-            actionSheet.addAction(cancelAction)
-            
-            // Display it to the user
-            self.present(actionSheet, animated: true, completion: nil)
+//            let picker = UIImagePickerController()
+//            picker.allowsEditing = false
+//            picker.delegate = self
+//            
+//            // Create a new alert controller to ask user whether to get picture from camera or library
+//            let actionSheet:UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+//            
+//            // Action for choosing camera
+//            let cameraAction:UIAlertAction = UIAlertAction(title: "Take Photo", style: UIAlertActionStyle.default, handler: {
+//                (alertAction:UIAlertAction!) in
+//            
+//                picker.sourceType = UIImagePickerControllerSourceType.camera
+//                picker.cameraCaptureMode = .photo
+//                picker.modalPresentationStyle = .fullScreen
+//                me.present(picker,animated: true,completion: nil)
+//                
+//            })
+//            
+//            // Action for choosing photo library
+//            let photoLibraryAction:UIAlertAction = UIAlertAction(title: "Photo Library", style: UIAlertActionStyle.default, handler: {
+//                (alertAction:UIAlertAction!) in
+//                
+//                picker.sourceType = .photoLibrary
+//                picker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
+//                me.present(picker,animated: true,completion: nil)
+//            })
+//            
+//            // Action for canceling
+//            let cancelAction:UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.destructive, handler: {
+//                (alertAction:UIAlertAction!) in
+//                
+//                NSLog("cancel")
+//            })
+//            
+//            // Add actions
+//            actionSheet.addAction(cameraAction)
+//            actionSheet.addAction(photoLibraryAction)
+//            actionSheet.addAction(cancelAction)
+//            
+//            // Display it to the user
+//            self.present(actionSheet, animated: true, completion: nil)
         }
         
         
@@ -467,6 +489,91 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         self.present(recipesVC, animated: false, completion: nil)
     }
     
+    func createFilters(imageToFilter:UIImageView) {
+        
+        self.recipeFiltersHeightConstraint.constant = UIScreen.main.bounds.height / 3
+            
+        let firstRowStackView = UIStackView()
+        firstRowStackView.axis = UILayoutConstraintAxis.horizontal
+        firstRowStackView.distribution = UIStackViewDistribution.fillEqually
+        firstRowStackView.spacing = 5
+        firstRowStackView.backgroundColor = UIColor.black
+            
+        let secondRowStackView = UIStackView()
+        secondRowStackView.axis = UILayoutConstraintAxis.horizontal
+        secondRowStackView.distribution = UIStackViewDistribution.fillEqually
+        secondRowStackView.spacing = 5
+        secondRowStackView.backgroundColor = UIColor.black
+        
+        var currentStackView:UIStackView = firstRowStackView
+        let imagesPerRow = filtersToIntensity.count / 2
+        var imageNumber:Int = 0
+        
+        for (filter, intensity) in filtersToIntensity {
+            print(filter)
+            
+            let image:UIImageView = UIImageView(image: imageToFilter.image)
+            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageFilterTapped(tapGestureRecognizer:)))
+            image.isUserInteractionEnabled = true
+            image.addGestureRecognizer(tapGestureRecognizer)
+            image.contentMode = UIViewContentMode.scaleAspectFit
+            
+            addFilter(imageToFilter: image, filter: filter, intensity: intensity)
+            
+            currentStackView.addArrangedSubview(image)
+            
+            imageNumber += 1
+            if imageNumber == imagesPerRow {
+                imageNumber = 0
+                
+                // TODO: Change logic so we don't hardcode indeces
+                currentStackView = secondRowStackView
+            }
+        }
+        
+        for view in self.recipeFiltersStackView.arrangedSubviews {
+            self.recipeFiltersStackView.removeArrangedSubview(view)
+            view.removeFromSuperview()
+        }
+        self.recipeFiltersStackView.addArrangedSubview(firstRowStackView)
+        self.recipeFiltersStackView.addArrangedSubview(secondRowStackView)
+
+        
+    }
+    
+    func addFilter(imageToFilter:UIImageView, filter:String, intensity:Float?) {
+        
+        guard let image = imageToFilter.image, let cgimg = image.cgImage else {
+            print("imageView doesn't have an image!")
+            return
+        }
+        
+        // Create context which uses an API that interacts directly with the GPU
+        let openGLContext = EAGLContext(api: .openGLES2)
+        let context = CIContext(eaglContext: openGLContext!)
+        
+        let coreImage = CIImage(cgImage: cgimg)
+        
+        let filter = CIFilter(name: filter)
+        filter?.setValue(coreImage, forKey: kCIInputImageKey)
+        if intensity != nil {
+            filter?.setValue(intensity!, forKey: kCIInputIntensityKey)
+        }
+        
+        if let output = filter?.value(forKey: kCIOutputImageKey) as? CIImage {
+            let cgimgresult = context.createCGImage(output, from: output.extent)
+            let filteredImage = UIImage(cgImage: cgimgresult!)
+            imageToFilter.image = filteredImage
+        }
+        
+    }
+    
+    
+    func imageFilterTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+        let tappedImage = tapGestureRecognizer.view as! UIImageView
+        self.recipeImageView.image = tappedImage.image
+    }
+    
     // MARK: - Keyboard functions
     
     func registerForKeyboardNotifications(){
@@ -572,6 +679,24 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
+    // MARK: - Fusama delegate methods
+    func fusumaImageSelected(_ image: UIImage, source: FusumaMode) {
+        print("Image selected")
+        self.recipeImageView.image = image
+        self.recipeImageHeightConstraint.constant = UIScreen.main.bounds.height / 2
+        self.contentViewHeightConstraint.constant += self.recipeImageHeightConstraint.constant
+        createFilters(imageToFilter: self.recipeImageView)
+    }
+    
+    func fusumaVideoCompleted(withFileURL fileURL: URL) {
+        return
+    }
+    
+    // When camera roll is not authorized, this method is called.
+    func fusumaCameraRollUnauthorized() {
+        print("Camera roll unauthorized")
+    }
+
     // MARK: - Image Picker Delegate Methods
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
