@@ -68,7 +68,6 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         "CIVignette" : 1
     ]
 
-    
     enum TextFieldTags:Int {
         case RECIPE = 1
         case INGREDIENT = 2
@@ -125,13 +124,14 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
 
     }
     
-    override func viewDidLayoutSubviews() {
-        // Check if the instruction view has been loaded and then set content height
-        // to allow the scrollview to scroll
-        if self.instructionsTableView.frame.origin.y > 0 {
-            self.contentViewHeightConstraint.constant = self.instructionsTableView.frame.maxY + 100
-        }
-    }
+//    override func viewDidLayoutSubviews() {
+//        // Check if the instruction view has been loaded and then set content height
+//        // to allow the scrollview to scroll
+//        if self.instructionsTableView.frame.origin.y > 0 {
+//            self.contentViewHeightConstraint.constant = self.instructionsTableView.frame.maxY + 100
+//        }
+//        
+//    }
     
     deinit {
         self.deregisterFromKeyboardNotifications()
@@ -188,11 +188,43 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     
     @IBAction func addImageClicked(_ sender: UIButton) {
         
-        // Check if the device has a camera
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
             self.present(self.fusama, animated: true, completion: nil)
         }
         
+    }
+    
+    @IBAction func deleteImageClicked(_ sender: UIButton) {
+        // Create alert controller object
+        let myAlert:UIAlertController = UIAlertController(title: "Are you sure you want to delete the image?", message: "", preferredStyle: UIAlertControllerStyle.alert)
+        
+        // Create a alert action
+        let firstAction:UIAlertAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default, handler: { (alertAction:UIAlertAction!) in
+            
+            self.recipeImageView = UIImageView()
+            self.contentViewHeightConstraint.constant -= self.recipeImageHeightConstraint.constant
+            self.recipeImageHeightConstraint.constant = 0
+            
+            for view in self.recipeFiltersStackView.arrangedSubviews {
+                self.recipeFiltersStackView.removeArrangedSubview(view)
+                view.removeFromSuperview()
+            }
+            
+            self.contentViewHeightConstraint.constant -= self.recipeFiltersHeightConstraint.constant
+            self.recipeFiltersHeightConstraint.constant = 0
+        })
+        
+        
+        // Create a alert action
+        let secondAction:UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (alertAction:UIAlertAction!) in
+                print("cancel button clicked")
+        })
+        
+        myAlert.addAction(firstAction)
+        myAlert.addAction(secondAction)
+        
+        self.present(myAlert, animated: true, completion: nil)
+
     }
     
     @IBAction func addIngredientClicked(_ sender: UIButton) {
@@ -206,7 +238,6 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         
         self.ingredients.append(self.ingredientTextField.text!)
         self.ingredientsTableView.reloadData()
-        
     }
     
     
@@ -450,6 +481,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     func createFilters(imageToFilter:UIImageView) {
         
         self.recipeFiltersHeightConstraint.constant = UIScreen.main.bounds.height / 3
+        self.contentViewHeightConstraint.constant += UIScreen.main.bounds.height / 3
             
         let firstRowStackView = UIStackView()
         firstRowStackView.axis = UILayoutConstraintAxis.horizontal
@@ -653,21 +685,6 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     // When camera roll is not authorized, this method is called.
     func fusumaCameraRollUnauthorized() {
         print("Camera roll unauthorized")
-    }
-
-    // MARK: - Image Picker Delegate Methods
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        self.recipeImageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
-        self.recipeImageHeightConstraint.constant = UIScreen.main.bounds.height / 2
-        self.contentViewHeightConstraint.constant += self.recipeImageHeightConstraint.constant
-        
-        // To dismiss the image picker
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
     }
     
     // MARK: - Table View Delegate Methods

@@ -57,6 +57,16 @@
                                                     <action selector="addImageClicked:" destination="6dR-iX-OMH" eventType="touchUpInside" id="ZhH-y5-Xg9"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="05W-WQ-zb7" userLabel="Delete Image Button">
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="15" id="OXS-e4-yui"/>
+                                                    <constraint firstAttribute="width" constant="15" id="UTf-tv-YWB"/>
+                                                </constraints>
+                                                <state key="normal" title="Button" image="delete"/>
+                                                <connections>
+                                                    <action selector="deleteImageClicked:" destination="6dR-iX-OMH" eventType="touchUpInside" id="xiC-mp-67P"/>
+                                                </connections>
+                                            </button>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cjx-RJ-nbd" userLabel="recipeImage">
                                                 <constraints>
                                                     <constraint firstAttribute="height" id="oon-iE-oRI"/>
@@ -261,6 +271,7 @@
                                             <constraint firstAttribute="trailing" secondItem="YS6-5L-Ae6" secondAttribute="trailing" id="8MK-uX-qbD"/>
                                             <constraint firstItem="unk-Ph-XX9" firstAttribute="leading" secondItem="yBS-Ff-u59" secondAttribute="leading" id="8la-H0-NIP"/>
                                             <constraint firstAttribute="height" constant="1000" id="Ew1-YX-PES"/>
+                                            <constraint firstItem="05W-WQ-zb7" firstAttribute="leading" secondItem="XTz-c9-LBm" secondAttribute="trailing" constant="15" id="Few-IJ-L40"/>
                                             <constraint firstItem="3nt-nT-t3v" firstAttribute="top" secondItem="YS6-5L-Ae6" secondAttribute="bottom" constant="45" id="GXJ-9Y-9GT"/>
                                             <constraint firstItem="ahA-Ij-Cl9" firstAttribute="top" secondItem="CB8-Or-mDI" secondAttribute="bottom" constant="45" id="GXe-iD-zFS"/>
                                             <constraint firstItem="Vln-g7-Uqx" firstAttribute="leading" secondItem="yBS-Ff-u59" secondAttribute="leading" constant="45" id="Gan-Yg-4kD"/>
@@ -306,6 +317,7 @@
                                             <constraint firstAttribute="trailing" secondItem="scS-gf-0Tx" secondAttribute="trailing" constant="45" id="sTH-VP-vjc"/>
                                             <constraint firstItem="nzf-Pd-ULo" firstAttribute="leading" secondItem="yBS-Ff-u59" secondAttribute="leading" constant="45" id="u6K-we-Jji"/>
                                             <constraint firstItem="a3c-Ia-U5u" firstAttribute="top" secondItem="nzf-Pd-ULo" secondAttribute="bottom" constant="10" id="v2Y-dX-o9Z"/>
+                                            <constraint firstItem="05W-WQ-zb7" firstAttribute="centerY" secondItem="XTz-c9-LBm" secondAttribute="centerY" id="v9n-tk-I7O"/>
                                             <constraint firstAttribute="trailing" secondItem="Vln-g7-Uqx" secondAttribute="trailing" constant="45" id="vaE-P7-172"/>
                                             <constraint firstItem="9vV-ff-3NA" firstAttribute="centerY" secondItem="TV7-iA-uKD" secondAttribute="centerY" id="wMb-hZ-NTa"/>
                                             <constraint firstItem="CB8-Or-mDI" firstAttribute="leading" secondItem="yBS-Ff-u59" secondAttribute="leading" constant="25" id="waV-Nt-w4q"/>
@@ -796,6 +808,7 @@
         <image name="background" width="3144" height="4735"/>
         <image name="cooking-on-fire" width="128" height="128"/>
         <image name="cutting-board-bg" width="2719" height="3058"/>
+        <image name="delete" width="64" height="64"/>
         <image name="edit" width="32" height="32"/>
     </resources>
 </document>
