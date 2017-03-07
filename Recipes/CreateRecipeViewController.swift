@@ -12,6 +12,8 @@ import Fusuma
 class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, FusumaDelegate {
     
     // UI Outlets
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var scrollView: UIScrollView!
 
@@ -186,57 +188,10 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     
     @IBAction func addImageClicked(_ sender: UIButton) {
         
-//        let me:UIViewController = self
-        
         // Check if the device has a camera
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
-            
-            
             self.present(self.fusama, animated: true, completion: nil)
-            
-//            let picker = UIImagePickerController()
-//            picker.allowsEditing = false
-//            picker.delegate = self
-//            
-//            // Create a new alert controller to ask user whether to get picture from camera or library
-//            let actionSheet:UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
-//            
-//            // Action for choosing camera
-//            let cameraAction:UIAlertAction = UIAlertAction(title: "Take Photo", style: UIAlertActionStyle.default, handler: {
-//                (alertAction:UIAlertAction!) in
-//            
-//                picker.sourceType = UIImagePickerControllerSourceType.camera
-//                picker.cameraCaptureMode = .photo
-//                picker.modalPresentationStyle = .fullScreen
-//                me.present(picker,animated: true,completion: nil)
-//                
-//            })
-//            
-//            // Action for choosing photo library
-//            let photoLibraryAction:UIAlertAction = UIAlertAction(title: "Photo Library", style: UIAlertActionStyle.default, handler: {
-//                (alertAction:UIAlertAction!) in
-//                
-//                picker.sourceType = .photoLibrary
-//                picker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
-//                me.present(picker,animated: true,completion: nil)
-//            })
-//            
-//            // Action for canceling
-//            let cancelAction:UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.destructive, handler: {
-//                (alertAction:UIAlertAction!) in
-//                
-//                NSLog("cancel")
-//            })
-//            
-//            // Add actions
-//            actionSheet.addAction(cameraAction)
-//            actionSheet.addAction(photoLibraryAction)
-//            actionSheet.addAction(cancelAction)
-//            
-//            // Display it to the user
-//            self.present(actionSheet, animated: true, completion: nil)
         }
-        
         
     }
     
@@ -286,6 +241,8 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     
     
     @IBAction func saveRecipeClicked(_ sender: UIBarButtonItem) {
+        
+        self.activityIndicator.startAnimating()
         
         // If no image, just save the recipe data
         if self.recipeImageView == nil || self.recipeImageView.image == nil {
@@ -467,6 +424,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             
             // Go back to ViewController
             DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
                 self.presentNavigationController()
             }
             

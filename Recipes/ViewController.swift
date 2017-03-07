@@ -11,6 +11,7 @@ import UIKit
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
     // UI outlets
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var noRecipesLabel: UILabel!
@@ -30,11 +31,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var selectedRecipe:Recipe?
     var currentLeftBarButtonItem:UIBarButtonSystemItem = UIBarButtonSystemItem.edit
     var recipeIdsToDelete:[Int] = [Int]()
+    var refreshControl:UIRefreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        self.activityIndicator.startAnimating()
+        
+        // Pull to refresh 
+        refreshControl.addTarget(self, action: #selector(ViewController.handleRefresh), for: UIControlEvents.valueChanged)
+        self.recipesTableView.addSubview(refreshControl)
+        self.recipesTableView.backgroundColor = UIColor.clear
+
         // User is not currently editing, used for table view delegate method
         self.isEditing = false
         
@@ -46,8 +55,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.recipesTableView.delegate = self
         self.recipesTableView.dataSource = self
         
-        self.recipesTableView.backgroundColor = UIColor.clear
-        
         // Assign function handlers for nav bar buttons
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: #selector(self.leftBarButtonClicked(_:)))
         
@@ -58,7 +65,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         // Retreive recipes and populate view
         self.retrieveRecipes()
-                
+        
+    }
+    
+    func handleRefresh() {
+        self.retrieveRecipes()
     }
 
     override func didReceiveMemoryWarning() {
@@ -107,6 +118,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let dataArray = dataDictionary?["recipes"] as! NSArray
                 
             // Loop through array and parse each recipe
+            // Clear array since it's possible to have recipes in it during user refresh
+            self.recipes = []
             for i in 0 ..< dataArray.count {
                 let recipeDictionary = dataArray[i] as! NSDictionary
 
@@ -146,6 +159,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
                 
             DispatchQueue.main.async {
+                
+                // Handle either initial load(activity indicator) or user refresh (refresh control)
+                self.activityIndicator.stopAnimating()
+                self.refreshControl.endRefreshing()
+                
                 // Get the images asyncronously
                 self.getRecipeImages()
                 

@@ -130,7 +130,7 @@
                                                         <rect key="frame" x="0.0" y="28" width="300" height="44"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ixl-rO-CuT" id="fjl-wN-BQf">
-                                                            <frame key="frameInset" width="300" height="43.5"/>
+                                                            <frame key="frameInset" width="300" height="43"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0mR-ER-6f3">
@@ -224,7 +224,7 @@
                                                         <rect key="frame" x="0.0" y="28" width="300" height="44"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="d2k-J4-Kve" id="2I3-L3-73s">
-                                                            <frame key="frameInset" width="300" height="43.5"/>
+                                                            <frame key="frameInset" width="300" height="43"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OAV-XI-BVo">
@@ -321,21 +321,27 @@
                                     <constraint firstAttribute="trailing" secondItem="yBS-Ff-u59" secondAttribute="trailing" id="jSH-oo-0Pp"/>
                                 </constraints>
                             </scrollView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="bdJ-gX-T2F">
+                                <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="M6N-Rp-Iyz" secondAttribute="trailing" id="1z1-Tg-Pmb"/>
                             <constraint firstItem="yBS-Ff-u59" firstAttribute="width" secondItem="rUT-fQ-nKJ" secondAttribute="width" id="6bm-UT-qzS"/>
                             <constraint firstItem="Ip4-XV-m65" firstAttribute="top" secondItem="rUT-fQ-nKJ" secondAttribute="top" id="GZn-fh-52H"/>
+                            <constraint firstItem="bdJ-gX-T2F" firstAttribute="centerY" secondItem="rUT-fQ-nKJ" secondAttribute="centerY" id="NML-Ib-Owg"/>
                             <constraint firstAttribute="trailing" secondItem="Ip4-XV-m65" secondAttribute="trailing" id="PFK-f2-0Fs"/>
                             <constraint firstItem="M6N-Rp-Iyz" firstAttribute="leading" secondItem="rUT-fQ-nKJ" secondAttribute="leading" id="Wts-FC-wF9"/>
                             <constraint firstAttribute="bottom" secondItem="M6N-Rp-Iyz" secondAttribute="bottom" id="Y5c-va-qu4"/>
                             <constraint firstItem="Ip4-XV-m65" firstAttribute="leading" secondItem="rUT-fQ-nKJ" secondAttribute="leading" id="jUp-8w-1AR"/>
+                            <constraint firstItem="bdJ-gX-T2F" firstAttribute="centerX" secondItem="rUT-fQ-nKJ" secondAttribute="centerX" id="m5t-0t-VyD"/>
                             <constraint firstAttribute="bottom" secondItem="Ip4-XV-m65" secondAttribute="bottom" id="sgl-vU-u23"/>
                             <constraint firstItem="M6N-Rp-Iyz" firstAttribute="top" secondItem="rUT-fQ-nKJ" secondAttribute="top" id="uQ4-RS-2TE"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="bdJ-gX-T2F" id="nYw-wg-bec"/>
                         <outlet property="contentViewHeightConstraint" destination="Ew1-YX-PES" id="CVB-Kg-R2v"/>
                         <outlet property="descriptionTextView" destination="scS-gf-0Tx" id="pvN-fm-EDF"/>
                         <outlet property="ingredientTextField" destination="Vln-g7-Uqx" id="NDg-WQ-QHS"/>
@@ -387,9 +393,9 @@
                                 <color key="shadowColor" red="0.01176470588" green="0.1058823529" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
                             <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cooking-on-fire" translatesAutoresizingMaskIntoConstraints="NO" id="dWr-gd-t7Z"/>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SSU-RW-J8s">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="SSU-RW-J8s">
                                 <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="t83-fO-T6E" userLabel="RecipesTableView">
+                                    <tableView clipsSubviews="YES" contentMode="scaleAspectFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="t83-fO-T6E" userLabel="RecipesTableView">
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="150" id="5vz-7Y-L3n"/>
@@ -400,7 +406,7 @@
                                                 <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0Xm-4B-yCR" id="Qyt-wa-WMr">
-                                                    <frame key="frameInset" width="375" height="99.5"/>
+                                                    <frame key="frameInset" width="375" height="99"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3MQ-cQ-O6K">
@@ -437,6 +443,7 @@
                                     <constraint firstAttribute="trailing" secondItem="t83-fO-T6E" secondAttribute="trailing" id="flF-in-Vqw"/>
                                 </constraints>
                             </scrollView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Vok-0g-W7q"/>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -458,7 +465,9 @@
                             <constraint firstAttribute="bottom" secondItem="Cdi-2X-2So" secondAttribute="bottom" id="d8p-qR-tCw"/>
                             <constraint firstItem="Ogd-UY-0pz" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="lVA-AD-S0L"/>
                             <constraint firstItem="Ogd-UY-0pz" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="tbt-8c-zdr"/>
+                            <constraint firstItem="Vok-0g-W7q" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="tlP-4c-ryK"/>
                             <constraint firstItem="Cdi-2X-2So" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="ueK-n9-Ob8"/>
+                            <constraint firstItem="Vok-0g-W7q" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="wwg-z2-nZP"/>
                             <constraint firstItem="OwF-Ml-1Xn" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="yYI-HV-aJa"/>
                         </constraints>
                     </view>
@@ -476,6 +485,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicator" destination="Vok-0g-W7q" id="5hc-yo-I31"/>
                         <outlet property="getStartedLabel" destination="P1M-rL-ZGq" id="CSO-bP-ccj"/>
                         <outlet property="iconImageView" destination="dWr-gd-t7Z" id="kZy-V8-4Ua"/>
                         <outlet property="noRecipesLabel" destination="OwF-Ml-1Xn" id="sM1-k2-br7"/>
