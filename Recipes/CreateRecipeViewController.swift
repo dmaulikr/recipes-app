@@ -181,6 +181,10 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             self.contentViewHeightConstraint.constant += self.defaultTableRowHeight
         }
         
+        if let image = self.recipeToEdit?.image {
+            addImageToView(image: image)
+        }
+        
         self.ingredientsTableView.reloadData()
         self.instructionsTableView.reloadData()
 
@@ -201,7 +205,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         // Create a alert action
         let firstAction:UIAlertAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default, handler: { (alertAction:UIAlertAction!) in
             
-            self.recipeImageView = UIImageView()
+            self.recipeImageView.image = nil
             self.contentViewHeightConstraint.constant -= self.recipeImageHeightConstraint.constant
             self.recipeImageHeightConstraint.constant = 0
             
@@ -478,6 +482,13 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         self.present(recipesVC, animated: false, completion: nil)
     }
     
+    func addImageToView(image: UIImage) {
+        self.recipeImageView.image = image
+        self.recipeImageHeightConstraint.constant = UIScreen.main.bounds.height / 2
+        self.contentViewHeightConstraint.constant += self.recipeImageHeightConstraint.constant
+        createFilters(imageToFilter: self.recipeImageView)
+    }
+    
     func createFilters(imageToFilter:UIImageView) {
         
         self.recipeFiltersHeightConstraint.constant = UIScreen.main.bounds.height / 3
@@ -671,18 +682,13 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     
     // MARK: - Fusama delegate methods
     func fusumaImageSelected(_ image: UIImage, source: FusumaMode) {
-        print("Image selected")
-        self.recipeImageView.image = image
-        self.recipeImageHeightConstraint.constant = UIScreen.main.bounds.height / 2
-        self.contentViewHeightConstraint.constant += self.recipeImageHeightConstraint.constant
-        createFilters(imageToFilter: self.recipeImageView)
+        addImageToView(image: image)
     }
     
     func fusumaVideoCompleted(withFileURL fileURL: URL) {
         return
     }
     
-    // When camera roll is not authorized, this method is called.
     func fusumaCameraRollUnauthorized() {
         print("Camera roll unauthorized")
     }
