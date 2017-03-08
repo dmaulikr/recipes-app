@@ -404,7 +404,7 @@
                                 <nil key="highlightedColor"/>
                                 <color key="shadowColor" red="0.01176470588" green="0.1058823529" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cooking-on-fire" translatesAutoresizingMaskIntoConstraints="NO" id="dWr-gd-t7Z"/>
+                            <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chef-hat" translatesAutoresizingMaskIntoConstraints="NO" id="dWr-gd-t7Z"/>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="SSU-RW-J8s">
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleAspectFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="t83-fO-T6E" userLabel="RecipesTableView">
@@ -806,7 +806,7 @@
     <resources>
         <image name="add-circular-outlined-button" width="64" height="64"/>
         <image name="background" width="3144" height="4735"/>
-        <image name="cooking-on-fire" width="128" height="128"/>
+        <image name="chef-hat" width="64" height="64"/>
         <image name="cutting-board-bg" width="2719" height="3058"/>
         <image name="delete" width="64" height="64"/>
         <image name="edit" width="32" height="32"/>

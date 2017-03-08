@@ -175,14 +175,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 // Display labels and icons appropriately
                 self.displayLabels()
                 
-                // If the table is about to cross the icon, hide the icon
-                // Otherwise keep it visible
-                if self.tableViewHeightConstraint.constant + self.scrollView.frame.minY > self.iconImageView.frame.minY {
-                    self.iconImageView.alpha = 0
-                }
-                else {
-                    self.iconImageView.alpha = 1
-                }
+//                // If the table is about to cross the icon, hide the icon
+//                // Otherwise keep it visible
+//                if self.tableViewHeightConstraint.constant + self.scrollView.frame.minY > self.iconImageView.frame.minY {
+//                    self.iconImageView.alpha = 0
+//                }
+//                else {
+//                    self.iconImageView.alpha = 1
+//                }
             }
 
         }
@@ -453,10 +453,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             // Show appropriate labels
             displayLabels()
             
-            // Only show the icon if there are no rows
-            if self.recipes.count == 0 {
-                self.iconImageView.alpha = 1
-            }
+//            // Only show the icon if there are no rows
+//            if self.recipes.count == 0 {
+//                self.iconImageView.alpha = 1
+//            }
             
         }
     }
