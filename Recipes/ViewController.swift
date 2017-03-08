@@ -153,34 +153,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 self.recipes.append(recipe)
                     
             }
-                
-            DispatchQueue.main.async {
-                
-                // Handle either initial load(activity indicator) or user refresh (refresh control)
-                self.activityIndicator.stopAnimating()
-                self.refreshControl.endRefreshing()
-                
-                // Get the images asyncronously
-                self.getRecipeImages()
-                
-                // Adjust the table view and display data
-                self.tableViewHeightConstraint.constant = CGFloat(self.recipes.count) * self.defaultTableRowHeight
-                self.recipesToDisplay = self.recipes
-                self.recipesTableView.reloadData()
-                
-                // Display labels and icons appropriately
-                self.displayLabels()
-                
-//                // If the table is about to cross the icon, hide the icon
-//                // Otherwise keep it visible
-//                if self.tableViewHeightConstraint.constant + self.scrollView.frame.minY > self.iconImageView.frame.minY {
-//                    self.iconImageView.alpha = 0
-//                }
-//                else {
-//                    self.iconImageView.alpha = 1
-//                }
-            }
-
+            
+            self.getRecipeImages()
         }
         
         // Run the task
@@ -235,6 +209,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 task.resume()
             }
         }
+        
+        queue.waitUntilAllOperationsAreFinished()
+        
+        // Handle either initial load(activity indicator) or user refresh (refresh control)
+        self.activityIndicator.stopAnimating()
+        self.refreshControl.endRefreshing()
+        
+        // Adjust the table view and display data
+        self.tableViewHeightConstraint.constant = CGFloat(self.recipes.count) * self.defaultTableRowHeight
+        self.recipesToDisplay = self.recipes
+        self.recipesTableView.reloadData()
+        
+        // Display labels and icons appropriately
+        self.displayLabels()
     }
     
     
@@ -449,12 +437,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             // Show appropriate labels
             displayLabels()
-            
-//            // Only show the icon if there are no rows
-//            if self.recipes.count == 0 {
-//                self.iconImageView.alpha = 1
-//            }
-            
         }
     }
     
