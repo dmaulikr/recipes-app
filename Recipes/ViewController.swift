@@ -30,7 +30,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var recipesToDisplay:[Recipe] = [Recipe]()
     var selectedRecipe:Recipe?
     var currentLeftBarButtonItem:UIBarButtonSystemItem = UIBarButtonSystemItem.edit
-    var recipeIdsToDelete:[Int] = [Int]()
     var refreshControl:UIRefreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
@@ -43,9 +42,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         refreshControl.addTarget(self, action: #selector(ViewController.handleRefresh), for: UIControlEvents.valueChanged)
         self.recipesTableView.addSubview(refreshControl)
         self.recipesTableView.backgroundColor = UIColor.clear
-
-        // User is not currently editing, used for table view delegate method
-        self.isEditing = false
         
         // Set up search controller
         self.searchBar.delegate = self
@@ -245,17 +241,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBAction func leftBarButtonClicked(_ sender: UIBarButtonItem) {
 
         var setBarButtonItem:UIBarButtonSystemItem!
+        var isEditing:Bool!
         
         if self.currentLeftBarButtonItem == UIBarButtonSystemItem.edit {
             // If user presses on Edit button, change button to Done
-            self.isEditing = true
+            isEditing = true
             setBarButtonItem = UIBarButtonSystemItem.done
         }
         else {
             // If user presses Done, change button to Edit and delete the recipes
-            self.isEditing = false
+            isEditing = false
             setBarButtonItem = UIBarButtonSystemItem.edit
-            self.deleteRecipes(recipeIds: self.recipeIdsToDelete)
         }
         
         // Set editing
@@ -270,7 +266,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         // Update current bar button and clear recipes to delete array
         self.currentLeftBarButtonItem = setBarButtonItem
-        self.recipeIdsToDelete = [Int]()
 
     }
 
@@ -292,6 +287,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             print("No recipes to delete")
             return
         }
+        
+        print("deleting recipes")
+        return
         
         // Create json object
         var json:[String:[Int]] = [String:[Int]]()
@@ -427,7 +425,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return isEditing
+        return true
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
@@ -438,8 +436,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if editingStyle == UITableViewCellEditingStyle.delete {
             let recipeToDelete = self.recipesToDisplay[indexPath.row]
             
-            // Add to recipes to delete array
-            self.recipeIdsToDelete.append(recipeToDelete.recipeId)
+            self.deleteRecipes(recipeIds: [recipeToDelete.recipeId])
             
             // remove from recipes array
             let index = self.recipes.index(of: recipeToDelete)
