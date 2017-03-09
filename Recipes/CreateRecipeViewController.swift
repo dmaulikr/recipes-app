@@ -245,6 +245,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         self.contentViewHeightConstraint.constant += self.defaultTableRowHeight
         
         self.ingredients.append(self.ingredientTextField.text!)
+        self.ingredientTextField.text = ""
         self.ingredientsTableView.reloadData()
     }
     
@@ -264,6 +265,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         self.contentViewHeightConstraint.constant += self.defaultTableRowHeight
         
         self.instructions.append(self.instructionTextField.text!)
+        self.instructionTextField.text = ""
         self.instructionsTableView.reloadData()
         
     }

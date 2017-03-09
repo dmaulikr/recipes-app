@@ -203,6 +203,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" id="xk3-BR-552"/>
                                                 </constraints>
+                                                <color key="separatorColor" red="0.01176470588" green="0.1058823529" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="instructionCell" id="d2k-J4-Kve">
                                                         <rect key="frame" x="0.0" y="28" width="300" height="44"/>
