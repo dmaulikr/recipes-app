@@ -34,7 +34,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
         self.activityIndicator.startAnimating()
         
@@ -154,23 +153,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     
             }
             
-            self.loadRecipeImages()
-            
             // Update the recipe image in the main thread
             DispatchQueue.main.async {
-                print("displaying recipes")
-                
-                // Handle either initial load(activity indicator) or user refresh (refresh control)
-                self.activityIndicator.stopAnimating()
-                self.refreshControl.endRefreshing()
-                
-                // Adjust the table view and display data
-                self.tableViewHeightConstraint.constant = CGFloat(self.recipes.count) * self.defaultTableRowHeight
-                self.recipesToDisplay = self.recipes
-                self.recipesTableView.reloadData()
-                
-                // Display labels and icons appropriately
-                self.displayLabels()
+                self.loadRecipeImages()
             }
         }
         
@@ -182,7 +167,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func loadRecipeImages() {
         
         // Create queue for running the download tasks in parallel
-        let queue:OperationQueue = OperationQueue()
+        let queue = DispatchQueue(label: "test", qos: .userInitiated, attributes: .concurrent)
+        
+        // Implements semaphore to figure out when all tasks in queue are done
+        let group = DispatchGroup()
         
         let session:URLSession = URLSession.shared
         let domainName:String = "http://iosrecipes.com/"
@@ -195,9 +183,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 continue
             }
             
+            // Increase semaphore
+            group.enter()
+            
             // Add a download task for each recipe image
-            queue.addOperation { () -> Void in
-                
+            queue.async(group: group, execute: {
                 // Create request to download image
                 let url:URL? = URL(string: domainName + recipe.imageUrl)
                 let imageRequest:URLRequest = URLRequest(url: url!)
@@ -216,19 +206,32 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         print("Status code = " + String(httpResponse.statusCode))
                     }
                     
-                    // Update the recipe image in the main thread
-                    DispatchQueue.main.async {
-                        self.recipes[i].image = UIImage(data: data!)
-                        
-                    }
+                    self.recipes[i].image = UIImage(data: data!)
+                    print("loaded image")
+                    
+                    // Decrease semaphore
+                    group.leave()
                 })
                 
                 task.resume()
-            }
+            })
         }
         
-        queue.waitUntilAllOperationsAreFinished()
-        print("done loading images")
+        group.notify(queue: DispatchQueue.main) {
+            print("done loading images, displaying recipes")
+            
+            // Handle either initial load(activity indicator) or user refresh (refresh control)
+            self.activityIndicator.stopAnimating()
+            self.refreshControl.endRefreshing()
+            
+            // Adjust the table view and display data
+            self.tableViewHeightConstraint.constant = CGFloat(self.recipes.count) * self.defaultTableRowHeight
+            self.recipesToDisplay = self.recipes
+            self.recipesTableView.reloadData()
+            
+            // Display labels and icons appropriately
+            self.displayLabels()
+        }
     }
     
     
