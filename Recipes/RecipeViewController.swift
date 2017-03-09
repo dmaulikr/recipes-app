@@ -37,23 +37,16 @@ class RecipeViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         
+        // Set content height
+        let screenSize: CGRect = UIScreen.main.bounds
+        self.contentViewHeightConstraint.constant = screenSize.height
+
         // Set delegates
         self.ingredientsTableView.delegate = self
         self.ingredientsTableView.dataSource = self
         self.instructionsTableView.delegate = self
         self.instructionsTableView.dataSource = self
-        
-        // Set content height
-        let screenSize: CGRect = UIScreen.main.bounds
-        self.contentViewHeightConstraint.constant = screenSize.height
-        
-        // Set nav bar colors
-        self.navigationController?.navigationBar.barTintColor = DefaultColors.darkBlueColor
-        self.navigationController?.navigationBar.tintColor = UIColor.white
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
         // Set table view backgrounds to clear
         self.ingredientsTableView.backgroundColor = UIColor.clear
@@ -76,9 +69,11 @@ class RecipeViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             let numIngredients:Int = (self.recipe?.ingredients.count)!
             self.ingredientsTableHeightConstraint.constant = CGFloat(numIngredients) * self.defaultTableRowHeight
+            self.contentViewHeightConstraint.constant += self.ingredientsTableHeightConstraint.constant
             
             let numInstructions:Int = (self.recipe?.instructions.count)!
             self.instructionsTableHeightConstraint.constant = CGFloat(numInstructions) * self.defaultTableRowHeight
+            self.contentViewHeightConstraint.constant += self.instructionsTableHeightConstraint.constant
             
             self.ingredientsTableView.reloadData()
             self.instructionsTableView.reloadData()

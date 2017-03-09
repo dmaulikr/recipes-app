@@ -81,8 +81,6 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         
         // Set table view backgrounds to clear
         self.ingredientsTableView.backgroundColor = UIColor.clear
