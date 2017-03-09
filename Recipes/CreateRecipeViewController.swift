@@ -29,6 +29,10 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var recipeImageHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var recipeFiltersHeightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var descriptionViewHeightConstraint: NSLayoutConstraint!
+    
+    
     @IBOutlet weak var ingredientsTableHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var instructionsTableHeightConstraint: NSLayoutConstraint!
     
@@ -267,11 +271,6 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     
     @IBAction func editInstructionClicked(_ sender: UIButton) {
         self.instructionsTableView.isEditing = !self.instructionsTableView.isEditing
-    }
-    
-    
-    @IBAction func cancelRecipeClicked(_ sender: UIBarButtonItem) {
-        self.presentNavigationController()
     }
     
     
@@ -673,11 +672,17 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.isEmpty {
+        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
             textView.text = self.textViewPlaceholder
             textView.font = UIFont.italicSystemFont(ofSize: UIFont.systemFontSize)
             textView.textColor = UIColor.lightGray
         }
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        let fixedWidth:CGFloat = textView.frame.size.width
+        let newSize:CGSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
+        self.descriptionViewHeightConstraint.constant = newSize.height
     }
     
     // MARK: - Fusama delegate methods

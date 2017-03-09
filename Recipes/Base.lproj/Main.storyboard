@@ -84,10 +84,10 @@
                                                 <nil key="highlightedColor"/>
                                                 <color key="shadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             </label>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="scS-gf-0Tx" userLabel="Desciption Text View">
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="scS-gf-0Tx" userLabel="Desciption Text View">
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="50" id="0sN-9c-nhI"/>
+                                                    <constraint firstAttribute="height" constant="30" id="0sN-9c-nhI"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -332,6 +332,7 @@
                         <outlet property="activityIndicator" destination="bdJ-gX-T2F" id="nYw-wg-bec"/>
                         <outlet property="contentViewHeightConstraint" destination="Ew1-YX-PES" id="CVB-Kg-R2v"/>
                         <outlet property="descriptionTextView" destination="scS-gf-0Tx" id="pvN-fm-EDF"/>
+                        <outlet property="descriptionViewHeightConstraint" destination="0sN-9c-nhI" id="bxl-yy-TdW"/>
                         <outlet property="ingredientTextField" destination="Vln-g7-Uqx" id="NDg-WQ-QHS"/>
                         <outlet property="ingredientsTableHeightConstraint" destination="GbZ-xR-QGA" id="XE8-vL-3JR"/>
                         <outlet property="ingredientsTableView" destination="N1S-mS-tdH" id="DJS-KG-xjh"/>
