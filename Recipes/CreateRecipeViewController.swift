@@ -42,7 +42,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     let editRecipeUrl:String = "http://iosrecipes.com/editRecipe.php"
     let updateRecipeUrl:String = "http://iosrecipes.com/updateRecipe.php"
     let defaultTableRowHeight:CGFloat = 50
-    let textViewPlaceholder:String = "Add description"
+    let textViewPlaceholder:String = "Add description ..."
     
     // Member variables to be set before presenting view if editing a recipe
     var editingRecipe:Bool = false

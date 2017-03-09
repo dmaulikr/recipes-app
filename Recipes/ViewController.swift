@@ -154,7 +154,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     
             }
             
-            self.getRecipeImages()
+            self.loadRecipeImages()
+            
+            // Update the recipe image in the main thread
+            DispatchQueue.main.async {
+                print("displaying recipes")
+                
+                // Handle either initial load(activity indicator) or user refresh (refresh control)
+                self.activityIndicator.stopAnimating()
+                self.refreshControl.endRefreshing()
+                
+                // Adjust the table view and display data
+                self.tableViewHeightConstraint.constant = CGFloat(self.recipes.count) * self.defaultTableRowHeight
+                self.recipesToDisplay = self.recipes
+                self.recipesTableView.reloadData()
+                
+                // Display labels and icons appropriately
+                self.displayLabels()
+            }
         }
         
         // Run the task
@@ -162,7 +179,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-    func getRecipeImages() {
+    func loadRecipeImages() {
         
         // Create queue for running the download tasks in parallel
         let queue:OperationQueue = OperationQueue()
@@ -211,18 +228,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         queue.waitUntilAllOperationsAreFinished()
-        
-        // Handle either initial load(activity indicator) or user refresh (refresh control)
-        self.activityIndicator.stopAnimating()
-        self.refreshControl.endRefreshing()
-        
-        // Adjust the table view and display data
-        self.tableViewHeightConstraint.constant = CGFloat(self.recipes.count) * self.defaultTableRowHeight
-        self.recipesToDisplay = self.recipes
-        self.recipesTableView.reloadData()
-        
-        // Display labels and icons appropriately
-        self.displayLabels()
+        print("done loading images")
     }
     
     
