@@ -259,14 +259,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     
     @IBAction func addButtonClicked(_ sender: UIBarButtonItem) {
-        
-        // Instantiate view controller for creating new recipes
-        let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let newRecipeVC:UIViewController = storyBoard.instantiateViewController(withIdentifier: "createRecipeController")
-        
-        // Present view controller
-        self.present(newRecipeVC, animated: true, completion: nil)
-        
+        self.performSegue(withIdentifier: "createRecipe", sender: self)
     }
     
     func deleteRecipes(recipeIds:[Int]) {
@@ -277,7 +270,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         print("deleting recipes")
-        return
         
         // Create json object
         var json:[String:[Int]] = [String:[Int]]()
@@ -344,8 +336,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Initialize recipe object for RecipeViewController
-        let recipeVC:RecipeViewController = segue.destination as! RecipeViewController
-        recipeVC.recipe = self.selectedRecipe
+        if segue.identifier == "toRecipeView" {
+            let recipeVC:RecipeViewController = segue.destination as! RecipeViewController
+            recipeVC.recipe = self.selectedRecipe
+        }
     }
     
     // MARK: - Search Bar Delegate methods

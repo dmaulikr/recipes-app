@@ -94,17 +94,16 @@ class RecipeViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @IBAction func editClicked(_ sender: UIBarButtonItem) {
-        // Instantiate view controller for creating new recipes
-        let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let editRecipeVC:CreateRecipeViewController = storyBoard.instantiateViewController(withIdentifier: "createRecipeController") as! CreateRecipeViewController
-        
-        // Initialize recipe to edit
-        editRecipeVC.recipeToEdit = self.recipe
-        editRecipeVC.editingRecipe = true
-        
-        // Present view 
-        self.present(editRecipeVC, animated: true, completion: nil)
-        
+        self.performSegue(withIdentifier: "editRecipe", sender: self)        
+    }
+    
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "editRecipe" {
+            let createRecipeVC = segue.destination as! CreateRecipeViewController
+            createRecipeVC.recipeToEdit = self.recipe
+            createRecipeVC.editingRecipe = true
+        }
     }
     
     
