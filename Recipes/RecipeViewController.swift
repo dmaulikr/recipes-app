@@ -33,7 +33,7 @@ class RecipeViewController: UIViewController, UITableViewDelegate, UITableViewDa
     let defaultTableRowHeight:CGFloat = 50
     
     // Recipe object to be initialized before view is presented
-    var recipe:Recipe?
+    var recipe:Recipe?        
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,8 +77,7 @@ class RecipeViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             self.ingredientsTableView.reloadData()
             self.instructionsTableView.reloadData()
-            self.view.layoutIfNeeded()
-                        
+            
         }
         
     }
