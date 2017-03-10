@@ -562,7 +562,11 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         
         if let output = filter?.value(forKey: kCIOutputImageKey) as? CIImage {
             let cgimgresult = context.createCGImage(output, from: output.extent)
-            let filteredImage = UIImage(cgImage: cgimgresult!)
+            
+            // Initialize with original image orientation since the filtering can change it sometimes
+            let originalOrientation:UIImageOrientation = (imageToFilter.image?.imageOrientation)!
+            let filteredImage = UIImage(cgImage: cgimgresult!, scale: 1.0, orientation: originalOrientation)
+            
             imageToFilter.image = filteredImage
         }
         
