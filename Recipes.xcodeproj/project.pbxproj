@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D06C62A1E724E1900B5EAC7 /* ButtonWithRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D06C6291E724E1900B5EAC7 /* ButtonWithRecipe.swift */; };
 		8D0BF8751E1CA20100C3B563 /* DefaultColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0BF8741E1CA20100C3B563 /* DefaultColors.swift */; };
 		8D0BF87D1E216AB500C3B563 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0BF87C1E216AB500C3B563 /* Extensions.swift */; };
 		8D0BF8831E2D6B7400C3B563 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D0BF87F1E2D6B7300C3B563 /* Bolts.framework */; };
@@ -29,6 +30,7 @@
 
 /* Begin PBXFileReference section */
 		701DC4A84E39966D9FF7204F /* Pods_Recipes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Recipes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D06C6291E724E1900B5EAC7 /* ButtonWithRecipe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonWithRecipe.swift; sourceTree = "<group>"; };
 		8D0BF8741E1CA20100C3B563 /* DefaultColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultColors.swift; sourceTree = "<group>"; };
 		8D0BF87C1E216AB500C3B563 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		8D0BF87F1E2D6B7300C3B563 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 				8D0BF88A1E2F071C00C3B563 /* CurrentUser.swift */,
 				8D0BF8741E1CA20100C3B563 /* DefaultColors.swift */,
 				8D0BF87C1E216AB500C3B563 /* Extensions.swift */,
+				8D06C6291E724E1900B5EAC7 /* ButtonWithRecipe.swift */,
 				8D8402531DD4D14F009BBA62 /* Recipe.swift */,
 				8D8402451DD4D0E7009BBA62 /* Main.storyboard */,
 				8D8402481DD4D0E7009BBA62 /* Assets.xcassets */,
@@ -263,6 +266,7 @@
 				8D8402541DD4D14F009BBA62 /* Recipe.swift in Sources */,
 				8D9B15A91DD62BBE00855D3B /* CreateRecipeViewController.swift in Sources */,
 				8D8402441DD4D0E7009BBA62 /* ViewController.swift in Sources */,
+				8D06C62A1E724E1900B5EAC7 /* ButtonWithRecipe.swift in Sources */,
 				8D0BF8751E1CA20100C3B563 /* DefaultColors.swift in Sources */,
 				8D0BF8881E2D721A00C3B563 /* LoginViewController.swift in Sources */,
 				8D8402421DD4D0E7009BBA62 /* AppDelegate.swift in Sources */,

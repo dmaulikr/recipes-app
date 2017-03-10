@@ -29,6 +29,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var recipes:[Recipe] = [Recipe]()
     var recipesToDisplay:[Recipe] = [Recipe]()
     var selectedRecipe:Recipe?
+    var addImageClicked:Bool = false
     var currentLeftBarButtonItem:UIBarButtonSystemItem = UIBarButtonSystemItem.edit
     var refreshControl:UIRefreshControl = UIRefreshControl()
     
@@ -37,7 +38,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         self.activityIndicator.startAnimating()
         
-        // Pull to refresh 
+        // Pull to refresh
         refreshControl.addTarget(self, action: #selector(ViewController.handleRefresh), for: UIControlEvents.valueChanged)
         self.recipesTableView.addSubview(refreshControl)
         self.recipesTableView.backgroundColor = UIColor.clear
@@ -49,11 +50,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.searchBar.delegate = self
         self.recipesTableView.delegate = self
         self.recipesTableView.dataSource = self
-        
-        // Assign function handlers for nav bar buttons
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: #selector(self.leftBarButtonClicked(_:)))
-        
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(self.addButtonClicked(_:)))
         
         // Dismiss keyboard when user taps outside
         self.hideKeyboardWhenTappedAround()
@@ -266,8 +262,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     }
 
+    @IBAction func addRecipeButtonClicked(_ sender: UIBarButtonItem) {
+        // Specify we are not coming from an add image click for prepare(for segue) func
+        self.addImageClicked = false
+        self.performSegue(withIdentifier: "createRecipe", sender: self)
+    }
     
-    @IBAction func addButtonClicked(_ sender: UIBarButtonItem) {
+    @IBAction func addImageClicked(buttonWithRecipe:ButtonWithRecipe) {
+        // Need to set data used by prepare(for segue) func
+        self.selectedRecipe = buttonWithRecipe.associatedRecipe
+        self.addImageClicked = true
         self.performSegue(withIdentifier: "createRecipe", sender: self)
     }
     
@@ -330,6 +334,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         task.resume()
     }
     
+    // MARK: - Utility functions
+    
     func displayLabels() {
         if self.recipes.count > 0 {
             self.noRecipesLabel.alpha = 0
@@ -348,6 +354,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if segue.identifier == "toRecipeView" {
             let recipeVC:RecipeViewController = segue.destination as! RecipeViewController
             recipeVC.recipe = self.selectedRecipe
+        }
+        else if self.addImageClicked && segue.identifier == "createRecipe" {
+            // Only want to pass in a recipe to edit if the user clicked the add image button
+            let createRecipeVC = segue.destination as! CreateRecipeViewController
+            createRecipeVC.recipeToEdit = self.selectedRecipe
+            createRecipeVC.editingRecipe = true
         }
     }
     
@@ -396,17 +408,27 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let recipe:Recipe = self.recipesToDisplay[indexPath.row]
         
         // Initialize label text with recipe name
-        let label:UILabel? = cell.viewWithTag(1) as! UILabel?
-        if let unwrappedLabel = label {
-            unwrappedLabel.text = recipe.name
+        let label:UILabel = cell.viewWithTag(1) as! UILabel
+        label.text = recipe.name
+        
+        if let image = self.recipesToDisplay[indexPath.row].image {
+            let imageView:UIImageView = cell.viewWithTag(2) as! UIImageView
+            imageView.image = image
+            
+            let addImageButton:UIButton = cell.viewWithTag(3) as! UIButton
+            addImageButton.alpha = 0
+        }
+        else {
+            let addImageButton:ButtonWithRecipe = cell.viewWithTag(3) as! ButtonWithRecipe
+            addImageButton.associatedRecipe = self.recipesToDisplay[indexPath.row]
+            addImageButton.addTarget(self, action: #selector(self.addImageClicked(buttonWithRecipe:)), for: UIControlEvents.touchUpInside)
         }
                 
         return cell
-        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // Present Recipe details for the one selected
+        // Need to set selected recipe for prepare(for segue) function
         self.selectedRecipe = self.recipesToDisplay[indexPath.row]
         self.performSegue(withIdentifier: "toRecipeView", sender: self)
     }
