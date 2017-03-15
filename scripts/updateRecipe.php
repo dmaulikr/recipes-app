@@ -13,6 +13,41 @@ const INSERT_INSTRUCTIONS_SQL = "INSERT INTO " . Constants::RECIPE_INSTRUCTIONS_
 const DELETE_INGREDIENTS_SQL = "UPDATE " . Constants::RECIPE_INGREDIENTS_TABLE . " SET deleted = true WHERE ingredient_id IN (?)";
 const DELETE_INSTRUCTION_SQL = "UPDATE " . Constants::RECIPE_INSTRUCTIONS_TABLE . " SET deleted = true WHERE instruction_id IN (?)";
 
+const GET_RECIPE_IMAGE_SQL = "SELECT image_id from " . Constants::RECIPES_TABLE . " where recipe_id = ?";
+
+function get_current_recipe_image($conn, $recipe_id) {
+	// Check if recipe used to have an image
+	$current_image_ps = $conn->prepare(GET_RECIPE_IMAGE_SQL);
+	$current_image_ps->bind_param("i", $recipe_id);
+
+	if(!$current_image_ps->execute()) {
+		die("error checking for recipe image: " . $current_image_ps->error);
+	}
+
+	$current_image_id;
+	$current_image_ps->bind_result($recipe_image_id);
+	while($current_image_ps->fetch()) {
+		// will only be one result
+		$current_image_id = $recipe_image_id;	
+	}
+	return $current_image_id;
+}
+
+function delete_recipe_image($conn, $recipe_id, $image_id) {
+	$delete_image_sql = "UPDATE " . Constants::IMAGES_TABLE . " SET deleted = true where image_id = " . $image_id;
+	echo $delete_image_sql;
+	if(!$conn->query($delete_image_sql)) {
+		die("Couldn't delete from images table: " . $conn->error);
+	}
+
+	$delete_recipe_image_sql = "UPDATE " . Constants::RECIPES_TABLE . " SET image_id = NULL where recipe_id = " . $recipe_id;
+	if(!$conn->query($delete_recipe_image_sql)) {
+		die("Couldn't delete image from recipes table: " . $conn->error);
+	}
+
+	echo "deleted old image";
+}
+
 // Create connection to sql
 $conn = mysqli_connect(Constants::SERVER_NAME, Constants::USER_NAME, Constants::PASSWORD); 
 
@@ -33,26 +68,19 @@ $ingredients = ($json["ingredients"] == "") ? array() : $json["ingredients"];
 $instructions = ($json["instructions"] == "") ? array() : $json["instructions"];
 $ingredient_to_id_map = ($json["ingredient_to_id_map"] == "") ? array() : $json["ingredient_to_id_map"];
 $instruction_to_id_map = ($json["instruction_to_id_map"] == "") ? array() : $json["instruction_to_id_map"];
-$image_id = ($json["image_id"] == "") ? null : $json["image_id"];
 
 $ingredients_to_delete = ($json["ingredients_to_delete"] == "") ? array() : $json["ingredients_to_delete"];
 $instructions_to_delete = ($json["instructions_to_delete"] == "") ? array() : $json["instructions_to_delete"];
+
+$new_image_id = ($json["new_image_id"] == "") ? null : $json["new_image_id"];
+$delete_image = ($json["delete_image"] == "") ? false : $json["delete_image"];
 
 // Begin transaction
 $conn->begin_transaction(MYSQLI_TRANS_START_READ_WRITE);
 
 // Initialize prepared statement for updating recipes table
-$update_recipe_sql_ps = "";
-if(is_null($image_id)) {
-	// If theres no image, just update recipe name and description
-	$update_recipe_sql_ps = $conn->prepare(UPDATE_RECIPE_SQL);
-	$update_recipe_sql_ps->bind_param("ssi", $recipe_name, $recipe_description, $recipe_id);
-}
-else {
-	// If there is an image, update image id as well
-	$update_recipe_sql_ps = $conn->prepare(UPDATE_RECIPE_SQL_WITH_IMAGE);
-	$update_recipe_sql_ps->bind_param("ssii", $recipe_name, $recipe_description, $image_id, $recipe_id);
-}
+$update_recipe_sql_ps = $conn->prepare(UPDATE_RECIPE_SQL);
+$update_recipe_sql_ps->bind_param("ssi", $recipe_name, $recipe_description, $recipe_id);
 
 // Update recipes table
 if($update_recipe_sql_ps->execute()) {
@@ -60,6 +88,25 @@ if($update_recipe_sql_ps->execute()) {
 }
 else {
 	die("Error updating recipe: " . $update_recipe_sql_ps->error);
+}
+
+// If a new image id is provided, delete any existing one and save the new one
+if($new_image_id) {
+	$current_image_id = get_current_recipe_image($conn, $recipe_id);
+	if(!is_null($current_image_id)) {
+		delete_recipe_image($conn, $recipe_id, $current_image_id);
+	}
+
+	$updated_recipe_image_sql = "UPDATE " . Constants::RECIPES_TABLE . " SET image_id = " . $new_image_id . " where recipe_id = " . $recipe_id;
+	$conn->query($updated_recipe_image_sql);
+	if($conn->error) {
+		die("Couldn't updated image in recipes table: " . $conn->error);		
+	}
+}
+else if ($delete_image) {	
+	// If user only wants to delete image
+	$current_image_id = get_current_recipe_image($conn, $recipe_id);
+	delete_recipe_image($conn, $recipe_id, $current_image_id);
 }
 
 // Update ingredients
@@ -175,8 +222,7 @@ if(count($instructions_to_delete) > 0) {
 	if(!$conn->query($delete_instructions_sql)) {
 		die("Error deleting recipe instructions: " . $conn-> error);
 	}
-}
-
+}	
 
 // End transaction
 $conn->commit();

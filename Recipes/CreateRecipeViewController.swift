@@ -29,10 +29,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var recipeImageHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var recipeFiltersHeightConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var descriptionViewHeightConstraint: NSLayoutConstraint!
-    
-    
     @IBOutlet weak var ingredientsTableHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var instructionsTableHeightConstraint: NSLayoutConstraint!
     
@@ -60,6 +57,10 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     var instructionIdsToDelete:[Int] = [Int]()
     
     var activeTextField:UITextField?
+    
+    // Flag to figure out how to save image
+    var newRecipeImageSelected:Bool = false
+    var imageDeleted:Bool = false
     
     let filtersToIntensity:[String:Float?] = [
         "CIPhotoEffectChrome" : nil,
@@ -218,6 +219,13 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             
             self.contentViewHeightConstraint.constant -= self.recipeFiltersHeightConstraint.constant
             self.recipeFiltersHeightConstraint.constant = 0
+            
+            if self.editingRecipe && self.recipeToEdit?.image != nil {
+                self.imageDeleted = true
+            }
+            
+            self.newRecipeImageSelected = false
+
         })
         
         
@@ -278,11 +286,17 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         
         self.activityIndicator.startAnimating()
         
-        // If no image, just save the recipe data
-        if self.recipeImageView == nil || self.recipeImageView.image == nil {
-            self.saveRecipeData(imageId: nil)
+        if self.recipeImageView.image == nil {
+            saveRecipeData(imageId: nil)
             return
         }
+        
+        if !self.newRecipeImageSelected {
+            saveRecipeData(imageId: nil)
+            return
+        }
+        
+        print("saving image")
         
         // Otherwise, we want to save the image and then save the recipe data on success
         
@@ -385,7 +399,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             
         }
         
-        // Save the recipeId if this is recipe is being edited
+        // Save the recipeId if this recipe is being edited
         if self.editingRecipe && self.recipeToEdit != nil {
             recipe.recipeId = (self.recipeToEdit?.recipeId)!
         }
@@ -403,13 +417,21 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
                 "instructions" : recipe.instructions as AnyObject,
                 "ingredient_to_id_map" : recipe.ingredientToIdMap as AnyObject,
                 "instruction_to_id_map" : recipe.instructionToIdMap as AnyObject,
-                "image_id" : "" as AnyObject,
                 "ingredients_to_delete" : self.ingredientIdsToDelete as AnyObject,
-                "instructions_to_delete" : self.instructionIdsToDelete as AnyObject
+                "instructions_to_delete" : self.instructionIdsToDelete as AnyObject,
+                "image_id" : "" as AnyObject
             ]
             
             if imageId != nil {
                 json["image_id"] = imageId! as AnyObject
+            }
+            
+            if self.editingRecipe  {
+                json["new_image_id"] = "" as AnyObject
+                if imageId != nil {
+                    json["new_image_id"] = imageId! as AnyObject
+                }
+                json["delete_image"] = self.imageDeleted as AnyObject?
             }
             
             data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
@@ -576,6 +598,11 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     func imageFilterTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         let tappedImage = tapGestureRecognizer.view as! UIImageView
         self.recipeImageView.image = tappedImage.image
+        
+        // Handles the case where a user is editing a recipe and clicks on a new filter
+        // Not handling special case where user clicks on same filter as original
+        // because we're not keeping track of the original filter at all
+        self.newRecipeImageSelected = true
     }
     
     // MARK: - Keyboard functions
@@ -691,6 +718,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     
     // MARK: - Fusama delegate methods
     func fusumaImageSelected(_ image: UIImage, source: FusumaMode) {
+        self.newRecipeImageSelected = true
         addImageToView(image: image)
     }
     
