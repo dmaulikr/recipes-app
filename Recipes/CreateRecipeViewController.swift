@@ -220,10 +220,12 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             self.contentViewHeightConstraint.constant -= self.recipeFiltersHeightConstraint.constant
             self.recipeFiltersHeightConstraint.constant = 0
             
+            // If editing and started with a recipe, user deleted it
             if self.editingRecipe && self.recipeToEdit?.image != nil {
                 self.imageDeleted = true
             }
             
+            // Whether the user is editing or not, there's no new image
             self.newRecipeImageSelected = false
 
         })
@@ -286,13 +288,9 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         
         self.activityIndicator.startAnimating()
         
-        if self.recipeImageView.image == nil {
-            saveRecipeData(imageId: nil)
-            return
-        }
-        
-        if !self.newRecipeImageSelected {
-            saveRecipeData(imageId: nil)
+        // If no image, or it's not a new one, just save the data
+        if self.recipeImageView.image == nil || !self.newRecipeImageSelected {
+            saveRecipeData(imageId: nil, updateExistingRecipe: self.editingRecipe, deleteImage: self.imageDeleted)
             return
         }
         
@@ -354,7 +352,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             
             // Go back to ViewController
             DispatchQueue.main.async {
-                self.saveRecipeData(imageId: imageId)
+                self.saveRecipeData(imageId: imageId, updateExistingRecipe: self.editingRecipe, deleteImage: false)
             }
             
         })
@@ -362,7 +360,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         saveImageTask.resume()
     }
     
-    func saveRecipeData(imageId:Int?) {
+    func saveRecipeData(imageId:Int?, updateExistingRecipe: Bool, deleteImage:Bool) {
         
         // Create recipe object to save
         let recipe:Recipe = Recipe()
@@ -399,39 +397,36 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             
         }
         
-        // Save the recipeId if this recipe is being edited
-        if self.editingRecipe && self.recipeToEdit != nil {
-            recipe.recipeId = (self.recipeToEdit?.recipeId)!
-        }
-        
         // Save the recipe as a json data object
         var data:Data?
         do {
             
             var json:[String:AnyObject] = [
                 "fb_user_id" : CurrentUser.userId as AnyObject,
-                "recipe_id" : recipe.recipeId as AnyObject,
                 "name" : recipe.name as AnyObject,
                 "description" : recipe.recipeDescription as AnyObject,
                 "ingredients" : recipe.ingredients as AnyObject,
-                "instructions" : recipe.instructions as AnyObject,
-                "ingredient_to_id_map" : recipe.ingredientToIdMap as AnyObject,
-                "instruction_to_id_map" : recipe.instructionToIdMap as AnyObject,
-                "ingredients_to_delete" : self.ingredientIdsToDelete as AnyObject,
-                "instructions_to_delete" : self.instructionIdsToDelete as AnyObject,
-                "image_id" : "" as AnyObject
+                "instructions" : recipe.instructions as AnyObject
             ]
             
-            if imageId != nil {
-                json["image_id"] = imageId! as AnyObject
-            }
-            
-            if self.editingRecipe  {
+            if updateExistingRecipe  {
+                json["recipe_id"] = (self.recipeToEdit?.recipeId)! as AnyObject
+                json["ingredient_to_id_map"] = recipe.ingredientToIdMap as AnyObject
+                json["instruction_to_id_map"] = recipe.instructionToIdMap as AnyObject
+                json["ingredients_to_delete"] = self.ingredientIdsToDelete as AnyObject
+                json["instructions_to_delete"] = self.instructionIdsToDelete as AnyObject
+                
                 json["new_image_id"] = "" as AnyObject
                 if imageId != nil {
                     json["new_image_id"] = imageId! as AnyObject
                 }
-                json["delete_image"] = self.imageDeleted as AnyObject?
+                json["delete_image"] = deleteImage as AnyObject?
+            }
+            else {
+                json["image_id"] = "" as AnyObject
+                if imageId != nil {
+                    json["image_id"] = imageId! as AnyObject
+                }
             }
             
             data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
@@ -444,7 +439,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
 
         // Create url object
         var url:URL?
-        if self.editingRecipe {
+        if updateExistingRecipe {
             url = URL(string: self.updateRecipeUrl)!
         }
         else {
