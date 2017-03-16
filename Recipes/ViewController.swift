@@ -36,7 +36,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.activityIndicator.startAnimating()
+        self.startActivityIndicators()
         
         // Pull to refresh
         refreshControl.addTarget(self, action: #selector(ViewController.handleRefresh), for: UIControlEvents.valueChanged)
@@ -217,7 +217,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             print("done loading images, displaying recipes")
             
             // Handle either initial load(activity indicator) or user refresh (refresh control)
-            self.activityIndicator.stopAnimating()
+            self.endActivityIndicators()
             self.refreshControl.endRefreshing()
             
             // Adjust the table view and display data
@@ -345,6 +345,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.noRecipesLabel.alpha = 1
             self.getStartedLabel.alpha = 1
         }
+    }
+    
+    func startActivityIndicators() {
+        self.activityIndicator.startAnimating()
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+    }
+    
+    func endActivityIndicators() {
+        self.activityIndicator.stopAnimating()
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
 
 

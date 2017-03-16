@@ -307,7 +307,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     
     @IBAction func saveRecipeClicked(_ sender: UIBarButtonItem) {
         
-        self.activityIndicator.startAnimating()
+        self.startActivityIndicators()
         
         // If no image, or it's not a new one, just save the data
         if self.recipeImageView.image == nil || !self.newRecipeImageSelected {
@@ -496,7 +496,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             
             // Go back to ViewController
             DispatchQueue.main.async {
-                self.activityIndicator.stopAnimating()
+                self.endActivityIndicators()
                 self.presentNavigationController()
             }
             
@@ -508,6 +508,16 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     // MARK: - Utility functions
+    func startActivityIndicators() {
+        self.activityIndicator.startAnimating()
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+    }
+    
+    func endActivityIndicators() {
+        self.activityIndicator.stopAnimating()
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+    }
+    
     func isValidJSON(json: AnyObject) -> Bool {
         return JSONSerialization.isValidJSONObject(json)
     }
