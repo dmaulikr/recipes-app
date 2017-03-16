@@ -58,24 +58,26 @@
                                                 <nil key="highlightedColor"/>
                                                 <color key="shadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XTz-c9-LBm" userLabel="Add Image Button">
-                                                <rect key="frame" x="189.5" y="296" width="20" height="20"/>
+                                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XTz-c9-LBm" userLabel="Add Image Button">
+                                                <rect key="frame" x="189.5" y="291" width="25" height="25"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="20" id="SwO-Zb-Hzj"/>
-                                                    <constraint firstAttribute="height" constant="20" id="jae-5J-M2p"/>
+                                                    <constraint firstAttribute="width" constant="25" id="SwO-Zb-Hzj"/>
+                                                    <constraint firstAttribute="height" constant="25" id="jae-5J-M2p"/>
                                                 </constraints>
-                                                <state key="normal" backgroundImage="add-circular-outlined-button"/>
+                                                <state key="normal" backgroundImage="plus"/>
                                                 <connections>
                                                     <action selector="addImageClicked:" destination="6dR-iX-OMH" eventType="touchUpInside" id="ZhH-y5-Xg9"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="05W-WQ-zb7" userLabel="Delete Image Button">
-                                                <rect key="frame" x="224.5" y="298.5" width="15" height="15"/>
+                                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="05W-WQ-zb7" userLabel="Delete Image Button">
+                                                <rect key="frame" x="229.5" y="290.5" width="25" height="25"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="15" id="OXS-e4-yui"/>
-                                                    <constraint firstAttribute="width" constant="15" id="UTf-tv-YWB"/>
+                                                    <constraint firstAttribute="height" constant="25" id="OXS-e4-yui"/>
+                                                    <constraint firstAttribute="width" constant="25" id="UTf-tv-YWB"/>
                                                 </constraints>
-                                                <state key="normal" title="Button" image="delete"/>
+                                                <state key="normal" backgroundImage="round-remove-button">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="deleteImageClicked:" destination="6dR-iX-OMH" eventType="touchUpInside" id="xiC-mp-67P"/>
                                                 </connections>
@@ -124,21 +126,21 @@
                                                 <color key="shadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9vV-ff-3NA" userLabel="Add Ingredient Button">
-                                                <rect key="frame" x="177.5" y="638" width="20" height="20"/>
+                                                <rect key="frame" x="177.5" y="633" width="25" height="25"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="20" id="29l-Nl-qqT" userLabel="height = 20"/>
-                                                    <constraint firstAttribute="width" constant="20" id="VFI-eA-9kk" userLabel="width = 20"/>
+                                                    <constraint firstAttribute="height" constant="25" id="29l-Nl-qqT" userLabel="height = 20"/>
+                                                    <constraint firstAttribute="width" constant="25" id="VFI-eA-9kk" userLabel="width = 20"/>
                                                 </constraints>
-                                                <state key="normal" backgroundImage="add-circular-outlined-button"/>
+                                                <state key="normal" backgroundImage="plus"/>
                                                 <connections>
                                                     <action selector="addIngredientClicked:" destination="6dR-iX-OMH" eventType="touchUpInside" id="roH-H7-Pp7"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TV7-iA-uKD" userLabel="Edit Ingredient Button">
-                                                <rect key="frame" x="212.5" y="638" width="20" height="20"/>
+                                                <rect key="frame" x="217.5" y="632.5" width="25" height="25"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="20" id="mYN-P0-wKR"/>
-                                                    <constraint firstAttribute="width" constant="20" id="rLr-YG-OMP"/>
+                                                    <constraint firstAttribute="height" constant="25" id="mYN-P0-wKR"/>
+                                                    <constraint firstAttribute="width" constant="25" id="rLr-YG-OMP"/>
                                                 </constraints>
                                                 <state key="normal" backgroundImage="edit"/>
                                                 <connections>
@@ -163,7 +165,7 @@
                                                         <rect key="frame" x="0.0" y="28" width="300" height="44"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ixl-rO-CuT" id="fjl-wN-BQf">
-                                                            <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="300" height="43.5"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0mR-ER-6f3">
@@ -198,22 +200,21 @@
                                                 <color key="shadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R7X-pQ-0bX" userLabel="Add Instruction Button">
-                                                <rect key="frame" x="182.5" y="829" width="20" height="20"/>
+                                                <rect key="frame" x="182.5" y="824" width="25" height="25"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="20" id="kFo-xC-SOf"/>
-                                                    <constraint firstAttribute="height" constant="20" id="tp4-dz-rHc"/>
+                                                    <constraint firstAttribute="width" constant="25" id="kFo-xC-SOf"/>
+                                                    <constraint firstAttribute="height" constant="25" id="tp4-dz-rHc"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <state key="normal" backgroundImage="add-circular-outlined-button"/>
+                                                <state key="normal" backgroundImage="plus"/>
                                                 <connections>
                                                     <action selector="addInstructionClicked:" destination="6dR-iX-OMH" eventType="touchUpInside" id="5Gj-Ad-Ypq"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qqq-eh-sSy" userLabel="Edit Instruction Button">
-                                                <rect key="frame" x="217.5" y="829" width="20" height="20"/>
+                                                <rect key="frame" x="222.5" y="823.5" width="25" height="25"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="20" id="egj-nF-YfK"/>
-                                                    <constraint firstAttribute="width" constant="20" id="mBt-ag-Fmw"/>
+                                                    <constraint firstAttribute="height" constant="25" id="egj-nF-YfK"/>
+                                                    <constraint firstAttribute="width" constant="25" id="mBt-ag-Fmw"/>
                                                 </constraints>
                                                 <state key="normal" backgroundImage="edit"/>
                                                 <connections>
@@ -239,7 +240,7 @@
                                                         <rect key="frame" x="0.0" y="28" width="300" height="44"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="d2k-J4-Kve" id="2I3-L3-73s">
-                                                            <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="300" height="43.5"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OAV-XI-BVo">
@@ -314,8 +315,8 @@
                                             <constraint firstItem="qmj-Ho-fj8" firstAttribute="top" secondItem="ahA-Ij-Cl9" secondAttribute="bottom" constant="10" id="jEq-tS-ZA1"/>
                                             <constraint firstItem="CB8-Or-mDI" firstAttribute="top" secondItem="N1S-mS-tdH" secondAttribute="bottom" constant="45" id="jFI-tI-JmI"/>
                                             <constraint firstItem="Gep-DE-d7V" firstAttribute="top" secondItem="qmj-Ho-fj8" secondAttribute="bottom" constant="10" id="p2E-ln-G6M"/>
-                                            <constraint firstItem="XTz-c9-LBm" firstAttribute="top" secondItem="3nt-nT-t3v" secondAttribute="top" constant="10" id="paz-s9-AYr"/>
-                                            <constraint firstItem="9vV-ff-3NA" firstAttribute="top" secondItem="wIo-yo-gF5" secondAttribute="top" constant="10" id="pxQ-N3-SDU"/>
+                                            <constraint firstItem="XTz-c9-LBm" firstAttribute="top" secondItem="3nt-nT-t3v" secondAttribute="top" constant="5" id="paz-s9-AYr"/>
+                                            <constraint firstItem="9vV-ff-3NA" firstAttribute="top" secondItem="wIo-yo-gF5" secondAttribute="top" constant="5" id="pxQ-N3-SDU"/>
                                             <constraint firstAttribute="trailing" secondItem="unk-Ph-XX9" secondAttribute="trailing" id="rF8-z7-lPb"/>
                                             <constraint firstItem="N1S-mS-tdH" firstAttribute="top" secondItem="Vln-g7-Uqx" secondAttribute="bottom" constant="10" id="rGa-i1-6PI"/>
                                             <constraint firstAttribute="trailing" secondItem="scS-gf-0Tx" secondAttribute="trailing" constant="45" id="sTH-VP-vjc"/>
@@ -325,7 +326,7 @@
                                             <constraint firstAttribute="trailing" secondItem="Vln-g7-Uqx" secondAttribute="trailing" constant="45" id="vaE-P7-172"/>
                                             <constraint firstItem="9vV-ff-3NA" firstAttribute="centerY" secondItem="TV7-iA-uKD" secondAttribute="centerY" id="wMb-hZ-NTa"/>
                                             <constraint firstItem="CB8-Or-mDI" firstAttribute="leading" secondItem="yBS-Ff-u59" secondAttribute="leading" constant="25" id="waV-Nt-w4q"/>
-                                            <constraint firstItem="R7X-pQ-0bX" firstAttribute="top" secondItem="ahA-Ij-Cl9" secondAttribute="top" constant="10" id="yAw-I1-Le8"/>
+                                            <constraint firstItem="R7X-pQ-0bX" firstAttribute="top" secondItem="ahA-Ij-Cl9" secondAttribute="top" constant="5" id="yAw-I1-Le8"/>
                                             <constraint firstItem="cjx-RJ-nbd" firstAttribute="leading" secondItem="yBS-Ff-u59" secondAttribute="leading" id="yzu-BF-ihp"/>
                                         </constraints>
                                     </view>
@@ -384,7 +385,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="54K-Ov-K2w" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2438" y="913"/>
+            <point key="canvasLocation" x="2437.5999999999999" y="912.5937031484259"/>
         </scene>
         <!--All Recipes-->
         <scene sceneID="tne-QT-ifu">
@@ -438,7 +439,7 @@
                                                 <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0Xm-4B-yCR" id="Qyt-wa-WMr">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="99"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3MQ-cQ-O6K">
@@ -862,13 +863,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="add-circular-outlined-button" width="64" height="64"/>
         <image name="background" width="3144" height="4735"/>
         <image name="chef-hat" width="64" height="64"/>
         <image name="cutting-board-bg" width="2719" height="3058"/>
-        <image name="delete" width="64" height="64"/>
         <image name="edit" width="32" height="32"/>
         <image name="image-add-button" width="64" height="64"/>
+        <image name="plus" width="64" height="64"/>
+        <image name="round-remove-button" width="64" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="hJC-cX-W7K"/>
