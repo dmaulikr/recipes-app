@@ -411,15 +411,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let label:UILabel = cell.viewWithTag(1) as! UILabel
         label.text = recipe.name
         
+        // Since we're using a reusable cell, we need to clear any previous image that it had
+        let imageView:UIImageView = cell.viewWithTag(2) as! UIImageView
+        imageView.image = nil
+        
+        let addImageButton:ButtonWithRecipe = cell.viewWithTag(3) as! ButtonWithRecipe
+        addImageButton.alpha = 0
+        
         if let image = self.recipesToDisplay[indexPath.row].image {
-            let imageView:UIImageView = cell.viewWithTag(2) as! UIImageView
             imageView.image = image
-            
-            let addImageButton:UIButton = cell.viewWithTag(3) as! UIButton
-            addImageButton.alpha = 0
         }
         else {
-            let addImageButton:ButtonWithRecipe = cell.viewWithTag(3) as! ButtonWithRecipe
+            addImageButton.alpha = 1
             addImageButton.associatedRecipe = self.recipesToDisplay[indexPath.row]
             addImageButton.addTarget(self, action: #selector(self.addImageClicked(buttonWithRecipe:)), for: UIControlEvents.touchUpInside)
         }
