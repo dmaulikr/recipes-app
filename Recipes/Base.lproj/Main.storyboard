@@ -52,17 +52,17 @@
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Image" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3nt-nT-t3v" userLabel="Add Image Label">
-                                                <rect key="frame" x="45" y="286" width="129.5" height="49"/>
+                                                <rect key="frame" x="45" y="286" width="130" height="49"/>
                                                 <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="40"/>
                                                 <color key="textColor" red="0.01176470588" green="0.1058823529" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                                 <color key="shadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XTz-c9-LBm" userLabel="Add Image Button">
-                                                <rect key="frame" x="189.5" y="291" width="25" height="25"/>
+                                                <rect key="frame" x="190" y="296" width="20" height="20"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="25" id="SwO-Zb-Hzj"/>
-                                                    <constraint firstAttribute="height" constant="25" id="jae-5J-M2p"/>
+                                                    <constraint firstAttribute="width" constant="20" id="SwO-Zb-Hzj"/>
+                                                    <constraint firstAttribute="height" constant="20" id="jae-5J-M2p"/>
                                                 </constraints>
                                                 <state key="normal" backgroundImage="plus"/>
                                                 <connections>
@@ -70,10 +70,10 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="05W-WQ-zb7" userLabel="Delete Image Button">
-                                                <rect key="frame" x="229.5" y="290.5" width="25" height="25"/>
+                                                <rect key="frame" x="225" y="296.5" width="20" height="20"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="25" id="OXS-e4-yui"/>
-                                                    <constraint firstAttribute="width" constant="25" id="UTf-tv-YWB"/>
+                                                    <constraint firstAttribute="height" constant="20" id="OXS-e4-yui"/>
+                                                    <constraint firstAttribute="width" constant="20" id="UTf-tv-YWB"/>
                                                 </constraints>
                                                 <state key="normal" backgroundImage="round-remove-button">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -119,17 +119,17 @@
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ingredients" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wIo-yo-gF5" userLabel="Ingredients Label">
-                                                <rect key="frame" x="45" y="628" width="117.5" height="49"/>
+                                                <rect key="frame" x="45" y="628" width="118" height="49"/>
                                                 <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="40"/>
                                                 <color key="textColor" red="0.01176470588" green="0.1058823529" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                                 <color key="shadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9vV-ff-3NA" userLabel="Add Ingredient Button">
-                                                <rect key="frame" x="177.5" y="633" width="25" height="25"/>
+                                                <rect key="frame" x="178" y="638" width="20" height="20"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="25" id="29l-Nl-qqT" userLabel="height = 20"/>
-                                                    <constraint firstAttribute="width" constant="25" id="VFI-eA-9kk" userLabel="width = 20"/>
+                                                    <constraint firstAttribute="height" constant="20" id="29l-Nl-qqT" userLabel="height = 20"/>
+                                                    <constraint firstAttribute="width" constant="20" id="VFI-eA-9kk" userLabel="width = 20"/>
                                                 </constraints>
                                                 <state key="normal" backgroundImage="plus"/>
                                                 <connections>
@@ -137,10 +137,10 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TV7-iA-uKD" userLabel="Edit Ingredient Button">
-                                                <rect key="frame" x="217.5" y="632.5" width="25" height="25"/>
+                                                <rect key="frame" x="213" y="637.5" width="20" height="20"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="25" id="mYN-P0-wKR"/>
-                                                    <constraint firstAttribute="width" constant="25" id="rLr-YG-OMP"/>
+                                                    <constraint firstAttribute="height" constant="20" id="mYN-P0-wKR"/>
+                                                    <constraint firstAttribute="width" constant="20" id="rLr-YG-OMP"/>
                                                 </constraints>
                                                 <state key="normal" backgroundImage="edit"/>
                                                 <connections>
@@ -193,17 +193,17 @@
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Instructions" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ahA-Ij-Cl9" userLabel="Instructions Label">
-                                                <rect key="frame" x="45" y="819" width="122.5" height="49"/>
+                                                <rect key="frame" x="45" y="819" width="123" height="49"/>
                                                 <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="40"/>
                                                 <color key="textColor" red="0.01176470588" green="0.1058823529" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                                 <color key="shadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R7X-pQ-0bX" userLabel="Add Instruction Button">
-                                                <rect key="frame" x="182.5" y="824" width="25" height="25"/>
+                                                <rect key="frame" x="183" y="829" width="20" height="20"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="25" id="kFo-xC-SOf"/>
-                                                    <constraint firstAttribute="height" constant="25" id="tp4-dz-rHc"/>
+                                                    <constraint firstAttribute="width" constant="20" id="kFo-xC-SOf"/>
+                                                    <constraint firstAttribute="height" constant="20" id="tp4-dz-rHc"/>
                                                 </constraints>
                                                 <state key="normal" backgroundImage="plus"/>
                                                 <connections>
@@ -211,14 +211,13 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qqq-eh-sSy" userLabel="Edit Instruction Button">
-                                                <rect key="frame" x="222.5" y="823.5" width="25" height="25"/>
+                                                <rect key="frame" x="218" y="829.5" width="20" height="20"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="25" id="egj-nF-YfK"/>
-                                                    <constraint firstAttribute="width" constant="25" id="mBt-ag-Fmw"/>
+                                                    <constraint firstAttribute="height" constant="20" id="egj-nF-YfK"/>
+                                                    <constraint firstAttribute="width" constant="20" id="mBt-ag-Fmw"/>
                                                 </constraints>
                                                 <state key="normal" backgroundImage="edit"/>
                                                 <connections>
-                                                    <action selector="editIngredientClicked:" destination="6dR-iX-OMH" eventType="touchUpInside" id="Ccu-66-Cgw"/>
                                                     <action selector="editInstructionClicked:" destination="6dR-iX-OMH" eventType="touchUpInside" id="1Q9-Bv-8hi"/>
                                                 </connections>
                                             </button>
@@ -315,8 +314,8 @@
                                             <constraint firstItem="qmj-Ho-fj8" firstAttribute="top" secondItem="ahA-Ij-Cl9" secondAttribute="bottom" constant="10" id="jEq-tS-ZA1"/>
                                             <constraint firstItem="CB8-Or-mDI" firstAttribute="top" secondItem="N1S-mS-tdH" secondAttribute="bottom" constant="45" id="jFI-tI-JmI"/>
                                             <constraint firstItem="Gep-DE-d7V" firstAttribute="top" secondItem="qmj-Ho-fj8" secondAttribute="bottom" constant="10" id="p2E-ln-G6M"/>
-                                            <constraint firstItem="XTz-c9-LBm" firstAttribute="top" secondItem="3nt-nT-t3v" secondAttribute="top" constant="5" id="paz-s9-AYr"/>
-                                            <constraint firstItem="9vV-ff-3NA" firstAttribute="top" secondItem="wIo-yo-gF5" secondAttribute="top" constant="5" id="pxQ-N3-SDU"/>
+                                            <constraint firstItem="XTz-c9-LBm" firstAttribute="top" secondItem="3nt-nT-t3v" secondAttribute="top" constant="10" id="paz-s9-AYr"/>
+                                            <constraint firstItem="9vV-ff-3NA" firstAttribute="top" secondItem="wIo-yo-gF5" secondAttribute="top" constant="10" id="pxQ-N3-SDU"/>
                                             <constraint firstAttribute="trailing" secondItem="unk-Ph-XX9" secondAttribute="trailing" id="rF8-z7-lPb"/>
                                             <constraint firstItem="N1S-mS-tdH" firstAttribute="top" secondItem="Vln-g7-Uqx" secondAttribute="bottom" constant="10" id="rGa-i1-6PI"/>
                                             <constraint firstAttribute="trailing" secondItem="scS-gf-0Tx" secondAttribute="trailing" constant="45" id="sTH-VP-vjc"/>
@@ -326,7 +325,7 @@
                                             <constraint firstAttribute="trailing" secondItem="Vln-g7-Uqx" secondAttribute="trailing" constant="45" id="vaE-P7-172"/>
                                             <constraint firstItem="9vV-ff-3NA" firstAttribute="centerY" secondItem="TV7-iA-uKD" secondAttribute="centerY" id="wMb-hZ-NTa"/>
                                             <constraint firstItem="CB8-Or-mDI" firstAttribute="leading" secondItem="yBS-Ff-u59" secondAttribute="leading" constant="25" id="waV-Nt-w4q"/>
-                                            <constraint firstItem="R7X-pQ-0bX" firstAttribute="top" secondItem="ahA-Ij-Cl9" secondAttribute="top" constant="5" id="yAw-I1-Le8"/>
+                                            <constraint firstItem="R7X-pQ-0bX" firstAttribute="top" secondItem="ahA-Ij-Cl9" secondAttribute="top" constant="10" id="yAw-I1-Le8"/>
                                             <constraint firstItem="cjx-RJ-nbd" firstAttribute="leading" secondItem="yBS-Ff-u59" secondAttribute="leading" id="yzu-BF-ihp"/>
                                         </constraints>
                                     </view>
@@ -369,6 +368,8 @@
                         <outlet property="contentViewHeightConstraint" destination="Ew1-YX-PES" id="CVB-Kg-R2v"/>
                         <outlet property="descriptionTextView" destination="scS-gf-0Tx" id="pvN-fm-EDF"/>
                         <outlet property="descriptionViewHeightConstraint" destination="0sN-9c-nhI" id="bxl-yy-TdW"/>
+                        <outlet property="editIngredientButton" destination="TV7-iA-uKD" id="OEO-4l-h0s"/>
+                        <outlet property="editInstructionButton" destination="Qqq-eh-sSy" id="npQ-0c-Cae"/>
                         <outlet property="ingredientTextField" destination="Vln-g7-Uqx" id="NDg-WQ-QHS"/>
                         <outlet property="ingredientsTableHeightConstraint" destination="GbZ-xR-QGA" id="XE8-vL-3JR"/>
                         <outlet property="ingredientsTableView" destination="N1S-mS-tdH" id="DJS-KG-xjh"/>

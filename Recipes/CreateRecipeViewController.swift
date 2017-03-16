@@ -26,6 +26,9 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var ingredientsTableView: UITableView!
     @IBOutlet weak var instructionsTableView: UITableView!
     
+    @IBOutlet weak var editIngredientButton: UIButton!
+    @IBOutlet weak var editInstructionButton: UIButton!
+    
     @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var recipeImageHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var recipeFiltersHeightConstraint: NSLayoutConstraint!
@@ -119,9 +122,22 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         // Dismiss keyboard when user taps outside
         self.hideKeyboardWhenTappedAround()
         
+        // Hide edit ingredient/instruction button
+        self.editIngredientButton.alpha = 0
+        self.editInstructionButton.alpha = 0
+        
         // If there's a recipe to edit, initialize the view with its details
         if self.recipeToEdit != nil {
             self.editingRecipe = true
+            
+            if (self.recipeToEdit?.ingredients.count)! > 0 {
+                self.editIngredientButton.alpha = 1
+            }
+            
+            if (self.recipeToEdit?.instructions.count)! > 0 {
+                self.editInstructionButton.alpha = 1
+            }
+            
             self.populateViewWithRecipeToEdit()
         }
 
@@ -246,6 +262,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     @IBAction func addIngredientClicked(_ sender: UIButton) {
         
         if self.ingredientTextField.text == "" {
+            self.ingredientTextField.becomeFirstResponder()
             return
         }
 
@@ -255,17 +272,20 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         self.ingredients.append(self.ingredientTextField.text!)
         self.ingredientTextField.text = ""
         self.ingredientsTableView.reloadData()
+        
+        self.editIngredientButton.alpha = 1
     }
     
     
     @IBAction func editIngredientClicked(_ sender: UIButton) {
-        self.ingredientsTableView.isEditing = !self.ingredientsTableView.isEditing
+        self.ingredientsTableView.setEditing(!self.ingredientsTableView.isEditing, animated: true)
     }
     
     
     @IBAction func addInstructionClicked(_ sender: UIButton) {
         
         if self.instructionTextField.text == "" {
+            self.instructionTextField.becomeFirstResponder()
             return
         }
         
@@ -276,11 +296,12 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         self.instructionTextField.text = ""
         self.instructionsTableView.reloadData()
         
+        self.editInstructionButton.alpha = 1
     }
     
     
     @IBAction func editInstructionClicked(_ sender: UIButton) {
-        self.instructionsTableView.isEditing = !self.instructionsTableView.isEditing
+        self.instructionsTableView.setEditing(!self.instructionsTableView.isEditing, animated: true)
     }
     
     
@@ -763,7 +784,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
+        return tableView.isEditing
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
@@ -789,6 +810,10 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             // Remove from table and reload
             self.ingredients.remove(at: indexPath.row)
             self.ingredientsTableView.reloadData()
+            
+            if self.ingredients.count == 0 {
+                self.editIngredientButton.alpha = 0
+            }
         }
         else {
             // Adjust table height
@@ -804,6 +829,10 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             // Remove from table and reload
             self.instructions.remove(at: indexPath.row)
             self.instructionsTableView.reloadData()
+            
+            if self.instructions.count == 0 {
+                self.editInstructionButton.alpha = 0
+            }
         }
         
     }
