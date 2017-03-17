@@ -36,7 +36,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.startActivityIndicators()
+//        self.startActivityIndicators()
         
         // Pull to refresh
         refreshControl.addTarget(self, action: #selector(ViewController.handleRefresh), for: UIControlEvents.valueChanged)
@@ -55,7 +55,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.hideKeyboardWhenTappedAround()
         
         // Retreive recipes and populate view
-        self.retrieveRecipes()
+        self.tableViewHeightConstraint.constant = 0
+        self.displayLabels()
+//        self.retrieveRecipes()
         
     }
     
@@ -333,6 +335,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         task.resume()
     }
+    
+    
     
     // MARK: - Utility functions
     
