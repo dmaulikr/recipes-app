@@ -1,12 +1,15 @@
 PODS:
   - Fusuma (1.0.3)
+  - InAppSettingsKit (2.8.1)
 
 DEPENDENCIES:
   - Fusuma (~> 1.0)
+  - InAppSettingsKit
 
 SPEC CHECKSUMS:
   Fusuma: 60ed1dd51a3b3610960219df9862c83f03304ce1
+  InAppSettingsKit: 94d2fba3ccd700fc4e32c6d09fabcc0af2426744
 
-PODFILE CHECKSUM: 99354d18e0f6c5ca283a556b95efe5cf4996528e
+PODFILE CHECKSUM: 9a25775d54587d35dab5c70494e2fe29705d7727
 
 COCOAPODS: 1.2.0

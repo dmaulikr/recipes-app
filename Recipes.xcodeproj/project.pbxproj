@@ -17,15 +17,16 @@
 		8D0BF8881E2D721A00C3B563 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0BF8871E2D721A00C3B563 /* LoginViewController.swift */; };
 		8D0BF88B1E2F071C00C3B563 /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0BF88A1E2F071C00C3B563 /* CurrentUser.swift */; };
 		8D4AEEB31DD5063B00127BEB /* RecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4AEEB21DD5063B00127BEB /* RecipeViewController.swift */; };
-		8D5269FF1E7C294400D3010A /* LogoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D5269FE1E7C294400D3010A /* LogoutViewController.swift */; };
 		8D8402421DD4D0E7009BBA62 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8402411DD4D0E7009BBA62 /* AppDelegate.swift */; };
 		8D8402441DD4D0E7009BBA62 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8402431DD4D0E7009BBA62 /* ViewController.swift */; };
 		8D8402471DD4D0E7009BBA62 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D8402451DD4D0E7009BBA62 /* Main.storyboard */; };
-		8D8402491DD4D0E7009BBA62 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D8402481DD4D0E7009BBA62 /* Assets.xcassets */; };
 		8D84024C1DD4D0E7009BBA62 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D84024A1DD4D0E7009BBA62 /* LaunchScreen.storyboard */; };
 		8D8402541DD4D14F009BBA62 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8402531DD4D14F009BBA62 /* Recipe.swift */; };
 		8D8413DE1E5B98D100E9AC9B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D8413DD1E5B98D100E9AC9B /* QuartzCore.framework */; };
 		8D9B15A91DD62BBE00855D3B /* CreateRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9B15A81DD62BBE00855D3B /* CreateRecipeViewController.swift */; };
+		8DDF6A241E80D5AA00D34932 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8DDF6A231E80D5AA00D34932 /* Assets.xcassets */; };
+		8DE35C991E80A9D2004DD14F /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8DE35C981E80A9D2004DD14F /* Settings.bundle */; };
+		8DE35C9B1E80AFAE004DD14F /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE35C9A1E80AFAE004DD14F /* SettingsTableViewController.swift */; };
 		A799C05826D6D17B4C71093D /* Pods_Recipes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 701DC4A84E39966D9FF7204F /* Pods_Recipes.framework */; };
 /* End PBXBuildFile section */
 
@@ -42,17 +43,18 @@
 		8D0BF8891E2D750300C3B563 /* Recipes.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Recipes.entitlements; sourceTree = "<group>"; };
 		8D0BF88A1E2F071C00C3B563 /* CurrentUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
 		8D4AEEB21DD5063B00127BEB /* RecipeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeViewController.swift; sourceTree = "<group>"; };
-		8D5269FE1E7C294400D3010A /* LogoutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LogoutViewController.swift; path = ../LogoutViewController.swift; sourceTree = "<group>"; };
 		8D84023E1DD4D0E7009BBA62 /* Recipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Recipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D8402411DD4D0E7009BBA62 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8D8402431DD4D0E7009BBA62 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8D8402461DD4D0E7009BBA62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		8D8402481DD4D0E7009BBA62 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8D84024B1DD4D0E7009BBA62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8D84024D1DD4D0E7009BBA62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D8402531DD4D14F009BBA62 /* Recipe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		8D8413DD1E5B98D100E9AC9B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8D9B15A81DD62BBE00855D3B /* CreateRecipeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateRecipeViewController.swift; sourceTree = "<group>"; };
+		8DDF6A231E80D5AA00D34932 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8DE35C981E80A9D2004DD14F /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		8DE35C9A1E80AFAE004DD14F /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsTableViewController.swift; path = ../SettingsTableViewController.swift; sourceTree = "<group>"; };
 		8FF23F7FF079F72FD4F32169 /* Pods-Recipes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Recipes.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Recipes/Pods-Recipes.debug.xcconfig"; sourceTree = "<group>"; };
 		FAB3CD6830C3451B40D83217 /* Pods-Recipes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Recipes.release.xcconfig"; path = "Pods/Target Support Files/Pods-Recipes/Pods-Recipes.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -90,6 +92,7 @@
 		8D8402351DD4D0E7009BBA62 = {
 			isa = PBXGroup;
 			children = (
+				8DE35C981E80A9D2004DD14F /* Settings.bundle */,
 				8D0BF87E1E2D690300C3B563 /* Frameworks */,
 				8D8402401DD4D0E7009BBA62 /* Recipes */,
 				8D84023F1DD4D0E7009BBA62 /* Products */,
@@ -111,17 +114,17 @@
 				8D8402411DD4D0E7009BBA62 /* AppDelegate.swift */,
 				8D0BF88A1E2F071C00C3B563 /* CurrentUser.swift */,
 				8D0BF8871E2D721A00C3B563 /* LoginViewController.swift */,
-				8D5269FE1E7C294400D3010A /* LogoutViewController.swift */,
 				8D8402431DD4D0E7009BBA62 /* ViewController.swift */,
 				8D4AEEB21DD5063B00127BEB /* RecipeViewController.swift */,
 				8D9B15A81DD62BBE00855D3B /* CreateRecipeViewController.swift */,
+				8DE35C9A1E80AFAE004DD14F /* SettingsTableViewController.swift */,
 				8D0BF8741E1CA20100C3B563 /* DefaultColors.swift */,
 				8D0BF87C1E216AB500C3B563 /* Extensions.swift */,
 				8D06C6291E724E1900B5EAC7 /* ButtonWithRecipe.swift */,
 				8D8402531DD4D14F009BBA62 /* Recipe.swift */,
 				8D8402451DD4D0E7009BBA62 /* Main.storyboard */,
-				8D8402481DD4D0E7009BBA62 /* Assets.xcassets */,
 				8D84024A1DD4D0E7009BBA62 /* LaunchScreen.storyboard */,
+				8DDF6A231E80D5AA00D34932 /* Assets.xcassets */,
 				8D0BF8891E2D750300C3B563 /* Recipes.entitlements */,
 				8D84024D1DD4D0E7009BBA62 /* Info.plist */,
 			);
@@ -205,8 +208,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8DE35C991E80A9D2004DD14F /* Settings.bundle in Resources */,
 				8D84024C1DD4D0E7009BBA62 /* LaunchScreen.storyboard in Resources */,
-				8D8402491DD4D0E7009BBA62 /* Assets.xcassets in Resources */,
+				8DDF6A241E80D5AA00D34932 /* Assets.xcassets in Resources */,
 				8D8402471DD4D0E7009BBA62 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -270,10 +274,10 @@
 				8D9B15A91DD62BBE00855D3B /* CreateRecipeViewController.swift in Sources */,
 				8D8402441DD4D0E7009BBA62 /* ViewController.swift in Sources */,
 				8D06C62A1E724E1900B5EAC7 /* ButtonWithRecipe.swift in Sources */,
-				8D5269FF1E7C294400D3010A /* LogoutViewController.swift in Sources */,
 				8D0BF8751E1CA20100C3B563 /* DefaultColors.swift in Sources */,
 				8D0BF8881E2D721A00C3B563 /* LoginViewController.swift in Sources */,
 				8D8402421DD4D0E7009BBA62 /* AppDelegate.swift in Sources */,
+				8DE35C9B1E80AFAE004DD14F /* SettingsTableViewController.swift in Sources */,
 				8D4AEEB31DD5063B00127BEB /* RecipeViewController.swift in Sources */,
 				8D0BF88B1E2F071C00C3B563 /* CurrentUser.swift in Sources */,
 				8D0BF87D1E216AB500C3B563 /* Extensions.swift in Sources */,

@@ -7,6 +7,7 @@ target 'Recipes' do
 
   # Pods for Recipes
   pod 'Fusuma', '~> 1.0'
+  pod 'InAppSettingsKit'
 
 
 end

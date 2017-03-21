@@ -9,6 +9,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>InAppSettingsKit-InAppSettingsKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>InAppSettingsKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Recipes.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -17,12 +27,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>3B1734E2B104DD3AD333AC8911046B08</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>3E0D8640A124012AB6F0A9F775A38285</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DD3B4846ACEA1746958371B97BF32BF6</key>
+		<key>8CB67190F0A60F7A033A3E515965C86F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FA416ED70FC7E091F479F65D981FE8FC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
