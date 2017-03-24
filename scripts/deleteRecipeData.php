@@ -1,23 +1,19 @@
 <?php
 
 include "constants.php";
+include "jsonService.php";
 
 const DELETE_RECIPE_SQL = "UPDATE " . Constants::RECIPES_TABLE . " SET deleted = true WHERE recipe_id IN (?)";
 
-function print_json_result($message, $success) {
-	$status = ($success) ? "success" : "error"; 
-	echo json_encode([
-		"message" => $message,
-		"status" => $status
-	]);
-}
+
+$json_service = new JsonService();
 
 // Create connection
 $conn = mysqli_connect(Constants::SERVER_NAME, Constants::USER_NAME, Constants::PASSWORD);
 
 // Check connection
 if ($conn->connect_error) {
-	print_json_result("Connection failed: " . $conn->connect_error, false);	
+	echo $json_service->get_json_result("Connection failed: " . $conn->connect_error, false);	
     die();
 }
 
@@ -37,7 +33,8 @@ $recipe_ids_string = implode(",", $recipe_ids);
 // Delete recipes
 $delete_recipes_sql = str_replace("?", $recipe_ids_string, DELETE_RECIPE_SQL);
 if(!$conn->query($delete_recipes_sql)) {
-	print_json_result("Error deleting recipes: " . $conn->error, false);
+	echo $json_service->get_json_result("Error deleting recipes: " . $conn->error, false);
+	die();
 }
 
 // End transaction
@@ -47,6 +44,6 @@ $conn->commit();
 $conn->close();
 
 // Return Success
-print_json_result("Successfully deleted recipe", true);
+echo $json_service->get_json_result("Successfully deleted recipe", true);
 
 ?>

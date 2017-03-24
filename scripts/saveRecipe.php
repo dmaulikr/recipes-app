@@ -1,6 +1,7 @@
 <?php
 
 include "constants.php";
+include "jsonService.php";
 
 const INSERT_RECIPE_SQL = "INSERT INTO " . Constants::RECIPES_TABLE . " (name, description, image_id, fb_user_id) VALUES (?, ?, ?, ?)";
 const INSERT_INGREDIENT_SQL = "INSERT INTO " . Constants::RECIPE_INGREDIENTS_TABLE . " (recipe_id, ingredient) VALUES ";
@@ -16,12 +17,15 @@ function createRecipeValueSQLPairs($recipe_id, $values) {
 	return $recipe_value_sql_pairs;
 }
 
+$json_service = new JsonService();
+
 // Create connection
 $conn = mysqli_connect(Constants::SERVER_NAME, Constants::USER_NAME, Constants::PASSWORD);
 
 // Check connection
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+	echo $json_service->get_json_result("Connection failed: " . $conn->connect_error, false);
+    die();
 } 
 
 // Take the data from the request
@@ -42,11 +46,9 @@ $conn->begin_transaction(MYSQLI_TRANS_START_READ_WRITE);
 // Insert recipe name and description into recipes table
 $insert_recipe_sql_ps = $conn->prepare(INSERT_RECIPE_SQL);
 $insert_recipe_sql_ps->bind_param("ssis", $recipe_name, $recipe_description, $image_id, $fb_user_id);
-if($insert_recipe_sql_ps->execute()) {
-	echo Constants::SUCCESS_STRING;
-}
-else {
-	die("Error inserting recipe: " . $insert_recipe_sql_ps->error);
+if(!$insert_recipe_sql_ps->execute()) {
+	echo $json_service->get_json_result("Error inserting recipe: " . $insert_recipe_sql_ps->error, false);
+	die();
 }
 
 // Get recipe id from last query
@@ -60,10 +62,9 @@ if(count($ingredients) > 0) {
 	$insert_ingredient_sql = INSERT_INGREDIENT_SQL . implode(",", $recipe_ingredient_sql_pairs);
 
 	// Insert ingredients
-	if($conn->query($insert_ingredient_sql)) {
-	    echo Constants::SUCCESS_STRING;
-	} else {
-	    die("Error inserting ingredients");
+	if(!$conn->query($insert_ingredient_sql)) {
+	    echo $json_service->get_json_result("Error inserting ingredients: " . $conn->error, false);
+	    die();
 	}
 }
 
@@ -75,10 +76,9 @@ if(count($instructions) > 0) {
 	$insert_instruction_sql = INSERT_INSTRUCTION_SQL . implode(",", $recipe_instruction_sql_pairs);
 
 	// Insert instructions
-	if($conn->query($insert_instruction_sql)) {
-	    echo Constants::SUCCESS_STRING;
-	} else {
-	    die("Error inserting instructions");
+	if(!$conn->query($insert_instruction_sql)) {
+	    echo $json_service->get_json_result("Error inserting instructions: " . $conn->error, false);
+	    die();
 	}
 }
 
@@ -87,5 +87,7 @@ $conn->commit();
 
 // Close the connection
 $conn->close();
+
+echo $json_service->get_json_result("Successfully saved recipe", true);
 
 ?>

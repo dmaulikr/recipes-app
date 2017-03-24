@@ -1,6 +1,7 @@
 <?php
 
 include "constants.php";
+include "jsonService.php";
 
 const RETRIEVE_RECIPE_SQL = "SELECT recipes.recipe_id, recipes.name, recipes.description, images.image_url FROM " . Constants::RECIPES_TABLE . 
 							" LEFT OUTER JOIN " . Constants::IMAGES_TABLE . " on recipes.image_id = images.image_id" .
@@ -13,12 +14,16 @@ const RETRIEVE_INGREDIENTS_SQL = "SELECT * FROM " . Constants::RECIPE_INGREDIENT
 const RETRIEVE_INSTRUCTIONS_SQL = "SELECT * FROM " . Constants::RECIPE_INSTRUCTIONS_TABLE . " WHERE recipe_id IN (?) AND deleted = false" .
 							" ORDER BY instruction_id asc";
 
+
+$json_service = new JsonService();
+
 // Create connection
 $conn = mysqli_connect(Constants::SERVER_NAME, Constants::USER_NAME, Constants::PASSWORD);
 
 // Check connection
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+	echo $json_service->get_json_result("Connection failed: " . $conn->connect_error, false);
+    die();
 } 
 
 // Take the data from the request
@@ -34,7 +39,8 @@ $retrieve_recipes_ps->bind_param("s", $fb_user_id);
 
 // Retrieve recipes
 if(!$retrieve_recipes_ps->execute()) {
-	die("There was an error retrieving the recipes: " . $retrieve_recipes_ps->error);
+	echo $json_service->get_json_result("There was an error retrieving the recipes: " . $retrieve_recipes_ps->error, false);
+	die();
 }
 
 $retrieve_recipes_ps->bind_result($recipe_id, $name, $description, $image_url);

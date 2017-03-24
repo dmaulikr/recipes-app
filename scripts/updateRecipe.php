@@ -1,6 +1,7 @@
 <?php
 
 include "constants.php";
+include "jsonService.php";
 
 const UPDATE_RECIPE_SQL = "UPDATE " . Constants::RECIPES_TABLE . " SET name = ?, description = ? WHERE recipe_id = ?";
 const UPDATE_RECIPE_SQL_WITH_IMAGE = "UPDATE " . Constants::RECIPES_TABLE . " SET name = ?, description = ?, image_id = ? WHERE recipe_id = ?";
@@ -15,13 +16,16 @@ const DELETE_INSTRUCTION_SQL = "UPDATE " . Constants::RECIPE_INSTRUCTIONS_TABLE 
 
 const GET_RECIPE_IMAGE_SQL = "SELECT image_id from " . Constants::RECIPES_TABLE . " where recipe_id = ?";
 
+$json_service = new JsonService();
+
 function get_current_recipe_image($conn, $recipe_id) {
 	// Check if recipe used to have an image
 	$current_image_ps = $conn->prepare(GET_RECIPE_IMAGE_SQL);
 	$current_image_ps->bind_param("i", $recipe_id);
 
 	if(!$current_image_ps->execute()) {
-		die("error checking for recipe image: " . $current_image_ps->error);
+		echo $json_service->get_json_result("error checking for recipe image: " . $current_image_ps->error, false);
+		die();
 	}
 
 	$current_image_id;
@@ -37,23 +41,27 @@ function delete_recipe_image($conn, $recipe_id, $image_id) {
 	$delete_image_sql = "UPDATE " . Constants::IMAGES_TABLE . " SET deleted = true where image_id = " . $image_id;
 	echo $delete_image_sql;
 	if(!$conn->query($delete_image_sql)) {
-		die("Couldn't delete from images table: " . $conn->error);
+		echo $json_service->get_json_result("Couldn't delete from images table: " . $conn->error, false);
+		die();
 	}
 
 	$delete_recipe_image_sql = "UPDATE " . Constants::RECIPES_TABLE . " SET image_id = NULL where recipe_id = " . $recipe_id;
 	if(!$conn->query($delete_recipe_image_sql)) {
-		die("Couldn't delete image from recipes table: " . $conn->error);
+		echo $json_service->get_json_result("Couldn't delete image from recipes table: " . $conn->error, false);
+		die();
 	}
 
 	echo "deleted old image";
 }
+
 
 // Create connection to sql
 $conn = mysqli_connect(Constants::SERVER_NAME, Constants::USER_NAME, Constants::PASSWORD); 
 
 // Check connection
 if ($conn->connect_error) {
-	die("Connection failed: " . $conn->connect_error);
+	echo $json_service->get_json_result("Connection failed: " . $conn->connect_error, false);
+	die();
 } 
 
 // Take the data from the request
@@ -83,11 +91,9 @@ $update_recipe_sql_ps = $conn->prepare(UPDATE_RECIPE_SQL);
 $update_recipe_sql_ps->bind_param("ssi", $recipe_name, $recipe_description, $recipe_id);
 
 // Update recipes table
-if($update_recipe_sql_ps->execute()) {
-	echo Constants::SUCCESS_STRING;
-}
-else {
-	die("Error updating recipe: " . $update_recipe_sql_ps->error);
+if(!$update_recipe_sql_ps->execute()) {
+	echo $json_service->get_json_result("Error updating recipe: " . $update_recipe_sql_ps->error, false);
+	die();
 }
 
 // If a new image id is provided, delete any existing one and save the new one
@@ -100,7 +106,8 @@ if($new_image_id) {
 	$updated_recipe_image_sql = "UPDATE " . Constants::RECIPES_TABLE . " SET image_id = " . $new_image_id . " where recipe_id = " . $recipe_id;
 	$conn->query($updated_recipe_image_sql);
 	if($conn->error) {
-		die("Couldn't updated image in recipes table: " . $conn->error);		
+		echo $json_service->get_json_result("Couldn't updated image in recipes table: " . $conn->error, false);
+		die();		
 	}
 }
 else if ($delete_image) {	
@@ -129,11 +136,9 @@ if(count($ingredients) > 0) {
 
 	// Insert any new ingredients
 	if(count($recipe_ingredient_sql_pairs) > 0) {
-		if($conn->query($insert_ingredients_sql)) {
-			echo Constants::SUCCESS_STRING;
-		}
-		else {
-			die("Error inserting new ingredients");
+		if(!$conn->query($insert_ingredients_sql)) {
+			echo $json_service->get_json_result("Error inserting new ingredients", false);
+			die();
 		}
 	}
 
@@ -146,11 +151,9 @@ if(count($ingredients) > 0) {
 			$update_ingredient_ps->bind_param("si", $ingredient, $ingredient_id);
 
 			// Update ingredient
-			if($update_ingredient_ps->execute()) {
-				echo Constants::SUCCESS_STRING;
-			}
-			else {
-				die("Error updating ingredient: " . $update_ingredient_ps->error);
+			if(!$update_ingredient_ps->execute()) {
+				echo $json_service->get_json_result("Error updating ingredient: " . $update_ingredient_ps->error, false);
+				die();
 			}
 		}
 	}  
@@ -177,11 +180,9 @@ if(count($instructions) > 0) {
 
 	// Insert any new instructions
 	if(count($recipe_instruction_sql_pairs) > 0) {
-		if($conn->query($insert_instructions_sql)) {
-			echo Constants::SUCCESS_STRING;
-		}
-		else {
-			die("Error inserting new instructions");
+		if(!$conn->query($insert_instructions_sql)) {
+			echo $json_service->get_json_result("Error inserting new instructions", false);
+			die();
 		}
 	}
 
@@ -194,11 +195,9 @@ if(count($instructions) > 0) {
 			$update_instruction_ps->bind_param("si", $instruction, $instruction_id);
 
 			// Update instruction
-			if($update_instruction_ps->execute()) {
-				echo Constants::SUCCESS_STRING;
-			}
-			else {
-				die("Error updating instruction: " . $update_instruction_ps->error);
+			if(!$update_instruction_ps->execute()) {
+				echo $json_service->get_json_result("Error updating instruction: " . $update_instruction_ps->error, false);
+				die();
 			}
 		}
 	}  
@@ -210,7 +209,8 @@ if(count($ingredients_to_delete) > 0) {
 	$delete_ingredients_sql = str_replace("?", $ingredient_ids_string, DELETE_INGREDIENTS_SQL);
 
 	if(!$conn->query($delete_ingredients_sql)) {
-		die("Error deleting recipe ingredients: " . $conn->error);
+		echo $json_service->get_json_result("Error deleting recipe ingredients: " . $conn->error, false);
+		die();
 	}
 }
 
@@ -220,7 +220,8 @@ if(count($instructions_to_delete) > 0) {
 	$delete_instructions_sql = str_replace("?", $instruction_ids_string, DELETE_INSTRUCTION_SQL);
 
 	if(!$conn->query($delete_instructions_sql)) {
-		die("Error deleting recipe instructions: " . $conn-> error);
+		echo $json_service->get_json_result("Error deleting recipe instructions: " . $conn->error, false);
+		die();
 	}
 }	
 
@@ -229,5 +230,7 @@ $conn->commit();
 
 // Close the connection
 $conn->close();
+
+echo $json_service->get_json_result("Successfully updated recipe", true);
 
 ?>
