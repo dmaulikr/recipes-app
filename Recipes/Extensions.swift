@@ -38,8 +38,67 @@ extension UIImage {
         case high    = 0.75
         case highest = 1
     }
+        
+    var png: Data? { return UIImagePNGRepresentation(self) }
     
     func jpeg(_ quality: JPEGQuality) -> Data? {
         return UIImageJPEGRepresentation(self, quality.rawValue)
     }
+    
+    func resized(withPercentage percentage: CGFloat) -> UIImage? {
+        
+        let newSize = self.size.applying(CGAffineTransform(scaleX: percentage, y: percentage))
+        let hasAlpha = false
+        let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
+        
+        UIGraphicsBeginImageContextWithOptions(newSize, !hasAlpha, scale)
+        self.draw(in: CGRect(origin: .zero, size: newSize))
+        
+        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return scaledImage
+    }
+    
+    /*
+    func resized(toWidth width: CGFloat) -> UIImage? {
+        let canvasSize = CGSize(width: width, height: CGFloat(ceil(width/size.width * size.height)))
+        UIGraphicsBeginImageContextWithOptions(canvasSize, false, 0)
+        defer { UIGraphicsEndImageContext() }
+        draw(in: CGRect(origin: .zero, size: canvasSize))
+        return UIGraphicsGetImageFromCurrentImageContext()
+    }
+    
+    func resized(toWidth:CGFloat, toHeight:CGFloat) -> UIImage? {
+        var actualHeight = self.size.height
+        var actualWidth = self.size.width
+        var imgRatio = actualWidth/actualHeight
+        let maxRatio = toWidth / toHeight
+        
+        print("original width: " + String(describing: actualWidth) + " original height: " + String(describing: actualHeight))
+        
+        if imgRatio != maxRatio {
+            if imgRatio < maxRatio {
+                imgRatio = toHeight / actualHeight
+                actualWidth = imgRatio * actualWidth
+                actualHeight = toHeight
+            }
+            else{
+                imgRatio = toWidth / actualWidth
+                actualHeight = imgRatio * actualHeight
+                actualWidth = toWidth
+            }
+        }
+        let rect = CGRect(x: 0, y: 0, width: actualWidth, height: actualHeight)
+        
+        print("new width: " + String(describing: actualWidth) + " new height: " + String(describing: actualHeight))
+        // UIGraphicsBeginImageContext(rect.size);
+        
+        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0)
+        
+        draw(in: rect)
+        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return resizedImage
+    }
+    */
 }
