@@ -201,7 +201,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 // Create request to download image
                 let url:URL? = URL(string: domainName + recipe.imageUrl)
                 let myPicture = UIImage(data: try! Data(contentsOf: url!))!                
-                self.recipes[i].image = myPicture.resized(withPercentage: 1 / 0.1)
+                self.recipes[i].image = myPicture.resized(withPercentage: 1 / Config.defaultImageResizeScale)
                 print("loaded image")
                     
                 // Decrease semaphore

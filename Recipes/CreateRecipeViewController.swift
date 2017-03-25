@@ -93,7 +93,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         self.instructionsTableView.backgroundColor = UIColor.clear
 
         // Style description text view
-        let borderColor:UIColor = DefaultColors.greyBorderColor
+        let borderColor:UIColor = Config.greyBorderColor
     
         descriptionTextView.layer.borderWidth = 0.5
         descriptionTextView.layer.borderColor = borderColor.cgColor
@@ -329,7 +329,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         // Create and initialize the body
         let body:NSMutableData = NSMutableData()
         
-        let reducedImage = self.recipeImageView.image?.resized(withPercentage: 0.1)
+        let reducedImage = self.recipeImageView.image?.resized(withPercentage: Config.defaultImageResizeScale)
         let imageData:Data = (reducedImage?.jpeg(UIImage.JPEGQuality.highest))!
         print("image size: " + String(imageData.count))
         
