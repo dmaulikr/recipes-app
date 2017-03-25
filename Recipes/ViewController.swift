@@ -105,8 +105,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             let dataDictionary:NSDictionary? = self.dataTaskService.getJson(data: data!)
             if !self.dataTaskService.isValidJson(json: dataDictionary) {
-                NSLog("There was an error retrieving the recipes")
+                print("There was an error retrieving the recipes")
                 print(dataDictionary ?? "json: {}")
+                self.endActivityIndicators()
                 self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
                     self.retrieveRecipes()
                 })
@@ -201,6 +202,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     
                     if !self.dataTaskService.isValidResponse(response: response, error: error) {
                         print("There was an error downloading the image")
+                        self.endActivityIndicators()
                         self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
                             self.loadRecipeImages()
                         })
@@ -211,6 +213,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     if !self.dataTaskService.isValidJson(json: json) {
                         print("There was an error downloading the image")
                         print(json ?? "json: {}")
+                        self.endActivityIndicators()
                         self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
                             self.loadRecipeImages()
                         })
@@ -359,13 +362,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func startActivityIndicators() {
-        self.activityIndicator.startAnimating()
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        DispatchQueue.main.async {
+            self.activityIndicator.startAnimating()
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        }
     }
     
     func endActivityIndicators() {
-        self.activityIndicator.stopAnimating()
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        DispatchQueue.main.async {
+            self.activityIndicator.stopAnimating()
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        }
     }
 
     // MARK: - Navigation
