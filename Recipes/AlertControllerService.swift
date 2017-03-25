@@ -8,28 +8,36 @@
 
 import UIKit
 
-class AlertControllerService: UIAlertController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+class AlertControllerService: NSObject {
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func displayErrorAlert(actionToRetry: @escaping() -> Void) -> UIAlertController {
+        return displayErrorAlert(message: "Oops, something went wrong!", actionToRetry: {
+            actionToRetry()
+        })
+        
     }
-    */
+
+    func displayErrorAlert(message:String, actionToRetry: @escaping() -> Void) -> UIAlertController {
+        
+        let alert:UIAlertController = UIAlertController(title: nil, message: "Oops, something went wrong!", preferredStyle: UIAlertControllerStyle.alert)
+        
+        let retryAction:UIAlertAction = UIAlertAction(title: "Retry", style: UIAlertActionStyle.cancel,
+            handler: { (alertAction:UIAlertAction!) in
+            print("retry button clicked")
+            actionToRetry()
+        })
+        
+        let dismissAction:UIAlertAction = UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,
+            handler: { (alertAction:UIAlertAction!) in
+            
+            print("dismiss button clicked")
+        })
+        
+        alert.addAction(retryAction)
+        alert.addAction(dismissAction)
+        return alert
+        
+    }
+
 
 }
