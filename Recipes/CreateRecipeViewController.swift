@@ -349,10 +349,12 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             
             if !self.dataTaskService.isValidResponse(response: response, error: error) {
                 print("There was an error saving the recipe image")
-                self.endActivityIndicators()
-                self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
-                    self.saveRecipeClicked(sender)
-                })
+                DispatchQueue.main.async {
+                    self.endActivityIndicators()
+                    self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                        self.saveRecipeClicked(sender)
+                    })
+                }
                 return
             }
             
@@ -360,10 +362,13 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             if !self.dataTaskService.isValidJson(json: json) {
                 print("There was an error saving the recipe image")
                 print(json ?? "json: {}")
-                self.endActivityIndicators()
-                self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
-                    self.saveRecipeClicked(sender)
-                })
+                DispatchQueue.main.async {
+                    self.endActivityIndicators()
+                    self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                        self.saveRecipeClicked(sender)
+                    })
+                }
+
                 return
             }
             
@@ -485,10 +490,12 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             
             if !self.dataTaskService.isValidResponse(response: response, error: error) {
                 print("There was an error saving the recipe data")
-                self.endActivityIndicators()
-                self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
-                    self.saveRecipeData(imageId: imageId, updateExistingRecipe: updateExistingRecipe, deleteImage: deleteImage)
-                })
+                DispatchQueue.main.async {
+                    self.endActivityIndicators()
+                    self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                        self.saveRecipeData(imageId: imageId, updateExistingRecipe: updateExistingRecipe, deleteImage: deleteImage)
+                    })
+                }
                 return
             }
             
@@ -496,10 +503,12 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             if !self.dataTaskService.isValidJson(json: json) {
                 NSLog("There was an error saving the recipe data")
                 print(json ?? "json: {}")
-                self.endActivityIndicators()
-                self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
-                    self.saveRecipeData(imageId: imageId, updateExistingRecipe: updateExistingRecipe, deleteImage: deleteImage)
-                })
+                DispatchQueue.main.async {
+                    self.endActivityIndicators()
+                    self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                        self.saveRecipeData(imageId: imageId, updateExistingRecipe: updateExistingRecipe, deleteImage: deleteImage)
+                    })
+                }
                 return
             }
 
@@ -520,17 +529,13 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     
     // MARK: - Utility functions
     func startActivityIndicators() {
-        DispatchQueue.main.async {
-            self.activityIndicator.startAnimating()
-            UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        }
+        self.activityIndicator.startAnimating()
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
     }
     
     func endActivityIndicators() {
-        DispatchQueue.main.async {
-            self.activityIndicator.stopAnimating()
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        }
+        self.activityIndicator.stopAnimating()
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
     
     func presentNavigationController() {

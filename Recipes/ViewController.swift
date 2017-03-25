@@ -96,10 +96,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             if !self.dataTaskService.isValidResponse(response: response, error: error) {
                 print("There was an error retrieving the recipes")
-                self.endActivityIndicators()
-                self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
-                    self.retrieveRecipes()
-                })
+                DispatchQueue.main.async {
+                    self.endActivityIndicators()
+                    self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                        self.retrieveRecipes()
+                    })
+                }
                 return
             }
             
@@ -107,10 +109,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if !self.dataTaskService.isValidJson(json: dataDictionary) {
                 print("There was an error retrieving the recipes")
                 print(dataDictionary ?? "json: {}")
-                self.endActivityIndicators()
-                self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
-                    self.retrieveRecipes()
-                })
+                DispatchQueue.main.async {
+                    self.endActivityIndicators()
+                    self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                        self.retrieveRecipes()
+                    })
+                }
                 return
             }
                 
@@ -202,10 +206,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     
                     if !self.dataTaskService.isValidResponse(response: response, error: error) {
                         print("There was an error downloading the image")
-                        self.endActivityIndicators()
-                        self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
-                            self.loadRecipeImages()
-                        })
+                        DispatchQueue.main.async {
+                            self.endActivityIndicators()
+                            self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                                self.loadRecipeImages()
+                            })
+                        }
                         return
                     }
 
@@ -213,14 +219,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     if !self.dataTaskService.isValidJson(json: json) {
                         print("There was an error downloading the image")
                         print(json ?? "json: {}")
-                        self.endActivityIndicators()
-                        self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
-                            self.loadRecipeImages()
-                        })
+                        DispatchQueue.main.async {
+                            self.endActivityIndicators()
+                            self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                                self.loadRecipeImages()
+                            })
+                        }
                         return
                     }
                     
-                    self.recipes[i].image = UIImage(data: data!)
+                    let lowResImage:UIImage = UIImage(data: data!)!
+                    let highResImageData:Data = lowResImage.jpeg(UIImage.JPEGQuality.highest)!
+                    self.recipes[i].image = UIImage(data: highResImageData)
                     print("loaded image")
                     
                     // Decrease semaphore
@@ -323,9 +333,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             if !self.dataTaskService.isValidResponse(response: response, error: error) {
                 print("There was an error deleting the recipe")
-                self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
-                    self.deleteRecipes(recipeIds: recipeIds)
-                })
+                DispatchQueue.main.async {
+                    self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                        self.deleteRecipes(recipeIds: recipeIds)
+                    })
+                }
                 return
             }
 
@@ -333,9 +345,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if !self.dataTaskService.isValidJson(json: json) {
                 print("There was an error deleting the recipe")
                 print(json ?? "json: {}")
-                self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
-                    self.deleteRecipes(recipeIds: recipeIds)
-                })
+                DispatchQueue.main.async {
+                    self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                        self.deleteRecipes(recipeIds: recipeIds)
+                    })
+                }
                 return
             }
 
@@ -362,17 +376,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func startActivityIndicators() {
-        DispatchQueue.main.async {
-            self.activityIndicator.startAnimating()
-            UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        }
+        self.activityIndicator.startAnimating()
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
     }
     
     func endActivityIndicators() {
-        DispatchQueue.main.async {
-            self.activityIndicator.stopAnimating()
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        }
+        self.activityIndicator.stopAnimating()
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false    
     }
 
     // MARK: - Navigation
