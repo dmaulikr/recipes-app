@@ -29,6 +29,7 @@
 		8DDF6A241E80D5AA00D34932 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8DDF6A231E80D5AA00D34932 /* Assets.xcassets */; };
 		8DE35C991E80A9D2004DD14F /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8DE35C981E80A9D2004DD14F /* Settings.bundle */; };
 		8DE35C9B1E80AFAE004DD14F /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE35C9A1E80AFAE004DD14F /* SettingsTableViewController.swift */; };
+		8DEF1A5B1E8727340031CD03 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEF1A5A1E8727340031CD03 /* Config.swift */; };
 		A799C05826D6D17B4C71093D /* Pods_Recipes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 701DC4A84E39966D9FF7204F /* Pods_Recipes.framework */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +60,7 @@
 		8DDF6A231E80D5AA00D34932 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8DE35C981E80A9D2004DD14F /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		8DE35C9A1E80AFAE004DD14F /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsTableViewController.swift; path = ../SettingsTableViewController.swift; sourceTree = "<group>"; };
+		8DEF1A5A1E8727340031CD03 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		8FF23F7FF079F72FD4F32169 /* Pods-Recipes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Recipes.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Recipes/Pods-Recipes.debug.xcconfig"; sourceTree = "<group>"; };
 		FAB3CD6830C3451B40D83217 /* Pods-Recipes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Recipes.release.xcconfig"; path = "Pods/Target Support Files/Pods-Recipes/Pods-Recipes.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -132,6 +134,7 @@
 				8DDF6A231E80D5AA00D34932 /* Assets.xcassets */,
 				8D0BF8891E2D750300C3B563 /* Recipes.entitlements */,
 				8D84024D1DD4D0E7009BBA62 /* Info.plist */,
+				8DEF1A5A1E8727340031CD03 /* Config.swift */,
 			);
 			path = Recipes;
 			sourceTree = "<group>";
@@ -287,6 +290,7 @@
 				8DDD9B461E8602B100F5D766 /* AlertControllerService.swift in Sources */,
 				8D8402541DD4D14F009BBA62 /* Recipe.swift in Sources */,
 				8D9B15A91DD62BBE00855D3B /* CreateRecipeViewController.swift in Sources */,
+				8DEF1A5B1E8727340031CD03 /* Config.swift in Sources */,
 				8D8402441DD4D0E7009BBA62 /* ViewController.swift in Sources */,
 				8D06C62A1E724E1900B5EAC7 /* ButtonWithRecipe.swift in Sources */,
 				8D0BF8751E1CA20100C3B563 /* DefaultColors.swift in Sources */,

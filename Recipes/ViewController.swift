@@ -197,47 +197,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             // Add a download task for each recipe image
             queue.async(group: group, execute: {
+                
                 // Create request to download image
                 let url:URL? = URL(string: domainName + recipe.imageUrl)
-                let imageRequest:URLRequest = URLRequest(url: url!)
-                
-                let task:URLSessionDataTask = session.dataTask(with: imageRequest, completionHandler: {
-                    (data, response, error) -> Void in
+                let myPicture = UIImage(data: try! Data(contentsOf: url!))!                
+                self.recipes[i].image = myPicture.resized(withPercentage: 1 / 0.1)
+                print("loaded image")
                     
-                    if !self.dataTaskService.isValidResponse(response: response, error: error) {
-                        print("There was an error downloading the image")
-                        DispatchQueue.main.async {
-                            self.endActivityIndicators()
-                            self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
-                                self.loadRecipeImages()
-                            })
-                        }
-                        return
-                    }
-
-                    let json:NSDictionary? = self.dataTaskService.getJson(data: data!)
-                    if !self.dataTaskService.isValidJson(json: json) {
-                        print("There was an error downloading the image")
-                        print(json ?? "json: {}")
-                        DispatchQueue.main.async {
-                            self.endActivityIndicators()
-                            self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
-                                self.loadRecipeImages()
-                            })
-                        }
-                        return
-                    }
-                    
-                    let lowResImage:UIImage = UIImage(data: data!)!
-                    let highResImageData:Data = lowResImage.jpeg(UIImage.JPEGQuality.highest)!
-                    self.recipes[i].image = UIImage(data: highResImageData)
-                    print("loaded image")
-                    
-                    // Decrease semaphore
-                    group.leave()
-                })
-                
-                task.resume()
+                // Decrease semaphore
+                group.leave()
+            
+            
             })
         }
         

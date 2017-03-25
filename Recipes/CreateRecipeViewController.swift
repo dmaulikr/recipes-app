@@ -329,7 +329,10 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         // Create and initialize the body
         let body:NSMutableData = NSMutableData()
         
-        let imageData:Data = UIImageJPEGRepresentation(self.recipeImageView.image!, 1)!
+        let reducedImage = self.recipeImageView.image?.resized(withPercentage: 0.1)
+        let imageData:Data = (reducedImage?.jpeg(UIImage.JPEGQuality.highest))!
+        print("image size: " + String(imageData.count))
+        
         let boundary:String = "Boundary-\(NSUUID().uuidString)"
         let filePathKey:String = "file"
         let filename:String = "tmp.jpg" // the script will create the actual file name
