@@ -39,7 +39,6 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     // Constants
     let saveRecipeUrl:String = "http://iosrecipes.com/saveRecipe.php"
     let saveRecipeImageUrl:String = "http://iosrecipes.com/saveRecipeImage.php"
-    let editRecipeUrl:String = "http://iosrecipes.com/editRecipe.php"
     let updateRecipeUrl:String = "http://iosrecipes.com/updateRecipe.php"
     let defaultTableRowHeight:CGFloat = 50
     let textViewPlaceholder:String = "Add description ..."
@@ -53,6 +52,8 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     
     // Misc
     let alertService:AlertControllerService = AlertControllerService()
+    let dataTaskService:DataTaskService = DataTaskService()
+    
     var fusama:FusumaViewController = FusumaViewController() // Image Picker Controller
     var ingredients:[String] = [String]()
     var instructions:[String] = [String]()
@@ -346,10 +347,8 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         
         let saveImageTask:URLSessionDataTask = URLSession.shared.dataTask(with: request, completionHandler: { (data:Data?, response:URLResponse?, error:Error?) in
             
-            // Log status result of task
-            if error != nil {
-                print("There was an error running the task to save the image")
-                print((error?.localizedDescription)!)
+            if !self.dataTaskService.isValidResponse(response: response, error: error) {
+                print("There was an error saving the recipe image")
                 self.endActivityIndicators()
                 self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
                     self.saveRecipeClicked(sender)
@@ -357,32 +356,17 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
                 return
             }
             
-            // Create variable to store image blob id returned from script
-            var imageId:Int?
-            do {
-                // Parse response data into json
-                let json:NSDictionary = try JSONSerialization.jsonObject(with: data!, options: []) as! NSDictionary
-                
-                // Check status
-                if String(describing: json["status"]).lowercased().range(of: "error") != nil {
-                    print("Error saving image: " + String(describing: json["message"]))
-                    self.endActivityIndicators()
-                    self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
-                        self.saveRecipeClicked(sender)
-                    })
-                    return
-                }
-                
-                imageId = json["image_id"] as? Int
-            }
-            catch let e as NSError {
-                print("Error: couldn't convert response to valid json, " + e.localizedDescription)
-                self.endActivityIndicators()
+            let json:NSDictionary? = self.dataTaskService.getJson(data: data!)
+            if !self.dataTaskService.isValidJson(json: json) {
+                print("There was an error saving the recipe image")
+                print(json ?? "json: {}")
                 self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
                     self.saveRecipeClicked(sender)
                 })
                 return
             }
+            
+            let imageId:Int? = json?["image_id"] as? Int
             
             // Go back to ViewController
             DispatchQueue.main.async {
@@ -498,23 +482,25 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             
             self.endActivityIndicators()
             
-            if error != nil {
-                NSLog("There was an error running the task to save the recipe")
-                NSLog((error?.localizedDescription)!)
+            if !self.dataTaskService.isValidResponse(response: response, error: error) {
+                print("There was an error saving the recipe data")
+                self.endActivityIndicators()
                 self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
                     self.saveRecipeData(imageId: imageId, updateExistingRecipe: updateExistingRecipe, deleteImage: deleteImage)
                 })
                 return
             }
             
-            let httpResponse = response as! HTTPURLResponse
-            if httpResponse.statusCode != 200 {
-                NSLog(String(format: "Error: Status code: %d", httpResponse.statusCode))
+            let json:NSDictionary? = self.dataTaskService.getJson(data: data!)
+            if !self.dataTaskService.isValidJson(json: json) {
+                NSLog("There was an error saving the recipe data")
+                print(json ?? "json: {}")
                 self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
                     self.saveRecipeData(imageId: imageId, updateExistingRecipe: updateExistingRecipe, deleteImage: deleteImage)
                 })
                 return
             }
+
             
             NSLog("Recipe inserted successfully")
             
@@ -539,10 +525,6 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     func endActivityIndicators() {
         self.activityIndicator.stopAnimating()
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
-    }
-    
-    func isValidJSON(json: AnyObject) -> Bool {
-        return JSONSerialization.isValidJSONObject(json)
     }
     
     func presentNavigationController() {

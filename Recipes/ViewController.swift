@@ -27,6 +27,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     // Misc
     let alertService = AlertControllerService()
+    let dataTaskService = DataTaskService()
     
     var recipes:[Recipe] = [Recipe]()
     var recipesToDisplay:[Recipe] = [Recipe]()
@@ -39,7 +40,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         
         self.startActivityIndicators()
-        alertService.displayAlertMessage(presentOn: self, message: "test")
         
         // Pull to refresh
         refreshControl.addTarget(self, action: #selector(ViewController.handleRefresh), for: UIControlEvents.valueChanged)
@@ -92,10 +92,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         // Create task to retrieve recipes from url
-        let task:URLSessionDataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
+        let task:URLSessionDataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in            
             
-            if error != nil {
-                NSLog("There was an error loading the url, " + (error?.localizedDescription)!)
+            if !self.dataTaskService.isValidResponse(response: response, error: error) {
+                print("There was an error retrieving the recipes")
                 self.endActivityIndicators()
                 self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
                     self.retrieveRecipes()
@@ -103,14 +103,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 return
             }
             
-            var dataDictionary:[String:Any]?
-            do {
-                // Convert recipe data to json array
-                dataDictionary = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any]
-            }
-            catch let e as NSError {
-                NSLog("Error: couldn't parse json, " + e.localizedDescription)
-                self.endActivityIndicators()
+            let dataDictionary:NSDictionary? = self.dataTaskService.getJson(data: data!)
+            if !self.dataTaskService.isValidJson(json: dataDictionary) {
+                NSLog("There was an error retrieving the recipes")
+                print(dataDictionary ?? "json: {}")
                 self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
                     self.retrieveRecipes()
                 })
@@ -203,20 +199,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let task:URLSessionDataTask = session.dataTask(with: imageRequest, completionHandler: {
                     (data, response, error) -> Void in
                     
-                    if error != nil {
-                        print("There was an error downloading the image, " + (error?.localizedDescription)!)
-                        self.endActivityIndicators()
+                    if !self.dataTaskService.isValidResponse(response: response, error: error) {
+                        print("There was an error downloading the image")
                         self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
                             self.loadRecipeImages()
                         })
                         return
                     }
-                    
-                    let httpResponse:HTTPURLResponse = (response as? HTTPURLResponse)!
-                    if httpResponse.statusCode != 200 {
-                        print("There was an error downloading the image, status code")
-                        print("Status code = " + String(httpResponse.statusCode))
-                        self.endActivityIndicators()
+
+                    let json:NSDictionary? = self.dataTaskService.getJson(data: data!)
+                    if !self.dataTaskService.isValidJson(json: json) {
+                        print("There was an error downloading the image")
+                        print(json ?? "json: {}")
                         self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
                             self.loadRecipeImages()
                         })
@@ -324,32 +318,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let task:URLSessionDataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
             
-            if error != nil {                
-                print("There was an error running the delete recipes task")
-                print((error?.localizedDescription)!)
+            if !self.dataTaskService.isValidResponse(response: response, error: error) {
+                print("There was an error deleting the recipe")
                 self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
                     self.deleteRecipes(recipeIds: recipeIds)
                 })
                 return
             }
-            
-            do {
-                // Parse response data into json
-                let jsonResponse:NSDictionary = try JSONSerialization.jsonObject(with: data!, options: []) as! NSDictionary
-                
-                // Check status
-                let status:String = String(describing: jsonResponse["status"])
-                if status.lowercased().range(of: "error") != nil {
-                    print("Error deleting recipes: " + String(describing: jsonResponse["message"]))
-                    self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
-                        self.deleteRecipes(recipeIds: recipeIds)
-                    })
-                    return
-                }
-                
-            }
-            catch let e as NSError {
-                print("Error: couldn't convert response to valid json, " + e.localizedDescription)
+
+            let json:NSDictionary? = self.dataTaskService.getJson(data: data!)
+            if !self.dataTaskService.isValidJson(json: json) {
+                print("There was an error deleting the recipe")
+                print(json ?? "json: {}")
                 self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
                     self.deleteRecipes(recipeIds: recipeIds)
                 })
