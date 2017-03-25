@@ -10,34 +10,43 @@ import UIKit
 
 class AlertControllerService: NSObject {
     
-    func displayErrorAlert(actionToRetry: @escaping() -> Void) -> UIAlertController {
-        return displayErrorAlert(message: "Oops, something went wrong!", actionToRetry: {
+    func displayAlertMessage(presentOn:UIViewController, message:String) {
+        let alert:UIAlertController = UIAlertController(title: nil, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        let dismissAction:UIAlertAction = UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default, handler: nil)
+        alert.addAction(dismissAction)
+        presentOn.present(alert, animated: true, completion: nil)
+    }
+    
+    func displayErrorAlert(presentOn:UIViewController, actionToRetry: @escaping() -> Void) {
+        let alert = getAlert(message: "Oops, something went wrong!", actionToRetry: {
             actionToRetry()
         })
-        
+        presentOn.present(alert, animated: true, completion: nil)
     }
 
-    func displayErrorAlert(message:String, actionToRetry: @escaping() -> Void) -> UIAlertController {
+    func displayErrorAlert(presentOn:UIViewController, message:String, actionToRetry: @escaping() -> Void) {
+        let alert = getAlert(message: message, actionToRetry: {
+            actionToRetry()
+        })
+        presentOn.present(alert, animated: true, completion: nil)
+    }
+    
+    private func getAlert(message:String, actionToRetry: @escaping() -> Void) -> UIAlertController {
         
-        let alert:UIAlertController = UIAlertController(title: nil, message: "Oops, something went wrong!", preferredStyle: UIAlertControllerStyle.alert)
+        let alert:UIAlertController = UIAlertController(title: nil, message: message, preferredStyle: UIAlertControllerStyle.alert)
         
         let retryAction:UIAlertAction = UIAlertAction(title: "Retry", style: UIAlertActionStyle.cancel,
-            handler: { (alertAction:UIAlertAction!) in
+                                                      handler: { (alertAction:UIAlertAction!) in
             print("retry button clicked")
             actionToRetry()
         })
         
-        let dismissAction:UIAlertAction = UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,
-            handler: { (alertAction:UIAlertAction!) in
-            
-            print("dismiss button clicked")
-        })
+        let dismissAction:UIAlertAction = UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default, handler: nil)
         
         alert.addAction(retryAction)
         alert.addAction(dismissAction)
         return alert
-        
-    }
 
+    }
 
 }
