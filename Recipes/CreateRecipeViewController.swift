@@ -52,6 +52,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     var instructionRowIds:[Int] = [Int]()
     
     // Misc
+    let alertService:AlertControllerService = AlertControllerService()
     var fusama:FusumaViewController = FusumaViewController() // Image Picker Controller
     var ingredients:[String] = [String]()
     var instructions:[String] = [String]()
@@ -349,6 +350,10 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             if error != nil {
                 print("There was an error running the task to save the image")
                 print((error?.localizedDescription)!)
+                self.endActivityIndicators()
+                self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                    self.saveRecipeClicked(sender)
+                })
                 return
             }
             
@@ -361,6 +366,10 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
                 // Check status
                 if String(describing: json["status"]).lowercased().range(of: "error") != nil {
                     print("Error saving image: " + String(describing: json["message"]))
+                    self.endActivityIndicators()
+                    self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                        self.saveRecipeClicked(sender)
+                    })
                     return
                 }
                 
@@ -368,6 +377,10 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             }
             catch let e as NSError {
                 print("Error: couldn't convert response to valid json, " + e.localizedDescription)
+                self.endActivityIndicators()
+                self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                    self.saveRecipeClicked(sender)
+                })
                 return
             }
             
@@ -455,6 +468,10 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         }
         catch let e as NSError {
             NSLog("Error: couldn't convert recipe object to valid json, " + e.localizedDescription)
+            self.endActivityIndicators()
+            self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                self.saveRecipeData(imageId: imageId, updateExistingRecipe: updateExistingRecipe, deleteImage: deleteImage)
+            })
             return
         }
 
@@ -479,24 +496,30 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         let session:URLSession = URLSession.shared
         let saveRecipeTask:URLSessionDataTask = session.dataTask(with: request, completionHandler: { (data:Data?, response:URLResponse?, error:Error?) in
             
-            // Log status result of task
+            self.endActivityIndicators()
+            
             if error != nil {
                 NSLog("There was an error running the task to save the recipe")
                 NSLog((error?.localizedDescription)!)
+                self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                    self.saveRecipeData(imageId: imageId, updateExistingRecipe: updateExistingRecipe, deleteImage: deleteImage)
+                })
                 return
             }
             
             let httpResponse = response as! HTTPURLResponse
-            if httpResponse.statusCode == 200 {
-                NSLog("Recipe inserted successfully")
-            }
-            else {
+            if httpResponse.statusCode != 200 {
                 NSLog(String(format: "Error: Status code: %d", httpResponse.statusCode))
+                self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                    self.saveRecipeData(imageId: imageId, updateExistingRecipe: updateExistingRecipe, deleteImage: deleteImage)
+                })
+                return
             }
+            
+            NSLog("Recipe inserted successfully")
             
             // Go back to ViewController
             DispatchQueue.main.async {
-                self.endActivityIndicators()
                 self.presentNavigationController()
             }
             

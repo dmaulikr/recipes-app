@@ -26,6 +26,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     let defaultTableRowHeight:CGFloat = 100
 
     // Misc
+    let alertService = AlertControllerService()
+    
     var recipes:[Recipe] = [Recipe]()
     var recipesToDisplay:[Recipe] = [Recipe]()
     var selectedRecipe:Recipe?
@@ -36,7 +38,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        self.startActivityIndicators()
+        self.startActivityIndicators()
+        alertService.displayAlertMessage(presentOn: self, message: "test")
         
         // Pull to refresh
         refreshControl.addTarget(self, action: #selector(ViewController.handleRefresh), for: UIControlEvents.valueChanged)
@@ -56,8 +59,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         // Retreive recipes and populate view
         self.tableViewHeightConstraint.constant = 0
-        self.displayLabels()
-//        self.retrieveRecipes()
+        self.retrieveRecipes()
         
     }
     
@@ -94,6 +96,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             if error != nil {
                 NSLog("There was an error loading the url, " + (error?.localizedDescription)!)
+                self.endActivityIndicators()
+                self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                    self.retrieveRecipes()
+                })
                 return
             }
             
@@ -104,6 +110,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             catch let e as NSError {
                 NSLog("Error: couldn't parse json, " + e.localizedDescription)
+                self.endActivityIndicators()
+                self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                    self.retrieveRecipes()
+                })
                 return
             }
                 
@@ -195,6 +205,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     
                     if error != nil {
                         print("There was an error downloading the image, " + (error?.localizedDescription)!)
+                        self.endActivityIndicators()
+                        self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                            self.loadRecipeImages()
+                        })
                         return
                     }
                     
@@ -202,6 +216,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     if httpResponse.statusCode != 200 {
                         print("There was an error downloading the image, status code")
                         print("Status code = " + String(httpResponse.statusCode))
+                        self.endActivityIndicators()
+                        self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                            self.loadRecipeImages()
+                        })
+                        return
                     }
                     
                     self.recipes[i].image = UIImage(data: data!)
@@ -305,9 +324,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let task:URLSessionDataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
             
-            if error != nil {
+            if error != nil {                
                 print("There was an error running the delete recipes task")
                 print((error?.localizedDescription)!)
+                self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                    self.deleteRecipes(recipeIds: recipeIds)
+                })
                 return
             }
             
@@ -318,14 +340,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 // Check status
                 let status:String = String(describing: jsonResponse["status"])
                 if status.lowercased().range(of: "error") != nil {
-                    print("Error deleting recipes: " +
-                        String(describing: jsonResponse["message"]))
+                    print("Error deleting recipes: " + String(describing: jsonResponse["message"]))
+                    self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                        self.deleteRecipes(recipeIds: recipeIds)
+                    })
                     return
                 }
                 
             }
             catch let e as NSError {
                 print("Error: couldn't convert response to valid json, " + e.localizedDescription)
+                self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                    self.deleteRecipes(recipeIds: recipeIds)
+                })
                 return
             }
 
@@ -360,7 +387,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.activityIndicator.stopAnimating()
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
-
 
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

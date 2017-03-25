@@ -12,6 +12,7 @@ import FBSDKLoginKit
 class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     let saveFBAccountUrl:String = "http://iosrecipes.com/saveFBAccount.php"
+    let alertService:AlertControllerService = AlertControllerService()
     
     // Needed because viewDidLayoutSubviews() is called multiple times
     var presentedMainView:Bool = false
@@ -31,9 +32,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
             let screenWidth:CGFloat = view.frame.width
             let screenHeight:CGFloat = view.frame.height
             loginButton.frame = CGRect(x: 16, y: (screenHeight / 2) + 30, width: screenWidth - 32, height: 50)
-        }
-        
-        
+        }                
     }
     
     override func viewDidLayoutSubviews() {
@@ -50,6 +49,8 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         
         if error != nil {
             print(error)
+            self.alertService.displayAlertMessage(presentOn: self,
+                                                  message: "Oops, there was an issue logging in! Please try again")
             return
         }
         
@@ -62,6 +63,9 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
             
             if(error != nil) {
                 print("There was an error logging into fb: \(error)")
+                self.alertService.displayAlertMessage(presentOn: self,
+                                                      message: "Oops, there was an issue logging in! Please try again")
+                return
             }
             
             if let unwrappedResult = result {

@@ -24,6 +24,7 @@
 		8D8402541DD4D14F009BBA62 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8402531DD4D14F009BBA62 /* Recipe.swift */; };
 		8D8413DE1E5B98D100E9AC9B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D8413DD1E5B98D100E9AC9B /* QuartzCore.framework */; };
 		8D9B15A91DD62BBE00855D3B /* CreateRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9B15A81DD62BBE00855D3B /* CreateRecipeViewController.swift */; };
+		8DDD9B461E8602B100F5D766 /* AlertControllerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DDD9B451E8602B100F5D766 /* AlertControllerService.swift */; };
 		8DDF6A241E80D5AA00D34932 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8DDF6A231E80D5AA00D34932 /* Assets.xcassets */; };
 		8DE35C991E80A9D2004DD14F /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8DE35C981E80A9D2004DD14F /* Settings.bundle */; };
 		8DE35C9B1E80AFAE004DD14F /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE35C9A1E80AFAE004DD14F /* SettingsTableViewController.swift */; };
@@ -52,6 +53,7 @@
 		8D8402531DD4D14F009BBA62 /* Recipe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		8D8413DD1E5B98D100E9AC9B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8D9B15A81DD62BBE00855D3B /* CreateRecipeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateRecipeViewController.swift; sourceTree = "<group>"; };
+		8DDD9B451E8602B100F5D766 /* AlertControllerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertControllerService.swift; sourceTree = "<group>"; };
 		8DDF6A231E80D5AA00D34932 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8DE35C981E80A9D2004DD14F /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		8DE35C9A1E80AFAE004DD14F /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsTableViewController.swift; path = ../SettingsTableViewController.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				8DDF6A231E80D5AA00D34932 /* Assets.xcassets */,
 				8D0BF8891E2D750300C3B563 /* Recipes.entitlements */,
 				8D84024D1DD4D0E7009BBA62 /* Info.plist */,
+				8DDD9B451E8602B100F5D766 /* AlertControllerService.swift */,
 			);
 			path = Recipes;
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8DDD9B461E8602B100F5D766 /* AlertControllerService.swift in Sources */,
 				8D8402541DD4D14F009BBA62 /* Recipe.swift in Sources */,
 				8D9B15A91DD62BBE00855D3B /* CreateRecipeViewController.swift in Sources */,
 				8D8402441DD4D0E7009BBA62 /* ViewController.swift in Sources */,
