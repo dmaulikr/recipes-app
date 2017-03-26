@@ -60,13 +60,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             filemgr.createFile(atPath: recipesFile, contents: nil, attributes: nil)
         }
         
-        fileManagerService.removeItem(path: recipesFile)
-                                
         // Cache the file system data
         UserDefaults.standard.set(dataDir, forKey: "dataDirectory")
         UserDefaults.standard.set(recipesFile, forKey: "recipesFile")
 
-        
         if let savedRecipes = NSKeyedUnarchiver.unarchiveObject(withFile: recipesFile) as? [Recipe] {
             for i in 0 ..< savedRecipes.count {
                 let recipeId = savedRecipes[i].recipeId
@@ -123,6 +120,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func retrieveRecipes() {
         
         self.startActivityIndicators()
+        print("loading recipes from server")
         
         // Create json object
         var json:[String:String] = [String:String]()

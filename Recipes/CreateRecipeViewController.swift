@@ -165,9 +165,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Load recipe if editing a previous recipe, because we don't know the imageUrl when saving
-        // and don't want to write to the file system if we don't know all the recipe properties
-        if segue.identifier == "toAllRecipes" && !self.editingRecipe {
+        if segue.identifier == "toAllRecipes" {
             if let navigationController = segue.destination as? UINavigationController {
                 if let viewController = navigationController.viewControllers.first as? ViewController {
                     viewController.loadRecipes = false
@@ -545,9 +543,10 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
                                                        filePath: recipesFile, minifyImage: true)
                 }
                 else {
+                    let recipeId:Int? = json?["recipe_id"] as? Int
+                    recipe.recipeId = recipeId!
                     fileManagerService.saveRecipesToFile(recipesToSave: [recipe], filePath: recipesFile,
                                                          minifyImages: true, appendToFile: true)
-
                 }
                 
                 self.performSegue(withIdentifier: "toAllRecipes", sender: self)
