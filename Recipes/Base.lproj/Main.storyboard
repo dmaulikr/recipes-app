@@ -523,7 +523,7 @@
                                                             <color key="textColor" red="0.01176470588" green="0.1058823529" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <imageView userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LlW-3b-OmW">
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LlW-3b-OmW">
                                                             <rect key="frame" x="15" y="5" width="105" height="89"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="105" id="f3D-2T-wQn"/>
@@ -645,7 +645,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sra-2A-B6e" userLabel="ContentView">
                                         <rect key="frame" x="0.0" y="-60" width="375" height="1000"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qD6-6k-ptT" userLabel="recipeImageView">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qD6-6k-ptT" userLabel="recipeImageView">
                                                 <rect key="frame" x="0.0" y="60" width="375" height="0.0"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" id="rv6-YL-ILw"/>
@@ -966,6 +966,6 @@
         <image name="settings" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="hJC-cX-W7K"/>
+        <segue reference="QZ1-a2-4o9"/>
     </inferredMetricsTieBreakers>
 </document>

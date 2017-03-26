@@ -181,7 +181,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Implements semaphore to figure out when all tasks in queue are done
         let group = DispatchGroup()
         
-        let session:URLSession = URLSession.shared
         let domainName:String = "http://iosrecipes.com/"
         
         for i in 0..<self.recipes.count {
@@ -200,8 +199,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
                 // Create request to download image
                 let url:URL? = URL(string: domainName + recipe.imageUrl)
-                let myPicture = UIImage(data: try! Data(contentsOf: url!))!                
-                self.recipes[i].image = myPicture.resized(withPercentage: 1 / Config.defaultImageResizeScale)
+                let myPicture = UIImage(data: try! Data(contentsOf: url!))!
+                
+                let screenWidth:CGFloat = UIScreen.main.bounds.width
+                self.recipes[i].image = myPicture.resized(toWidth: screenWidth, toHeight: screenWidth * 0.67)
                 print("loaded image")
                     
                 // Decrease semaphore
