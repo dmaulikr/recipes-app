@@ -28,7 +28,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // Misc
     let alertService = AlertControllerService()
     let dataTaskService = DataTaskService()
+    let fileManagerService = FileManagerService()
     
+    var savedRecipesMap:[Int:Recipe] = [Int:Recipe]()
     var recipes:[Recipe] = [Recipe]()
     var recipesToDisplay:[Recipe] = [Recipe]()
     var selectedRecipe:Recipe?
@@ -39,7 +41,42 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.startActivityIndicators()
+        // Create file on device for saving recipes
+        let filemgr = self.fileManagerService.getFileManager()
+        let directoryHome = self.fileManagerService.getDocumentsDirectory().path
+        let dataDir = directoryHome + "/date"
+        let recipesFile = dataDir + "/recipes"
+        
+        if !filemgr.fileExists(atPath: dataDir) {
+            print("creating data directory")
+            fileManagerService.createDirectory(path: dataDir, withIntermediateDirectories: true, attributes: nil)
+        }
+        
+        if !filemgr.fileExists(atPath: recipesFile) {
+            print("creating recipes file")
+            filemgr.createFile(atPath: recipesFile, contents: nil, attributes: nil)
+        }
+        
+        // Cache the file system data
+        UserDefaults.standard.set(dataDir, forKey: "dataDirectory")
+        UserDefaults.standard.set(recipesFile, forKey: "recipesFile")
+
+        /*
+        if let savedRecipes = NSKeyedUnarchiver.unarchiveObject(withFile: recipesFile) as? [Recipe] {
+            for i in 0 ..< savedRecipes.count {
+                let recipeId = savedRecipes[i].recipeId
+                
+                // Resize image
+                if let image = savedRecipes[i].image {
+                    let screenWidth:CGFloat = UIScreen.main.bounds.width
+                    savedRecipes[i].image = image.resized(toWidth: screenWidth, toHeight: screenWidth * 0.67)
+                }
+                
+                // Can't cache savedRecipesMap to UserDefaults because it doesn't except general Object types
+                self.savedRecipesMap[recipeId] = savedRecipes[i]
+            }
+        }*/
+        print("loaded " + String(self.savedRecipesMap.count) + " recipes from file system")
         
         // Pull to refresh
         refreshControl.addTarget(self, action: #selector(ViewController.handleRefresh), for: UIControlEvents.valueChanged)
@@ -73,6 +110,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func retrieveRecipes() {
+        
+        self.startActivityIndicators()
         
         // Create json object
         var json:[String:String] = [String:String]()
@@ -120,15 +159,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
             // Get array of json recipe objects
             let dataArray = dataDictionary?["recipes"] as! NSArray
-                
+            
             // Loop through array and parse each recipe
             // Clear array since it's possible to have recipes in it during user refresh
             self.recipes = []
             for i in 0 ..< dataArray.count {
                 let recipeDictionary = dataArray[i] as! NSDictionary
+                
+                // Skip if this recipe has already been loaded
+                let recipeId:Int = recipeDictionary["recipe_id"] as! Int
+                if self.savedRecipesMap[recipeId] != nil {
+                    print("already loaded recipe with id \(recipeId), skipping")
+                    let savedRecipe = self.savedRecipesMap[recipeId]
+                    self.recipes.append(savedRecipe!)
+                    continue
+                }
 
                 let recipe:Recipe = Recipe()
-                recipe.recipeId = recipeDictionary["recipe_id"] as! Int
+                recipe.recipeId = recipeId
                 recipe.name = recipeDictionary["name"] as! String
                 recipe.recipeDescription =  recipeDictionary["description"] as! String
                 recipe.imageUrl = recipeDictionary["image_url"] as! String
@@ -191,6 +239,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 continue
             }
             
+            // Skip if the recipe has already been loaded
+            if self.savedRecipesMap[recipe.recipeId] != nil {
+                print("already loaded image for recipe with id \(recipe.recipeId), skipping")
+                continue
+            }
+            
             // Increase semaphore
             group.enter()
             
@@ -215,17 +269,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         group.notify(queue: DispatchQueue.main) {
             print("done loading images, displaying recipes")
             
+            // Update the recipes ios file
+            let recipesFile = UserDefaults.standard.object(forKey: "recipesFile") as! String
+            self.fileManagerService.saveRecipesToFile(recipesToSave: self.recipes, filePath: recipesFile, minifyImages: true)
+            
+            // Update savedRecipesMap
+            for i in 0 ..< self.recipes.count {
+                self.savedRecipesMap[self.recipes[i].recipeId] = self.recipes[i]
+            }
+            
             // Handle either initial load(activity indicator) or user refresh (refresh control)
             self.endActivityIndicators()
             self.refreshControl.endRefreshing()
-            
-            // Adjust the table view and display data
-            self.tableViewHeightConstraint.constant = CGFloat(self.recipes.count) * self.defaultTableRowHeight
-            self.recipesToDisplay = self.recipes
-            self.recipesTableView.reloadData()
-            
-            // Display labels and icons appropriately
-            self.displayLabels()
+            self.displayRecipes()
         }
     }
     
@@ -354,6 +410,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func endActivityIndicators() {
         self.activityIndicator.stopAnimating()
         UIApplication.shared.isNetworkActivityIndicatorVisible = false    
+    }
+    
+    func displayRecipes() {
+        // Adjust the table view and display data
+        self.tableViewHeightConstraint.constant = CGFloat(self.recipes.count) * self.defaultTableRowHeight
+        self.recipesToDisplay = self.recipes
+        self.recipesTableView.reloadData()
+        
+        // Display labels and icons appropriately
+        self.displayLabels()
     }
 
     // MARK: - Navigation
