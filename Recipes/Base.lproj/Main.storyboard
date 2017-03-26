@@ -456,6 +456,7 @@
                         <outlet property="recipeImageView" destination="cjx-RJ-nbd" id="evv-bx-hTX"/>
                         <outlet property="recipeNameTextField" destination="a3c-Ia-U5u" id="gg4-5o-5Ji"/>
                         <outlet property="scrollView" destination="M6N-Rp-Iyz" id="h0p-bB-F5S"/>
+                        <segue destination="88J-Mz-WAh" kind="presentation" identifier="toAllRecipes" id="bKd-Bc-mJV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="54K-Ov-K2w" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -966,6 +967,7 @@
         <image name="settings" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="bKd-Bc-mJV"/>
         <segue reference="QZ1-a2-4o9"/>
     </inferredMetricsTieBreakers>
 </document>

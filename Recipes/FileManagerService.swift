@@ -56,7 +56,7 @@ class FileManagerService: NSObject {
 
     }
     
-    func saveRecipesToFile(recipesToSave:[Recipe], filePath:String, minifyImages:Bool) -> Bool {
+    func saveRecipesToFile(recipesToSave:[Recipe], filePath:String, minifyImages:Bool, appendToFile:Bool) -> Bool {
         if minifyImages {
             for i in 0 ..< recipesToSave.count {
                 if let image = recipesToSave[i].image {
@@ -66,15 +66,60 @@ class FileManagerService: NSObject {
             }
         }
         
-        let data = NSKeyedArchiver.archivedData(withRootObject: recipesToSave)
+        var allRecipesToSave:[Recipe] = recipesToSave
+        if appendToFile {
+            if let savedRecipes = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as? [Recipe] {
+                allRecipesToSave = savedRecipes + recipesToSave
+            }
+        }
+        
+        let data = NSKeyedArchiver.archivedData(withRootObject: allRecipesToSave)
         do {
             try data.write(to: URL(fileURLWithPath: filePath))
-        } catch {
-            print("Couldn't write to recipes file")
+        } catch let error as NSError {
+            print("Couldn't write to recipes file: \(error.localizedDescription)")
             return false
         }
         
         print("Successfully saved \(recipesToSave.count) recipes to \(filePath)")
+        return true
+    }
+    
+    func overwriteRecipe(withRecipeId:Int, newRecipe:Recipe, filePath:String, minifyImage:Bool) -> Bool {
+        guard var savedRecipes = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as? [Recipe] else {
+            print("recipe doesn't exist")
+            return false
+        }
+        
+        var recipeExists:Bool = false
+        for i in 0 ..< savedRecipes.count {
+            if savedRecipes[i].recipeId == withRecipeId {
+                recipeExists = true
+                savedRecipes[i] = newRecipe
+                if minifyImage {
+                    if let image = savedRecipes[i].image {
+                        let reducedImage = image.resized(withPercentage: Config.defaultImageResizeScale)
+                        savedRecipes[i].image = reducedImage
+                    }
+                }
+                break
+            }
+        }
+        
+        if !recipeExists {
+            print("recipe doesn't exist")
+            return false
+        }
+        
+        let data = NSKeyedArchiver.archivedData(withRootObject: savedRecipes)
+        do {
+            try data.write(to: URL(fileURLWithPath: filePath))
+        } catch let error as NSError {
+            print("Couldn't write to recipes file: \(error.localizedDescription)")
+            return false
+        }
+        
+        print("Recipe overwritten successfully")
         return true
     }
 

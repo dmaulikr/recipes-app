@@ -38,13 +38,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var currentLeftBarButtonItem:UIBarButtonSystemItem = UIBarButtonSystemItem.edit
     var refreshControl:UIRefreshControl = UIRefreshControl()
     
+    // This variable indicates whether this class will make a remote call to load the recipes for a user    
+    var loadRecipes:Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Create file on device for saving recipes
         let filemgr = self.fileManagerService.getFileManager()
         let directoryHome = self.fileManagerService.getDocumentsDirectory().path
-        let dataDir = directoryHome + "/date"
+        let dataDir = directoryHome + "/data"
         let recipesFile = dataDir + "/recipes"
         
         if !filemgr.fileExists(atPath: dataDir) {
@@ -56,7 +59,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             print("creating recipes file")
             filemgr.createFile(atPath: recipesFile, contents: nil, attributes: nil)
         }
-        
+                                
         // Cache the file system data
         UserDefaults.standard.set(dataDir, forKey: "dataDirectory")
         UserDefaults.standard.set(recipesFile, forKey: "recipesFile")
@@ -74,6 +77,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
                 // Can't cache savedRecipesMap to UserDefaults because it doesn't except general Object types
                 self.savedRecipesMap[recipeId] = savedRecipes[i]
+                self.recipes.append(savedRecipes[i])
             }
         }
         print("loaded " + String(self.savedRecipesMap.count) + " recipes from file system")
@@ -96,11 +100,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         // Retreive recipes and populate view
         self.tableViewHeightConstraint.constant = 0
-        self.retrieveRecipes()
-        
+        if self.loadRecipes {
+            self.retrieveRecipes()
+        }
+        else {
+            self.displayRecipes(recipes: self.recipes)
+        }
     }
     
     func handleRefresh() {
+        self.recipes = []
         self.retrieveRecipes()
     }
 
@@ -161,8 +170,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let dataArray = dataDictionary?["recipes"] as! NSArray
             
             // Loop through array and parse each recipe
-            // Clear array since it's possible to have recipes in it during user refresh
-            self.recipes = []
             for i in 0 ..< dataArray.count {
                 let recipeDictionary = dataArray[i] as! NSDictionary
                 
@@ -170,8 +177,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let recipeId:Int = recipeDictionary["recipe_id"] as! Int
                 if self.savedRecipesMap[recipeId] != nil {
                     print("already loaded recipe with id \(recipeId), skipping")
-                    let savedRecipe = self.savedRecipesMap[recipeId]
-                    self.recipes.append(savedRecipe!)
                     continue
                 }
 
@@ -269,19 +274,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         group.notify(queue: DispatchQueue.main) {
             print("done loading images, displaying recipes")
             
-            // Update the recipes ios file
-            let recipesFile = UserDefaults.standard.object(forKey: "recipesFile") as! String
-            self.fileManagerService.saveRecipesToFile(recipesToSave: self.recipes, filePath: recipesFile, minifyImages: true)
+            // If any new recipes have been retrieved, update the recipes file and local cache
+            if self.recipes.count > self.savedRecipesMap.count {
+                print("new recipes found, updating file system and local cache")
+                let recipesFile = UserDefaults.standard.object(forKey: "recipesFile") as! String
+                self.fileManagerService.saveRecipesToFile(recipesToSave: self.recipes, filePath: recipesFile, minifyImages: true,
+                                                          appendToFile: false)
             
-            // Update savedRecipesMap
-            for i in 0 ..< self.recipes.count {
-                self.savedRecipesMap[self.recipes[i].recipeId] = self.recipes[i]
+                for i in 0 ..< self.recipes.count {
+                    self.savedRecipesMap[self.recipes[i].recipeId] = self.recipes[i]
+                }
             }
             
             // Handle either initial load(activity indicator) or user refresh (refresh control)
             self.endActivityIndicators()
             self.refreshControl.endRefreshing()
-            self.displayRecipes()
+            self.displayRecipes(recipes: self.recipes)
         }
     }
     
@@ -412,10 +420,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         UIApplication.shared.isNetworkActivityIndicatorVisible = false    
     }
     
-    func displayRecipes() {
+    func displayRecipes(recipes:[Recipe]) {
         // Adjust the table view and display data
         self.tableViewHeightConstraint.constant = CGFloat(self.recipes.count) * self.defaultTableRowHeight
-        self.recipesToDisplay = self.recipes
+        self.recipesToDisplay = recipes
         self.recipesTableView.reloadData()
         
         // Display labels and icons appropriately

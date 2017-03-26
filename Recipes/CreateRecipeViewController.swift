@@ -164,6 +164,18 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         // Dispose of any resources that can be recreated.
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Load recipe if editing a previous recipe, because we don't know the imageUrl when saving
+        // and don't want to write to the file system if we don't know all the recipe properties
+        if segue.identifier == "toAllRecipes" && !self.editingRecipe {
+            if let navigationController = segue.destination as? UINavigationController {
+                if let viewController = navigationController.viewControllers.first as? ViewController {
+                    viewController.loadRecipes = false
+                }
+            }        
+        }
+    }
+    
     
     func populateViewWithRecipeToEdit() {
         self.recipeNameTextField.text = self.recipeToEdit?.name
@@ -424,43 +436,42 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             
         }
         
+        var json:[String:AnyObject] = [
+            "fb_user_id" : CurrentUser.userId as AnyObject,
+            "name" : recipe.name as AnyObject,
+            "description" : recipe.recipeDescription as AnyObject,
+            "ingredients" : recipe.ingredients as AnyObject,
+            "instructions" : recipe.instructions as AnyObject
+        ]
+        
+        if updateExistingRecipe  {
+            json["recipe_id"] = (self.recipeToEdit?.recipeId)! as AnyObject
+            json["ingredient_to_id_map"] = recipe.ingredientToIdMap as AnyObject
+            json["instruction_to_id_map"] = recipe.instructionToIdMap as AnyObject
+            json["ingredients_to_delete"] = self.ingredientIdsToDelete as AnyObject
+            json["instructions_to_delete"] = self.instructionIdsToDelete as AnyObject
+            
+            json["new_image_id"] = "" as AnyObject
+            if imageId != nil {
+                json["new_image_id"] = imageId! as AnyObject
+            }
+            json["delete_image"] = deleteImage as AnyObject?
+        }
+        else {
+            json["image_id"] = "" as AnyObject
+            if imageId != nil {
+                json["image_id"] = imageId! as AnyObject
+            }
+        }
+
         // Save the recipe as a json data object
         var data:Data?
         do {
-            
-            var json:[String:AnyObject] = [
-                "fb_user_id" : CurrentUser.userId as AnyObject,
-                "name" : recipe.name as AnyObject,
-                "description" : recipe.recipeDescription as AnyObject,
-                "ingredients" : recipe.ingredients as AnyObject,
-                "instructions" : recipe.instructions as AnyObject
-            ]
-            
-            if updateExistingRecipe  {
-                json["recipe_id"] = (self.recipeToEdit?.recipeId)! as AnyObject
-                json["ingredient_to_id_map"] = recipe.ingredientToIdMap as AnyObject
-                json["instruction_to_id_map"] = recipe.instructionToIdMap as AnyObject
-                json["ingredients_to_delete"] = self.ingredientIdsToDelete as AnyObject
-                json["instructions_to_delete"] = self.instructionIdsToDelete as AnyObject
-                
-                json["new_image_id"] = "" as AnyObject
-                if imageId != nil {
-                    json["new_image_id"] = imageId! as AnyObject
-                }
-                json["delete_image"] = deleteImage as AnyObject?
-            }
-            else {
-                json["image_id"] = "" as AnyObject
-                if imageId != nil {
-                    json["image_id"] = imageId! as AnyObject
-                }
-            }
-            
             data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
             
         }
         catch let e as NSError {
-            NSLog("Error: couldn't convert recipe object to valid json, " + e.localizedDescription)
+            NSLog("Error: couldn't convert recipe json to data object, " + e.localizedDescription)
             self.endActivityIndicators()
             self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
                 self.saveRecipeData(imageId: imageId, updateExistingRecipe: updateExistingRecipe, deleteImage: deleteImage)
@@ -516,11 +527,19 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             }
 
             
-            NSLog("Recipe inserted successfully")
+            print("Recipe successfully saved")
             
             // Go back to ViewController
             DispatchQueue.main.async {
-                self.presentNavigationController()
+                let fileManagerService = FileManagerService()
+                let recipesFile = UserDefaults.standard.object(forKey: "recipesFile") as! String
+                
+                if !self.editingRecipe {
+                    fileManagerService.saveRecipesToFile(recipesToSave: [recipe], filePath: recipesFile,
+                                                         minifyImages: true, appendToFile: true)
+                }
+                
+                self.performSegue(withIdentifier: "toAllRecipes", sender: self)
             }
             
         })
