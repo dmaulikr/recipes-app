@@ -59,6 +59,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             print("creating recipes file")
             filemgr.createFile(atPath: recipesFile, contents: nil, attributes: nil)
         }
+        
+        fileManagerService.removeItem(path: recipesFile)
                                 
         // Cache the file system data
         UserDefaults.standard.set(dataDir, forKey: "dataDirectory")
@@ -547,6 +549,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             // Show appropriate labels
             displayLabels()
+            
+            let recipesFile = UserDefaults.standard.object(forKey: "recipesFile") as! String
+            let success = self.fileManagerService.saveRecipesToFile(recipesToSave: self.recipes, filePath: recipesFile,
+                                                      minifyImages: true, appendToFile: false)
+            if success {
+                self.savedRecipesMap.removeValue(forKey: recipeToDelete.recipeId)
+            }
         }
     }
     
