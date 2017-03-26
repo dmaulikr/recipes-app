@@ -88,6 +88,11 @@ $conn->commit();
 // Close the connection
 $conn->close();
 
-echo $json_service->get_json_result("Successfully saved recipe", true);
+// Print success message
+echo json_encode([
+	"recipe_id" => $recipe_id,
+	"message" => "Recipe saved successfully",
+	"status" => "success"
+]);
 
 ?>
