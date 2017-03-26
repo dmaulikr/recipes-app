@@ -47,7 +47,7 @@ extension UIImage {
     
     func resized(withPercentage percentage: CGFloat) -> UIImage? {
         
-        print("original size: " + String(describing: self.size))
+        // print("original size: " + String(describing: self.size))
         
         let newSize = self.size.applying(CGAffineTransform(scaleX: percentage, y: percentage))
         let hasAlpha = false
@@ -58,14 +58,14 @@ extension UIImage {
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        print("new size: " + String(describing: resizedImage?.size))
+        // print("new size: " + String(describing: resizedImage?.size))
         return resizedImage
     }
     
     
     func resized(toWidth width: CGFloat) -> UIImage? {
         
-        print("original size: " + String(describing: self.size))
+        // print("original size: " + String(describing: self.size))
         
         let canvasSize = CGSize(width: width, height: CGFloat(ceil(width/size.width * size.height)))
 
@@ -74,7 +74,7 @@ extension UIImage {
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        print("new size: " + String(describing: resizedImage?.size))
+        // print("new size: " + String(describing: resizedImage?.size))
         return resizedImage
     }
     
@@ -84,7 +84,7 @@ extension UIImage {
         var imgRatio = actualWidth/actualHeight
         let maxRatio = toWidth / toHeight
         
-        print("original size: " + String(describing: self.size))
+        // print("original size: " + String(describing: self.size))
         
         if imgRatio != maxRatio {
             if imgRatio < maxRatio {
@@ -99,7 +99,6 @@ extension UIImage {
             }
         }
         
-        print(actualHeight)
         let rect = CGRect(x: 0, y: 0, width: actualWidth, height: actualHeight)
         UIGraphicsBeginImageContextWithOptions(rect.size, false, 0)
         
@@ -107,7 +106,7 @@ extension UIImage {
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        print("new size: " + String(describing: resizedImage?.size))
+        // print("new size: " + String(describing: resizedImage?.size))
         return resizedImage
     }
  
