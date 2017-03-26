@@ -65,6 +65,7 @@ $conn->close();
 // Print success message
 echo json_encode([
 	"image_id" => $image_id,
+	"image_url" => $image_url,
 	"message" => "Image saved successfully",
 	"status" => "success"
 ]);

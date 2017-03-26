@@ -325,7 +325,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         
         // If no image, or it's not a new one, just save the data
         if self.recipeImageView.image == nil || !self.newRecipeImageSelected {
-            saveRecipeData(imageId: nil, updateExistingRecipe: self.editingRecipe, deleteImage: self.imageDeleted)
+            saveRecipeData(imageId: nil, imageUrl: nil, updateExistingRecipe: self.editingRecipe, deleteImage: self.imageDeleted)
             return
         }
         
@@ -388,10 +388,11 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             }
             
             let imageId:Int? = json?["image_id"] as? Int
+            let imageUrl:String? = json?["image_url"] as? String
             
             // Go back to ViewController
             DispatchQueue.main.async {
-                self.saveRecipeData(imageId: imageId, updateExistingRecipe: self.editingRecipe, deleteImage: false)
+                self.saveRecipeData(imageId: imageId, imageUrl: imageUrl, updateExistingRecipe: self.editingRecipe, deleteImage: false)
             }
             
         })
@@ -399,7 +400,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         saveImageTask.resume()
     }
     
-    func saveRecipeData(imageId:Int?, updateExistingRecipe: Bool, deleteImage:Bool) {
+    func saveRecipeData(imageId:Int?, imageUrl:String?, updateExistingRecipe: Bool, deleteImage:Bool) {
         
         // Create recipe object to save
         let recipe:Recipe = Recipe()
@@ -474,7 +475,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             NSLog("Error: couldn't convert recipe json to data object, " + e.localizedDescription)
             self.endActivityIndicators()
             self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
-                self.saveRecipeData(imageId: imageId, updateExistingRecipe: updateExistingRecipe, deleteImage: deleteImage)
+                self.saveRecipeData(imageId: imageId, imageUrl: imageUrl, updateExistingRecipe: updateExistingRecipe, deleteImage: deleteImage)
             })
             return
         }
@@ -507,7 +508,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
                 DispatchQueue.main.async {
                     self.endActivityIndicators()
                     self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
-                        self.saveRecipeData(imageId: imageId, updateExistingRecipe: updateExistingRecipe, deleteImage: deleteImage)
+                        self.saveRecipeData(imageId: imageId, imageUrl: imageUrl, updateExistingRecipe: updateExistingRecipe, deleteImage: deleteImage)
                     })
                 }
                 return
@@ -520,7 +521,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
                 DispatchQueue.main.async {
                     self.endActivityIndicators()
                     self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
-                        self.saveRecipeData(imageId: imageId, updateExistingRecipe: updateExistingRecipe, deleteImage: deleteImage)
+                        self.saveRecipeData(imageId: imageId, imageUrl: imageUrl, updateExistingRecipe: updateExistingRecipe, deleteImage: deleteImage)
                     })
                 }
                 return
@@ -534,9 +535,19 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
                 let fileManagerService = FileManagerService()
                 let recipesFile = UserDefaults.standard.object(forKey: "recipesFile") as! String
                 
-                if !self.editingRecipe {
+                if self.editingRecipe {
+                    recipe.recipeId = (self.recipeToEdit?.recipeId)!
+                    recipe.image = self.recipeImageView.image
+                    if let imageUrl = imageUrl {
+                        recipe.imageUrl = imageUrl
+                    }
+                    fileManagerService.overwriteRecipe(withRecipeId: recipe.recipeId, newRecipe: recipe,
+                                                       filePath: recipesFile, minifyImage: true)
+                }
+                else {
                     fileManagerService.saveRecipesToFile(recipesToSave: [recipe], filePath: recipesFile,
                                                          minifyImages: true, appendToFile: true)
+
                 }
                 
                 self.performSegue(withIdentifier: "toAllRecipes", sender: self)
