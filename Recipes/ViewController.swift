@@ -61,7 +61,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         UserDefaults.standard.set(dataDir, forKey: "dataDirectory")
         UserDefaults.standard.set(recipesFile, forKey: "recipesFile")
 
-        /*
+        
         if let savedRecipes = NSKeyedUnarchiver.unarchiveObject(withFile: recipesFile) as? [Recipe] {
             for i in 0 ..< savedRecipes.count {
                 let recipeId = savedRecipes[i].recipeId
@@ -75,7 +75,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 // Can't cache savedRecipesMap to UserDefaults because it doesn't except general Object types
                 self.savedRecipesMap[recipeId] = savedRecipes[i]
             }
-        }*/
+        }
         print("loaded " + String(self.savedRecipesMap.count) + " recipes from file system")
         
         // Pull to refresh
