@@ -156,7 +156,7 @@
                                                     <action selector="deleteImageClicked:" destination="6dR-iX-OMH" eventType="touchUpInside" id="xiC-mp-67P"/>
                                                 </connections>
                                             </button>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cjx-RJ-nbd" userLabel="recipeImage">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cjx-RJ-nbd" userLabel="recipeImage">
                                                 <rect key="frame" x="0.0" y="345" width="375" height="0.0"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" id="oon-iE-oRI"/>
@@ -646,7 +646,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sra-2A-B6e" userLabel="ContentView">
                                         <rect key="frame" x="0.0" y="-60" width="375" height="1000"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qD6-6k-ptT" userLabel="recipeImageView">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qD6-6k-ptT" userLabel="recipeImageView">
                                                 <rect key="frame" x="0.0" y="60" width="375" height="0.0"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" id="rv6-YL-ILw"/>
