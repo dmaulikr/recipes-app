@@ -22,7 +22,7 @@ class RecipesFileManagerService: FileManager {
         return FileManager.default
     }
     
-    func getDocumentsDirectory() -> URL {        
+    func getDocumentsDirectory() -> URL {
         return self.documentsHomeDirectory
     }
     
@@ -30,8 +30,8 @@ class RecipesFileManagerService: FileManager {
         
         do {
             try super.createDirectory(atPath: path,
-                                            withIntermediateDirectories: withIntermediateDirectories,
-                                            attributes: attributes)
+                                      withIntermediateDirectories: withIntermediateDirectories,
+                                      attributes: attributes)
         }
         catch let error as NSError {
             print("Error creating directory: \(error.localizedDescription)")
@@ -53,7 +53,7 @@ class RecipesFileManagerService: FileManager {
         
         print("Successfully deleted \(path)")
         return true
-
+        
     }
     
     func saveRecipesToFile(recipesToSave:[Recipe], filePath:String, minifyImages:Bool, appendToFile:Bool) -> Bool {
@@ -122,5 +122,5 @@ class RecipesFileManagerService: FileManager {
         print("Recipe successfully overwritten")
         return true
     }
-
+    
 }

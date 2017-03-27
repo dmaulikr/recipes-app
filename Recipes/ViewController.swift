@@ -28,7 +28,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // Misc
     let alertService = AlertControllerService()
     let dataTaskService = DataTaskService()
-    let fileManagerService = FileManagerService()
+    let fileManagerService = RecipesFileManagerService()
     
     var savedRecipesMap:[Int:Recipe] = [Int:Recipe]()
     var recipes:[Recipe] = [Recipe]()
@@ -45,7 +45,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         
         // Create file on device for saving recipes
-        let filemgr = self.fileManagerService.getFileManager()
+        let filemgr = self.fileManagerService.getDefaultFileManager()
         let directoryHome = self.fileManagerService.getDocumentsDirectory().path
         let dataDir = directoryHome + "/data"
         let recipesFile = dataDir + "/recipes"
@@ -108,7 +108,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func handleRefresh() {
+        // Hard refresh, so clear caches
         self.recipes = []
+        self.savedRecipesMap.removeAll()
         self.retrieveRecipes()
     }
 

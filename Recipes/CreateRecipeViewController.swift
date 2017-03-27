@@ -530,7 +530,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             
             // Go back to ViewController
             DispatchQueue.main.async {
-                let fileManagerService = FileManagerService()
+                let fileManagerService = RecipesFileManagerService()
                 let recipesFile = UserDefaults.standard.object(forKey: "recipesFile") as! String
                 
                 if self.editingRecipe {
