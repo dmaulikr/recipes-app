@@ -26,6 +26,7 @@ class RecipesFileManagerService: FileManager {
         return self.documentsHomeDirectory
     }
     
+    @discardableResult
     func createDirectory(path: String, withIntermediateDirectories: Bool, attributes: [String : Any]?) -> Bool {
         
         do {
@@ -42,6 +43,7 @@ class RecipesFileManagerService: FileManager {
         return true
     }
     
+    @discardableResult
     func removeItem(path: String) -> Bool {
         do {
             try super.removeItem(atPath: path)
@@ -56,6 +58,7 @@ class RecipesFileManagerService: FileManager {
         
     }
     
+    @discardableResult
     func saveRecipesToFile(recipesToSave:[Recipe], filePath:String, appendToFile:Bool) -> Bool {
         
         var allRecipesToSave:[Recipe] = recipesToSave
@@ -77,6 +80,7 @@ class RecipesFileManagerService: FileManager {
         return true
     }
     
+    @discardableResult
     func overwriteRecipe(withRecipeId:Int, newRecipe:Recipe, filePath:String) -> Bool {
         guard var savedRecipes = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as? [Recipe] else {
             print("recipe doesn't exist")
