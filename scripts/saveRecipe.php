@@ -82,6 +82,26 @@ if(count($instructions) > 0) {
 	}
 }
 
+// Now create ingredient and instruction maps to pass back to user
+// TODO: Will want to figure out a better way to do this
+$ingredient_to_id_map = array();
+$retrieve_ingredients_sql = "SELECT * FROM " . Constants::RECIPE_INGREDIENTS_TABLE . " WHERE recipe_id = " . $recipe_id;
+$result = $conn->query($retrieve_ingredients_sql);
+while($row = $result->fetch_assoc()) {
+	$ingredient_id = $row["ingredient_id"];
+	$ingredient_name = $row["ingredient"];		
+	$ingredient_to_id_map[$ingredient_name] = intval($ingredient_id);
+}
+	
+$instruction_to_id_map = array();						
+$retrieve_instructions_sql = "SELECT * FROM " . Constants::RECIPE_INSTRUCTIONS_TABLE . " WHERE recipe_id = " . $recipe_id;
+$result = $conn->query($retrieve_instructions_sql);
+while($row = $result->fetch_assoc()) {
+	$instruction_id = $row["instruction_id"];
+	$instruction_name = $row["instruction"];		
+	$instruction_to_id_map[$instruction_name] = intval($instruction_id);
+}
+
 // End transaction
 $conn->commit();
 
@@ -91,6 +111,8 @@ $conn->close();
 // Print success message
 echo json_encode([
 	"recipe_id" => $recipe_id,
+	"ingredient_to_id_map" => $ingredient_to_id_map,
+	"instruction_to_id_map" => $instruction_to_id_map,
 	"message" => "Recipe saved successfully",
 	"status" => "success"
 ]);

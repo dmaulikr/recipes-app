@@ -545,8 +545,22 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
                     fileManagerService.overwriteRecipe(withRecipeId: recipe.recipeId, newRecipe: recipe, filePath: recipesFile)
                 }
                 else {
-                    let recipeId:Int? = json?["recipe_id"] as? Int
-                    recipe.recipeId = recipeId!
+                    recipe.recipeId = (json?["recipe_id"])! as! Int
+                    
+                    let ingredientsMap:NSDictionary? = (json?["ingredient_to_id_map"])! as? NSDictionary
+                    if ingredientsMap != nil {
+                        for (key, value) in ingredientsMap! {
+                            recipe.ingredientToIdMap[key as! String] = value as? Int
+                        }
+                    }
+                    
+                    let instructionsMap:NSDictionary? = (json?["instruction_to_id_map"])! as? NSDictionary
+                    if instructionsMap != nil {
+                        for (key, value) in instructionsMap! {
+                            recipe.instructionToIdMap[key as! String] = value as? Int
+                        }
+                    }
+                    
                     fileManagerService.saveRecipesToFile(recipesToSave: [recipe], filePath: recipesFile, appendToFile: true)
                 }
                 
