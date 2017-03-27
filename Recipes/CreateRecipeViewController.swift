@@ -339,9 +339,12 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         // Create and initialize the body
         let body:NSMutableData = NSMutableData()
         
+        /*
         let reducedImage = self.recipeImageView.image?.resized(withPercentage: Config.defaultImageResizeScale)
         let imageData:Data = (reducedImage?.jpeg(UIImage.JPEGQuality.highest))!
         print("image size: " + String(imageData.count))
+        */
+        let imageData:Data = self.recipeImageView.image!.jpeg(UIImage.JPEGQuality.high)!
         
         let boundary:String = "Boundary-\(NSUUID().uuidString)"
         let filePathKey:String = "file"
@@ -533,20 +536,18 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
                 let fileManagerService = RecipesFileManagerService()
                 let recipesFile = UserDefaults.standard.object(forKey: "recipesFile") as! String
                 
+                recipe.image = self.recipeImageView.image
+                if let imageUrl = imageUrl {
+                    recipe.imageUrl = imageUrl
+                }
                 if self.editingRecipe {
                     recipe.recipeId = (self.recipeToEdit?.recipeId)!
-                    recipe.image = self.recipeImageView.image
-                    if let imageUrl = imageUrl {
-                        recipe.imageUrl = imageUrl
-                    }
-                    fileManagerService.overwriteRecipe(withRecipeId: recipe.recipeId, newRecipe: recipe,
-                                                       filePath: recipesFile, minifyImage: true)
+                    fileManagerService.overwriteRecipe(withRecipeId: recipe.recipeId, newRecipe: recipe, filePath: recipesFile)
                 }
                 else {
                     let recipeId:Int? = json?["recipe_id"] as? Int
                     recipe.recipeId = recipeId!
-                    fileManagerService.saveRecipesToFile(recipesToSave: [recipe], filePath: recipesFile,
-                                                         minifyImages: true, appendToFile: true)
+                    fileManagerService.saveRecipesToFile(recipesToSave: [recipe], filePath: recipesFile, appendToFile: true)
                 }
                 
                 self.performSegue(withIdentifier: "toAllRecipes", sender: self)

@@ -59,7 +59,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             print("creating recipes file")
             filemgr.createFile(atPath: recipesFile, contents: nil, attributes: nil)
         }
-        
+                
         // Cache the file system data
         UserDefaults.standard.set(dataDir, forKey: "dataDirectory")
         UserDefaults.standard.set(recipesFile, forKey: "recipesFile")
@@ -69,10 +69,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let recipeId = savedRecipes[i].recipeId
                 
                 // Resize image
+                /*
                 if let image = savedRecipes[i].image {
                     let screenWidth:CGFloat = UIScreen.main.bounds.width
                     savedRecipes[i].image = image.resized(toWidth: screenWidth, toHeight: screenWidth * 0.67)
-                }
+                }*/
                 
                 // Can't cache savedRecipesMap to UserDefaults because it doesn't except general Object types
                 self.savedRecipesMap[recipeId] = savedRecipes[i]
@@ -262,8 +263,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let url:URL? = URL(string: domainName + recipe.imageUrl)
                 let myPicture = UIImage(data: try! Data(contentsOf: url!))!
                 
+                /*
                 let screenWidth:CGFloat = UIScreen.main.bounds.width
                 self.recipes[i].image = myPicture.resized(toWidth: screenWidth, toHeight: screenWidth * 0.67)
+                */
+                self.recipes[i].image = myPicture
                 print("loaded image")
                     
                 // Decrease semaphore
@@ -280,8 +284,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if self.recipes.count > self.savedRecipesMap.count {
                 print("new recipes found, updating file system and local cache")
                 let recipesFile = UserDefaults.standard.object(forKey: "recipesFile") as! String
-                self.fileManagerService.saveRecipesToFile(recipesToSave: self.recipes, filePath: recipesFile, minifyImages: true,
-                                                          appendToFile: false)
+                self.fileManagerService.saveRecipesToFile(recipesToSave: self.recipes, filePath: recipesFile, appendToFile: false)
             
                 for i in 0 ..< self.recipes.count {
                     self.savedRecipesMap[self.recipes[i].recipeId] = self.recipes[i]
@@ -551,8 +554,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             displayLabels()
             
             let recipesFile = UserDefaults.standard.object(forKey: "recipesFile") as! String
-            let success = self.fileManagerService.saveRecipesToFile(recipesToSave: self.recipes, filePath: recipesFile,
-                                                      minifyImages: true, appendToFile: false)
+            let success = self.fileManagerService.saveRecipesToFile(recipesToSave: self.recipes, filePath: recipesFile, appendToFile: false)
             if success {
                 self.savedRecipesMap.removeValue(forKey: recipeToDelete.recipeId)
             }

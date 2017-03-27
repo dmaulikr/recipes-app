@@ -56,15 +56,7 @@ class RecipesFileManagerService: FileManager {
         
     }
     
-    func saveRecipesToFile(recipesToSave:[Recipe], filePath:String, minifyImages:Bool, appendToFile:Bool) -> Bool {
-        if minifyImages {
-            for i in 0 ..< recipesToSave.count {
-                if let image = recipesToSave[i].image {
-                    let reducedImage = image.resized(withPercentage: Config.defaultImageResizeScale)
-                    recipesToSave[i].image = reducedImage
-                }
-            }
-        }
+    func saveRecipesToFile(recipesToSave:[Recipe], filePath:String, appendToFile:Bool) -> Bool {
         
         var allRecipesToSave:[Recipe] = recipesToSave
         if appendToFile {
@@ -85,7 +77,7 @@ class RecipesFileManagerService: FileManager {
         return true
     }
     
-    func overwriteRecipe(withRecipeId:Int, newRecipe:Recipe, filePath:String, minifyImage:Bool) -> Bool {
+    func overwriteRecipe(withRecipeId:Int, newRecipe:Recipe, filePath:String) -> Bool {
         guard var savedRecipes = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as? [Recipe] else {
             print("recipe doesn't exist")
             return false
@@ -95,13 +87,7 @@ class RecipesFileManagerService: FileManager {
         for i in 0 ..< savedRecipes.count {
             if savedRecipes[i].recipeId == withRecipeId {
                 recipeExists = true
-                savedRecipes[i] = newRecipe
-                if minifyImage {
-                    if let image = savedRecipes[i].image {
-                        let reducedImage = image.resized(withPercentage: Config.defaultImageResizeScale)
-                        savedRecipes[i].image = reducedImage
-                    }
-                }
+                savedRecipes[i] = newRecipe                
                 break
             }
         }
