@@ -61,8 +61,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
                 
         // Cache the file system data
-        UserDefaults.standard.set(dataDir, forKey: "dataDirectory")
-        UserDefaults.standard.set(recipesFile, forKey: "recipesFile")
+        UserDefaults.standard.set(dataDir, forKey: Config.mainDirectoryFilePathKey)
+        UserDefaults.standard.set(recipesFile, forKey: Config.recipesFilePathKey)
 
         if let savedRecipes = NSKeyedUnarchiver.unarchiveObject(withFile: recipesFile) as? [Recipe] {
             for i in 0 ..< savedRecipes.count {
@@ -283,7 +283,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             // If any new recipes have been retrieved, update the recipes file and local cache
             if self.recipes.count > self.savedRecipesMap.count {
                 print("new recipes found, updating file system and local cache")
-                let recipesFile = UserDefaults.standard.object(forKey: "recipesFile") as! String
+                let recipesFile = UserDefaults.standard.object(forKey: Config.recipesFilePathKey) as! String
                 self.fileManagerService.saveRecipesToFile(recipesToSave: self.recipes, filePath: recipesFile, appendToFile: false)
             
                 for i in 0 ..< self.recipes.count {
@@ -553,7 +553,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             // Show appropriate labels
             displayLabels()
             
-            let recipesFile = UserDefaults.standard.object(forKey: "recipesFile") as! String
+            let recipesFile = UserDefaults.standard.object(forKey: Config.recipesFilePathKey) as! String
             let success = self.fileManagerService.saveRecipesToFile(recipesToSave: self.recipes, filePath: recipesFile, appendToFile: false)
             if success {
                 self.savedRecipesMap.removeValue(forKey: recipeToDelete.recipeId)

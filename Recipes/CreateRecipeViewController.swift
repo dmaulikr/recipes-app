@@ -534,7 +534,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             // Go back to ViewController
             DispatchQueue.main.async {
                 let fileManagerService = RecipesFileManagerService()
-                let recipesFile = UserDefaults.standard.object(forKey: "recipesFile") as! String
+                let recipesFile = UserDefaults.standard.object(forKey: Config.recipesFilePathKey) as! String
                 
                 recipe.image = self.recipeImageView.image
                 if let imageUrl = imageUrl {
