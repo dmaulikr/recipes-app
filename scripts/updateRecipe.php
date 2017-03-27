@@ -18,7 +18,7 @@ const GET_RECIPE_IMAGE_SQL = "SELECT image_id from " . Constants::RECIPES_TABLE 
 
 $json_service = new JsonService();
 
-function get_current_recipe_image($conn, $recipe_id) {
+function get_current_recipe_image($conn, $recipe_id, $json_service) {
 	// Check if recipe used to have an image
 	$current_image_ps = $conn->prepare(GET_RECIPE_IMAGE_SQL);
 	$current_image_ps->bind_param("i", $recipe_id);
@@ -37,9 +37,8 @@ function get_current_recipe_image($conn, $recipe_id) {
 	return $current_image_id;
 }
 
-function delete_recipe_image($conn, $recipe_id, $image_id) {
+function delete_recipe_image($conn, $recipe_id, $image_id, $json_service) {
 	$delete_image_sql = "UPDATE " . Constants::IMAGES_TABLE . " SET deleted = true where image_id = " . $image_id;
-	echo $delete_image_sql;
 	if(!$conn->query($delete_image_sql)) {
 		echo $json_service->get_json_result("Couldn't delete from images table: " . $conn->error, false);
 		die();
@@ -50,8 +49,6 @@ function delete_recipe_image($conn, $recipe_id, $image_id) {
 		echo $json_service->get_json_result("Couldn't delete image from recipes table: " . $conn->error, false);
 		die();
 	}
-
-	echo "deleted old image";
 }
 
 
@@ -98,9 +95,9 @@ if(!$update_recipe_sql_ps->execute()) {
 
 // If a new image id is provided, delete any existing one and save the new one
 if($new_image_id) {
-	$current_image_id = get_current_recipe_image($conn, $recipe_id);
+	$current_image_id = get_current_recipe_image($conn, $recipe_id, $json_service);
 	if(!is_null($current_image_id)) {
-		delete_recipe_image($conn, $recipe_id, $current_image_id);
+		delete_recipe_image($conn, $recipe_id, $current_image_id, $json_service);
 	}
 
 	$updated_recipe_image_sql = "UPDATE " . Constants::RECIPES_TABLE . " SET image_id = " . $new_image_id . " where recipe_id = " . $recipe_id;
@@ -112,8 +109,8 @@ if($new_image_id) {
 }
 else if ($delete_image) {	
 	// If user only wants to delete image
-	$current_image_id = get_current_recipe_image($conn, $recipe_id);
-	delete_recipe_image($conn, $recipe_id, $current_image_id);
+	$current_image_id = get_current_recipe_image($conn, $recipe_id, $json_service);
+	delete_recipe_image($conn, $recipe_id, $current_image_id, $json_service);
 }
 
 // Update ingredients
@@ -225,12 +222,39 @@ if(count($instructions_to_delete) > 0) {
 	}
 }	
 
+// Now create ingredient and instruction maps to pass back to user
+// TODO: Will want to figure out a better way to do this
+$ingredient_to_id_map = array();
+$retrieve_ingredients_sql = "SELECT * FROM " . Constants::RECIPE_INGREDIENTS_TABLE . " WHERE recipe_id = " . $recipe_id;
+$result = $conn->query($retrieve_ingredients_sql);
+while($row = $result->fetch_assoc()) {
+	$ingredient_id = $row["ingredient_id"];
+	$ingredient_name = $row["ingredient"];		
+	$ingredient_to_id_map[$ingredient_name] = intval($ingredient_id);
+}
+	
+$instruction_to_id_map = array();						
+$retrieve_instructions_sql = "SELECT * FROM " . Constants::RECIPE_INSTRUCTIONS_TABLE . " WHERE recipe_id = " . $recipe_id;
+$result = $conn->query($retrieve_instructions_sql);
+while($row = $result->fetch_assoc()) {
+	$instruction_id = $row["instruction_id"];
+	$instruction_name = $row["instruction"];		
+	$instruction_to_id_map[$instruction_name] = intval($instruction_id);
+}
+
 // End transaction
 $conn->commit();
 
 // Close the connection
 $conn->close();
 
-echo $json_service->get_json_result("Successfully updated recipe", true);
+// Print success message
+echo json_encode([
+	"ingredient_to_id_map" => $ingredient_to_id_map,
+	"instruction_to_id_map" => $instruction_to_id_map,
+	"message" => "Recipe saved successfully",
+	"status" => "success"
+]);
+
 
 ?>

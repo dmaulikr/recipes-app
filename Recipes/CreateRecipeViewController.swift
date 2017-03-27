@@ -531,36 +531,36 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             
             print("Recipe successfully saved")
             
+            recipe.image = self.recipeImageView.image
+            if let imageUrl = imageUrl {
+                recipe.imageUrl = imageUrl
+            }
+            
+            let ingredientsMap:NSDictionary? = (json?["ingredient_to_id_map"])! as? NSDictionary
+            if ingredientsMap != nil {
+                for (key, value) in ingredientsMap! {
+                    recipe.ingredientToIdMap[key as! String] = value as? Int
+                }
+            }
+            
+            let instructionsMap:NSDictionary? = (json?["instruction_to_id_map"])! as? NSDictionary
+            if instructionsMap != nil {
+                for (key, value) in instructionsMap! {
+                    recipe.instructionToIdMap[key as! String] = value as! Int
+                }
+            }
+            
             // Go back to ViewController
             DispatchQueue.main.async {
                 let fileManagerService = RecipesFileManagerService()
                 let recipesFile = UserDefaults.standard.object(forKey: Config.recipesFilePathKey) as! String
                 
-                recipe.image = self.recipeImageView.image
-                if let imageUrl = imageUrl {
-                    recipe.imageUrl = imageUrl
-                }
                 if self.editingRecipe {
                     recipe.recipeId = (self.recipeToEdit?.recipeId)!
                     fileManagerService.overwriteRecipe(withRecipeId: recipe.recipeId, newRecipe: recipe, filePath: recipesFile)
                 }
                 else {
                     recipe.recipeId = (json?["recipe_id"])! as! Int
-                    
-                    let ingredientsMap:NSDictionary? = (json?["ingredient_to_id_map"])! as? NSDictionary
-                    if ingredientsMap != nil {
-                        for (key, value) in ingredientsMap! {
-                            recipe.ingredientToIdMap[key as! String] = value as? Int
-                        }
-                    }
-                    
-                    let instructionsMap:NSDictionary? = (json?["instruction_to_id_map"])! as? NSDictionary
-                    if instructionsMap != nil {
-                        for (key, value) in instructionsMap! {
-                            recipe.instructionToIdMap[key as! String] = value as? Int
-                        }
-                    }
-                    
                     fileManagerService.saveRecipesToFile(recipesToSave: [recipe], filePath: recipesFile, appendToFile: true)
                 }
                 
