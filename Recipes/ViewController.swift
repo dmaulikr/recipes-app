@@ -12,7 +12,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // UI outlets
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var noRecipesLabel: UILabel!
     @IBOutlet weak var getStartedLabel: UILabel!
@@ -101,10 +100,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Retreive recipes and populate view
         self.tableViewHeightConstraint.constant = 0
         if self.loadRecipes {
-            self.retrieveRecipes()
+            self.retrieveRecipes(startIndicators: true)
         }
         else {
+            self.startActivityIndicators()
             self.displayRecipes(recipes: self.recipes)
+            self.endActivityIndicators()
         }
     }
     
@@ -112,7 +113,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Hard refresh, so clear caches
         self.recipes = []
         self.savedRecipesMap.removeAll()
-        self.retrieveRecipes()
+        self.retrieveRecipes(startIndicators: false)
     }
 
     override func didReceiveMemoryWarning() {
@@ -120,10 +121,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Dispose of any resources that can be recreated.
     }
     
-    func retrieveRecipes() {
+    func retrieveRecipes(startIndicators:Bool) {
         
-        self.startActivityIndicators()
         print("loading recipes from server")
+        if startIndicators {
+            self.startActivityIndicators()
+        }
         
         // Create json object
         var json:[String:String] = [String:String]()
@@ -150,7 +153,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 DispatchQueue.main.async {
                     self.endActivityIndicators()
                     self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
-                        self.retrieveRecipes()
+                        self.retrieveRecipes(startIndicators: startIndicators)
                     })
                 }
                 return
@@ -163,7 +166,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 DispatchQueue.main.async {
                     self.endActivityIndicators()
                     self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
-                        self.retrieveRecipes()
+                        self.retrieveRecipes(startIndicators: startIndicators)
                     })
                 }
                 return
@@ -220,7 +223,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             // Update the recipe image in the main thread
             DispatchQueue.main.async {
-                self.loadRecipeImages()
+                self.loadRecipeImages(startIndicators: false)
             }
         }
         
@@ -229,7 +232,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-    func loadRecipeImages() {
+    func loadRecipeImages(startIndicators:Bool) {
+        
+        if startIndicators {
+            self.startActivityIndicators()
+        }
         
         // Create queue for running the download tasks in parallel
         let queue = DispatchQueue(label: "test", qos: .userInitiated, attributes: .concurrent)
