@@ -26,6 +26,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var ingredientsTableView: UITableView!
     @IBOutlet weak var instructionsTableView: UITableView!
     
+    @IBOutlet weak var deleteImageButton: UIButton!
     @IBOutlet weak var editIngredientButton: UIButton!
     @IBOutlet weak var editInstructionButton: UIButton!
     
@@ -125,12 +126,17 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         self.hideKeyboardWhenTappedAround()
         
         // Hide edit ingredient/instruction button
+        self.deleteImageButton.alpha = 0
         self.editIngredientButton.alpha = 0
         self.editInstructionButton.alpha = 0
         
         // If there's a recipe to edit, initialize the view with its details
         if self.recipeToEdit != nil {
             self.editingRecipe = true
+            
+            if self.recipeToEdit?.image != nil {
+                self.deleteImageButton.alpha = 1
+            }
             
             if (self.recipeToEdit?.ingredients.count)! > 0 {
                 self.editIngredientButton.alpha = 1
@@ -255,6 +261,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             
             // Whether the user is editing or not, there's no new image
             self.newRecipeImageSelected = false
+            self.deleteImageButton.alpha = 0
 
         })
         
@@ -808,6 +815,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     // MARK: - Fusama delegate methods
     func fusumaImageSelected(_ image: UIImage, source: FusumaMode) {
         self.newRecipeImageSelected = true
+        self.deleteImageButton.alpha = 1
         addImageToView(image: image)
     }
     
