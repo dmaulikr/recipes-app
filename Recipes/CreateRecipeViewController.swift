@@ -172,11 +172,10 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toAllRecipes" {
-            if let navigationController = segue.destination as? UINavigationController {
-                if let viewController = navigationController.viewControllers.first as? ViewController {
-                    viewController.loadRecipes = false
-                }
-            }        
+            let tabBarController = segue.destination as! UITabBarController
+            let navigationController = tabBarController.viewControllers?.first as! UINavigationController
+            let viewController = navigationController.viewControllers.first as! ViewController
+            viewController.loadRecipes = false
         }
     }
     
