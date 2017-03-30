@@ -553,10 +553,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             // Show appropriate labels
             displayLabels()
             
-            let recipesFile = UserDefaults.standard.object(forKey: Config.recipesFilePathKey) as! String
-            let success = self.fileManagerService.saveRecipesToFile(recipesToSave: self.recipes, filePath: recipesFile, appendToFile: false)
-            if success {
+            DispatchQueue.global(qos: .background).async {
+                let recipesFile = UserDefaults.standard.object(forKey: Config.recipesFilePathKey) as! String
                 self.savedRecipesMap.removeValue(forKey: recipeToDelete.recipeId)
+                self.fileManagerService.saveRecipesToFile(recipesToSave: self.recipes, filePath: recipesFile, appendToFile: false)                                            
             }
         }
     }
