@@ -17,6 +17,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var getStartedLabel: UILabel!
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var recipesTableView: UITableView!
+    
+    @IBOutlet weak var searchBarHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     
     // Constants
@@ -29,6 +31,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     let dataTaskService = DataTaskService()
     let fileManagerService = RecipesFileManagerService()
     
+    lazy var maxTableHeight:CGFloat = {
+        return UIScreen.main.bounds.height
+            - self.topLayoutGuide.length
+            - self.searchBarHeightConstraint.constant
+            - self.bottomLayoutGuide.length
+            - 10 // extra buffer
+    }()
     var savedRecipesMap:[Int:Recipe] = [Int:Recipe]()
     var recipes:[Recipe] = [Recipe]()
     var recipesToDisplay:[Recipe] = [Recipe]()
@@ -86,10 +95,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.recipesTableView.addSubview(refreshControl)
         self.recipesTableView.backgroundColor = UIColor.clear
         
-        // Set up search controller
-        self.searchBar.delegate = self
-        
-        // Set up delegats
+        // Set up delegates
         self.searchBar.delegate = self
         self.recipesTableView.delegate = self
         self.recipesTableView.dataSource = self
@@ -98,15 +104,29 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.hideKeyboardWhenTappedAround()
         
         // Retreive recipes and populate view
+        // If we don't need to load them, then display them after the subviews have been added
         self.tableViewHeightConstraint.constant = 0
         if self.loadRecipes {
             self.retrieveRecipes(startIndicators: true)
         }
-        else {
-            self.startActivityIndicators()
-            self.displayRecipes(recipes: self.recipes)
-            self.endActivityIndicators()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        // If there's no need to load the recipes, just display them
+        if !self.loadRecipes {
+            // Need to know the top and bottom layout guides in order to display recipes
+            // Don't display if recipes have already been displayed
+            if self.recipesToDisplay.count == 0 && self.topLayoutGuide.length != 0 && self.bottomLayoutGuide.length != 0 {
+                self.startActivityIndicators()
+                self.displayRecipes(recipes: self.recipes)
+                self.endActivityIndicators()
+            }
         }
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
     func handleRefresh() {
@@ -114,11 +134,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.recipes = []
         self.savedRecipesMap.removeAll()
         self.retrieveRecipes(startIndicators: false)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func retrieveRecipes(startIndicators:Bool) {
@@ -411,6 +426,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // MARK: - Utility functions
     
+    func displayRecipes(recipes:[Recipe]) {
+        self.adjustTableViewHeight()
+        self.recipesToDisplay = recipes
+        self.recipesTableView.reloadData()
+        self.displayLabels()
+    }
+    
+    func adjustTableViewHeight() {
+        self.tableViewHeightConstraint.constant = CGFloat(self.recipes.count) * self.defaultTableRowHeight
+        if self.tableViewHeightConstraint.constant > self.maxTableHeight {
+            self.tableViewHeightConstraint.constant = self.maxTableHeight
+        }
+    }
+    
     func displayLabels() {
         if self.recipes.count > 0 {
             self.noRecipesLabel.alpha = 0
@@ -432,16 +461,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         UIApplication.shared.isNetworkActivityIndicatorVisible = false    
     }
     
-    func displayRecipes(recipes:[Recipe]) {
-        // Adjust the table view and display data
-        self.tableViewHeightConstraint.constant = CGFloat(self.recipes.count) * self.defaultTableRowHeight
-        self.recipesToDisplay = recipes
-        self.recipesTableView.reloadData()
-        
-        // Display labels and icons appropriately
-        self.displayLabels()
-    }
-
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Initialize recipe object for RecipeViewController
@@ -551,14 +570,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             // remove from recipes array
             let index = self.recipes.index(of: recipeToDelete)
             self.recipes.remove(at: index!)
-            self.recipesToDisplay = self.recipes
 
-            // Adjust table height and display data
-            self.tableViewHeightConstraint.constant -= self.defaultTableRowHeight
-            self.recipesTableView.reloadData()
-            
-            // Show appropriate labels
-            displayLabels()
+            // Display recipes
+            self.displayRecipes(recipes: self.recipes)
             
             DispatchQueue.global(qos: .background).async {
                 let recipesFile = UserDefaults.standard.object(forKey: Config.recipesFilePathKey) as! String

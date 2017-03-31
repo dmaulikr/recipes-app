@@ -481,6 +481,9 @@
                             </imageView>
                             <searchBar contentMode="redraw" placeholder="Search Recipes" translatesAutoresizingMaskIntoConstraints="NO" id="Ogd-UY-0pz">
                                 <rect key="frame" x="0.0" y="64" width="375" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="L0t-mP-UhA"/>
+                                </constraints>
                                 <offsetWrapper key="searchFieldBackgroundPositionAdjustment" horizontal="0.0" vertical="0.0"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
@@ -505,10 +508,10 @@
                                 <rect key="frame" x="169" y="315" width="37" height="37"/>
                             </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleAspectFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="t83-fO-T6E" userLabel="RecipesTableView">
-                                <rect key="frame" x="0.0" y="108" width="375" height="150"/>
+                                <rect key="frame" x="0.0" y="108" width="375" height="125"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="150" id="5vz-7Y-L3n"/>
+                                    <constraint firstAttribute="height" constant="125" id="5vz-7Y-L3n"/>
                                 </constraints>
                                 <color key="separatorColor" red="0.01176470588" green="0.1058823529" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
@@ -603,6 +606,7 @@
                         <outlet property="noRecipesLabel" destination="OwF-Ml-1Xn" id="sM1-k2-br7"/>
                         <outlet property="recipesTableView" destination="t83-fO-T6E" id="gab-Ys-ZXd"/>
                         <outlet property="searchBar" destination="Ogd-UY-0pz" id="CpH-z0-cJH"/>
+                        <outlet property="searchBarHeightConstraint" destination="L0t-mP-UhA" id="kRl-8R-M7R"/>
                         <outlet property="tableViewHeightConstraint" destination="5vz-7Y-L3n" id="AeX-1N-d9n"/>
                         <segue destination="3Jg-f9-V3o" kind="show" identifier="toRecipeView" id="LGP-cn-Huq"/>
                         <segue destination="6dR-iX-OMH" kind="show" identifier="createRecipe" id="hJC-cX-W7K"/>
