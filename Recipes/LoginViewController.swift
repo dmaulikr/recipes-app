@@ -11,7 +11,7 @@ import FBSDKLoginKit
 
 class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
-    let alertService:AlertControllerService = AlertControllerService()
+    let alertControllerUtil:AlertControllerUtil = AlertControllerUtil()
     
     // Needed because viewDidLayoutSubviews() is called multiple times
     var presentedMainView:Bool = false
@@ -48,7 +48,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         
         if error != nil {
             print(error)
-            self.alertService.displayAlertMessage(presentOn: self,
+            self.alertControllerUtil.displayAlertMessage(presentOn: self,
                                                   message: "Oops, there was an issue logging in! Please try again")
             return
         }
@@ -62,7 +62,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
             
             if(error != nil) {
                 print("There was an error logging into fb: \(error)")
-                self.alertService.displayAlertMessage(presentOn: self,
+                self.alertControllerUtil.displayAlertMessage(presentOn: self,
                                                       message: "Oops, there was an issue logging in! Please try again")
                 return
             }

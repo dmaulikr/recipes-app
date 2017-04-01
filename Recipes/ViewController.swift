@@ -25,9 +25,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     let defaultTableRowHeight:CGFloat = 100
 
     // Misc
-    let alertService = AlertControllerService()
-    let dataTaskService = DataTaskService()
-    let fileManagerService = RecipesFileManagerService()
+    let alertControllerUtil = AlertControllerUtil()
+    let dataTaskUtil = DataTaskUtil()
+    let fileManagerUtil = RecipesFileManagerUtil()
     
     lazy var maxTableHeight:CGFloat = {
         return UIScreen.main.bounds.height
@@ -51,14 +51,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         
         // Create file on device for saving recipes
-        let filemgr = self.fileManagerService.getDefaultFileManager()
-        let directoryHome = self.fileManagerService.getDocumentsDirectory().path
+        let filemgr = self.fileManagerUtil.getDefaultFileManager()
+        let directoryHome = self.fileManagerUtil.getDocumentsDirectory().path
         let dataDir = directoryHome + "/data"
         let recipesFile = dataDir + "/recipes"
         
         if !filemgr.fileExists(atPath: dataDir) {
             print("creating data directory")
-            fileManagerService.createDirectory(path: dataDir, withIntermediateDirectories: true, attributes: nil)
+            fileManagerUtil.createDirectory(path: dataDir, withIntermediateDirectories: true, attributes: nil)
         }
         
         if !filemgr.fileExists(atPath: recipesFile) {
@@ -161,24 +161,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Create task to retrieve recipes from url
         let task:URLSessionDataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in            
             
-            if !self.dataTaskService.isValidResponse(response: response, error: error) {
+            if !self.dataTaskUtil.isValidResponse(response: response, error: error) {
                 print("There was an error retrieving the recipes")
                 DispatchQueue.main.async {
                     self.endActivityIndicators()
-                    self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                    self.alertControllerUtil.displayErrorAlert(presentOn: self, actionToRetry: {
                         self.retrieveRecipes(startIndicators: startIndicators)
                     })
                 }
                 return
             }
             
-            let dataDictionary:NSDictionary? = self.dataTaskService.getJson(data: data!)
-            if !self.dataTaskService.isValidJson(json: dataDictionary) {
+            let dataDictionary:NSDictionary? = self.dataTaskUtil.getJson(data: data!)
+            if !self.dataTaskUtil.isValidJson(json: dataDictionary) {
                 print("There was an error retrieving the recipes")
                 print(dataDictionary ?? "json: {}")
                 DispatchQueue.main.async {
                     self.endActivityIndicators()
-                    self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                    self.alertControllerUtil.displayErrorAlert(presentOn: self, actionToRetry: {
                         self.retrieveRecipes(startIndicators: startIndicators)
                     })
                 }
@@ -304,7 +304,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if self.recipes.count > self.savedRecipesMap.count {
                 print("new recipes found, updating file system and local cache")
                 let recipesFile = UserDefaults.standard.object(forKey: Config.FilePathKey.recipesFilePathKey) as! String
-                self.fileManagerService.saveRecipesToFile(recipesToSave: self.recipes, filePath: recipesFile, appendToFile: false)
+                self.fileManagerUtil.saveRecipesToFile(recipesToSave: self.recipes, filePath: recipesFile, appendToFile: false)
             
                 for i in 0 ..< self.recipes.count {
                     self.savedRecipesMap[self.recipes[i].recipeId] = self.recipes[i]
@@ -391,22 +391,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let task:URLSessionDataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
             
-            if !self.dataTaskService.isValidResponse(response: response, error: error) {
+            if !self.dataTaskUtil.isValidResponse(response: response, error: error) {
                 print("There was an error deleting the recipe")
                 DispatchQueue.main.async {
-                    self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                    self.alertControllerUtil.displayErrorAlert(presentOn: self, actionToRetry: {
                         self.deleteRecipes(recipeIds: recipeIds)
                     })
                 }
                 return
             }
 
-            let json:NSDictionary? = self.dataTaskService.getJson(data: data!)
-            if !self.dataTaskService.isValidJson(json: json) {
+            let json:NSDictionary? = self.dataTaskUtil.getJson(data: data!)
+            if !self.dataTaskUtil.isValidJson(json: json) {
                 print("There was an error deleting the recipe")
                 print(json ?? "json: {}")
                 DispatchQueue.main.async {
-                    self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                    self.alertControllerUtil.displayErrorAlert(presentOn: self, actionToRetry: {
                         self.deleteRecipes(recipeIds: recipeIds)
                     })
                 }
@@ -575,7 +575,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             DispatchQueue.global(qos: .background).async {
                 let recipesFile = UserDefaults.standard.object(forKey: Config.FilePathKey.recipesFilePathKey) as! String
                 self.savedRecipesMap.removeValue(forKey: recipeToDelete.recipeId)
-                self.fileManagerService.saveRecipesToFile(recipesToSave: self.recipes, filePath: recipesFile, appendToFile: false)                                            
+                self.fileManagerUtil.saveRecipesToFile(recipesToSave: self.recipes, filePath: recipesFile, appendToFile: false)                                            
             }
         }
     }

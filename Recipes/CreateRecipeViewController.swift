@@ -49,8 +49,8 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     var instructionRowIds:[Int] = [Int]()
     
     // Misc
-    let alertService:AlertControllerService = AlertControllerService()
-    let dataTaskService:DataTaskService = DataTaskService()
+    let alertControllerUtil:AlertControllerUtil = AlertControllerUtil()
+    let dataTaskUtil:DataTaskUtil = DataTaskUtil()
     
     var fusama:FusumaViewController = FusumaViewController() // Image Picker Controller
     var ingredients:[String] = [String]()
@@ -364,24 +364,24 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         
         let saveImageTask:URLSessionDataTask = URLSession.shared.dataTask(with: request, completionHandler: { (data:Data?, response:URLResponse?, error:Error?) in
             
-            if !self.dataTaskService.isValidResponse(response: response, error: error) {
+            if !self.dataTaskUtil.isValidResponse(response: response, error: error) {
                 print("There was an error saving the recipe image")
                 DispatchQueue.main.async {
                     self.endActivityIndicators()
-                    self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                    self.alertControllerUtil.displayErrorAlert(presentOn: self, actionToRetry: {
                         self.saveRecipeClicked(sender)
                     })
                 }
                 return
             }
             
-            let json:NSDictionary? = self.dataTaskService.getJson(data: data!)
-            if !self.dataTaskService.isValidJson(json: json) {
+            let json:NSDictionary? = self.dataTaskUtil.getJson(data: data!)
+            if !self.dataTaskUtil.isValidJson(json: json) {
                 print("There was an error saving the recipe image")
                 print(json ?? "json: {}")
                 DispatchQueue.main.async {
                     self.endActivityIndicators()
-                    self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                    self.alertControllerUtil.displayErrorAlert(presentOn: self, actionToRetry: {
                         self.saveRecipeClicked(sender)
                     })
                 }
@@ -476,7 +476,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         catch let e as NSError {
             NSLog("Error: couldn't convert recipe json to data object, " + e.localizedDescription)
             self.endActivityIndicators()
-            self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+            self.alertControllerUtil.displayErrorAlert(presentOn: self, actionToRetry: {
                 self.saveRecipeData(imageId: imageId, imageUrl: imageUrl, updateExistingRecipe: updateExistingRecipe, deleteImage: deleteImage)
             })
             return
@@ -505,24 +505,24 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             
             self.endActivityIndicators()
             
-            if !self.dataTaskService.isValidResponse(response: response, error: error) {
+            if !self.dataTaskUtil.isValidResponse(response: response, error: error) {
                 print("There was an error saving the recipe data")
                 DispatchQueue.main.async {
                     self.endActivityIndicators()
-                    self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                    self.alertControllerUtil.displayErrorAlert(presentOn: self, actionToRetry: {
                         self.saveRecipeData(imageId: imageId, imageUrl: imageUrl, updateExistingRecipe: updateExistingRecipe, deleteImage: deleteImage)
                     })
                 }
                 return
             }
             
-            let json:NSDictionary? = self.dataTaskService.getJson(data: data!)
-            if !self.dataTaskService.isValidJson(json: json) {
+            let json:NSDictionary? = self.dataTaskUtil.getJson(data: data!)
+            if !self.dataTaskUtil.isValidJson(json: json) {
                 NSLog("There was an error saving the recipe data")
                 print(json ?? "json: {}")
                 DispatchQueue.main.async {
                     self.endActivityIndicators()
-                    self.alertService.displayErrorAlert(presentOn: self, actionToRetry: {
+                    self.alertControllerUtil.displayErrorAlert(presentOn: self, actionToRetry: {
                         self.saveRecipeData(imageId: imageId, imageUrl: imageUrl, updateExistingRecipe: updateExistingRecipe, deleteImage: deleteImage)
                     })
                 }
@@ -553,7 +553,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             
             // Go back to ViewController
             DispatchQueue.main.async {
-                let fileManagerService = RecipesFileManagerService()
+                let fileManagerService = RecipesFileManagerUtil()
                 let recipesFile = UserDefaults.standard.object(forKey: Config.FilePathKey.recipesFilePathKey) as! String
                 
                 if self.editingRecipe {

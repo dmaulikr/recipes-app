@@ -15,5 +15,5 @@ class CurrentUser: NSObject {
     static func clearCurrentUser() {
         self.userId = ""
         self.userName = ""
-    }
+    }        
 }

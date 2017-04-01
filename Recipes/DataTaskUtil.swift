@@ -1,5 +1,5 @@
 //
-//  DataTaskService.swift
+//  DataTaskUtil.swift
 //  Recipes
 //
 //  Created by Tushar Verma on 3/24/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DataTaskService: NSObject {
+class DataTaskUtil: NSObject {
     
     func getJson(data: Data) -> NSDictionary? {
         do {

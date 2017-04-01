@@ -1,5 +1,5 @@
 //
-//  AlertControllerService.swift
+//  AlertControllerUtil.swift
 //  Recipes
 //
 //  Created by Tushar Verma on 3/24/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AlertControllerService: NSObject {
+class AlertControllerUtil: NSObject {
     
     func displayAlertMessage(presentOn:UIViewController, message:String) {
         let alert:UIAlertController = UIAlertController(title: nil, message: message, preferredStyle: UIAlertControllerStyle.alert)

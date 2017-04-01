@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RecipesFileManagerService: FileManager {
+class RecipesFileManagerUtil: FileManager {
     
     private var documentsHomeDirectory:URL!
     
