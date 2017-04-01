@@ -11,6 +11,7 @@ import UIKit
 class Config: NSObject {
     
     struct ScriptUrl {
+        static let domainName:String = "http://iosrecipes.com/"
         static let saveFBAccountUrl:String = "http://iosrecipes.com/saveFBAccount.php"
         static let retrieveRecipesURL:String = "http://iosrecipes.com/retrieveRecipes.php"
         static let deleteRecipesUrl:String = "http://iosrecipes.com/deleteRecipeData.php"
