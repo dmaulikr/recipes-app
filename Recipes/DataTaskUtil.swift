@@ -15,27 +15,36 @@ class DataTaskUtil: NSObject {
         case get = "GET"
     }
     
-    func executeHttpRequest(url:String, httpMethod: HttpMethod, headerFieldValuePairs:[String:String],
-                            jsonPayload:NSDictionary,
+    func executeHttpRequest(url:String, httpMethod:HttpMethod, headerFieldValuePairs:[String:String], jsonPayload:NSDictionary?,
                             completionHandler: @escaping (Data?, URLResponse?, Error?) -> Swift.Void) {
-        
-        let requestUrl:URL = URL(string: url)!
-        var request:URLRequest = URLRequest(url: requestUrl)
-        
-        request.httpMethod = httpMethod.rawValue
-        for (field, value) in headerFieldValuePairs {
-            request.addValue(value, forHTTPHeaderField: field)
+        var data:Data?
+        do {
+            data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
+        }
+        catch let e as NSError {
+            print("Error: couldn't convert recipe json to data object, " + e.localizedDescription)
+            completionHandler(nil, nil, e)
+            return
         }
         
-        let data:Data = try! JSONSerialization.data(withJSONObject: jsonPayload, options: JSONSerialization.WritingOptions.prettyPrinted)
-        request.httpBody = data
+        let request:URLRequest = initializeUrlRequest(url: url, httpMethod: httpMethod,
+                                                      headerFieldValuePairs: headerFieldValuePairs, httpBody: data)
         let task:URLSessionDataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
             completionHandler(data, response, error)
         }
         task.resume()
     }
     
-    func getJson(data: Data) -> NSDictionary? {
+    func executeHttpRequest(url:String, httpMethod:HttpMethod, headerFieldValuePairs:[String:String], httpBody:Data?,
+                            completionHandler: @escaping (Data?, URLResponse?, Error?) -> Swift.Void) {
+        let request:URLRequest = initializeUrlRequest(url: url, httpMethod: httpMethod, headerFieldValuePairs: headerFieldValuePairs, httpBody: httpBody)
+        let task:URLSessionDataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            completionHandler(data, response, error)
+        }
+        task.resume()
+    }
+    
+    func getJson(data: Data) -> NSDictionary? {        
         do {
             let json:NSDictionary = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
             return json
@@ -71,6 +80,23 @@ class DataTaskUtil: NSObject {
         }
         
         return true
+    }
+    
+    private func initializeUrlRequest(url:String, httpMethod:HttpMethod, headerFieldValuePairs:[String:String],
+                                      httpBody:Data?) -> URLRequest {
+        let requestUrl:URL = URL(string: url)!
+        var request:URLRequest = URLRequest(url: requestUrl)
+        
+        request.httpMethod = httpMethod.rawValue
+        for (field, value) in headerFieldValuePairs {
+            request.addValue(value, forHTTPHeaderField: field)
+        }
+        
+        if httpBody != nil {
+            request.httpBody = httpBody
+        }
+        
+        return request
     }
 
 }
