@@ -10,6 +10,31 @@ import UIKit
 
 class DataTaskUtil: NSObject {
     
+    enum HttpMethod:String {
+        case post = "POST"
+        case get = "GET"
+    }
+    
+    func executeHttpRequest(url:String, httpMethod: HttpMethod, headerFieldValuePairs:[String:String],
+                            jsonPayload:NSDictionary,
+                            completionHandler: @escaping (Data?, URLResponse?, Error?) -> Swift.Void) {
+        
+        let requestUrl:URL = URL(string: url)!
+        var request:URLRequest = URLRequest(url: requestUrl)
+        
+        request.httpMethod = httpMethod.rawValue
+        for (field, value) in headerFieldValuePairs {
+            request.addValue(value, forHTTPHeaderField: field)
+        }
+        
+        let data:Data = try! JSONSerialization.data(withJSONObject: jsonPayload, options: JSONSerialization.WritingOptions.prettyPrinted)
+        request.httpBody = data
+        let task:URLSessionDataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            completionHandler(data, response, error)
+        }
+        task.resume()
+    }
+    
     func getJson(data: Data) -> NSDictionary? {
         do {
             let json:NSDictionary = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
