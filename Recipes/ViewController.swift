@@ -22,8 +22,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     
     // Constants
-    let retrieveRecipesURL:String = "http://iosrecipes.com/retrieveRecipes.php"
-    let deleteRecipesUrl:String = "http://iosrecipes.com/deleteRecipeData.php"
     let defaultTableRowHeight:CGFloat = 100
 
     // Misc
@@ -69,8 +67,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
                 
         // Cache the file system data
-        UserDefaults.standard.set(dataDir, forKey: Config.mainDirectoryFilePathKey)
-        UserDefaults.standard.set(recipesFile, forKey: Config.recipesFilePathKey)
+        UserDefaults.standard.set(dataDir, forKey: Config.FilePathKey.mainDirectoryFilePathKey)
+        UserDefaults.standard.set(recipesFile, forKey: Config.FilePathKey.recipesFilePathKey)
 
         if let savedRecipes = NSKeyedUnarchiver.unarchiveObject(withFile: recipesFile) as? [Recipe] {
             for i in 0 ..< savedRecipes.count {
@@ -150,7 +148,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let data:Data = try! JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
         
         // Create url object
-        let url:URL = URL(string: self.retrieveRecipesURL)!
+        let url:URL = URL(string: Config.ScriptUrl.retrieveRecipesURL)!
         
         // Create and initialize request
         var request:URLRequest = URLRequest(url: url)
@@ -305,7 +303,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             // If any new recipes have been retrieved, update the recipes file and local cache
             if self.recipes.count > self.savedRecipesMap.count {
                 print("new recipes found, updating file system and local cache")
-                let recipesFile = UserDefaults.standard.object(forKey: Config.recipesFilePathKey) as! String
+                let recipesFile = UserDefaults.standard.object(forKey: Config.FilePathKey.recipesFilePathKey) as! String
                 self.fileManagerService.saveRecipesToFile(recipesToSave: self.recipes, filePath: recipesFile, appendToFile: false)
             
                 for i in 0 ..< self.recipes.count {
@@ -381,7 +379,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let data:Data = try! JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
         
         // Create url object
-        let url:URL = URL(string: self.deleteRecipesUrl)!
+        let url:URL = URL(string: Config.ScriptUrl.deleteRecipesUrl)!
         
         // Create and initialize request
         var request:URLRequest = URLRequest(url: url)
@@ -575,7 +573,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.displayRecipes(recipes: self.recipes)
             
             DispatchQueue.global(qos: .background).async {
-                let recipesFile = UserDefaults.standard.object(forKey: Config.recipesFilePathKey) as! String
+                let recipesFile = UserDefaults.standard.object(forKey: Config.FilePathKey.recipesFilePathKey) as! String
                 self.savedRecipesMap.removeValue(forKey: recipeToDelete.recipeId)
                 self.fileManagerService.saveRecipesToFile(recipesToSave: self.recipes, filePath: recipesFile, appendToFile: false)                                            
             }

@@ -38,9 +38,6 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var instructionsTableHeightConstraint: NSLayoutConstraint!
     
     // Constants
-    let saveRecipeUrl:String = "http://iosrecipes.com/saveRecipe.php"
-    let saveRecipeImageUrl:String = "http://iosrecipes.com/saveRecipeImage.php"
-    let updateRecipeUrl:String = "http://iosrecipes.com/updateRecipe.php"
     let defaultTableRowHeight:CGFloat = 50
     let textViewPlaceholder:String = "Add description ..."
     
@@ -94,10 +91,8 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         self.instructionsTableView.backgroundColor = UIColor.clear
 
         // Style description text view
-        let borderColor:UIColor = Config.greyBorderColor
-    
         descriptionTextView.layer.borderWidth = 0.5
-        descriptionTextView.layer.borderColor = borderColor.cgColor
+        descriptionTextView.layer.borderColor = Config.DefaultColor.greyBorderColor.cgColor
         descriptionTextView.layer.cornerRadius = 5.0
         descriptionTextView.text = self.textViewPlaceholder
         descriptionTextView.font = UIFont.italicSystemFont(ofSize: UIFont.systemFontSize)
@@ -338,7 +333,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         // Otherwise, we want to save the image and then save the recipe data on success
         
         // Create request object
-        let url:URL = URL(string: self.saveRecipeImageUrl)!
+        let url:URL = URL(string: Config.ScriptUrl.saveRecipeImageUrl)!
         var request:URLRequest = URLRequest(url: url)
         request.httpMethod = "POST"
         
@@ -490,10 +485,10 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         // Create url object
         var url:URL?
         if updateExistingRecipe {
-            url = URL(string: self.updateRecipeUrl)!
+            url = URL(string: Config.ScriptUrl.updateRecipeUrl)!
         }
         else {
-            url = URL(string: self.saveRecipeUrl)!
+            url = URL(string: Config.ScriptUrl.saveRecipeUrl)!
         }
         
         // Create and initialize request
@@ -559,7 +554,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             // Go back to ViewController
             DispatchQueue.main.async {
                 let fileManagerService = RecipesFileManagerService()
-                let recipesFile = UserDefaults.standard.object(forKey: Config.recipesFilePathKey) as! String
+                let recipesFile = UserDefaults.standard.object(forKey: Config.FilePathKey.recipesFilePathKey) as! String
                 
                 if self.editingRecipe {
                     recipe.recipeId = (self.recipeToEdit?.recipeId)!

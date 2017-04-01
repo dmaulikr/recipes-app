@@ -11,7 +11,6 @@ import FBSDKLoginKit
 
 class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
-    let saveFBAccountUrl:String = "http://iosrecipes.com/saveFBAccount.php"
     let alertService:AlertControllerService = AlertControllerService()
     
     // Needed because viewDidLayoutSubviews() is called multiple times
@@ -97,7 +96,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     //        let data:Data = try! JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
     //
     //        // Create url object
-    //        let url:URL = URL(string: self.saveFBAccountUrl)!
+    //        let url:URL = URL(string: Config.ScriptUrl.saveFBAccountUrl)!
     //
     //        // Create and initialize request
     //        var request:URLRequest = URLRequest(url: url)
