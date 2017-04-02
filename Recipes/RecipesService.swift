@@ -93,7 +93,7 @@ class RecipesService: NSObject {
     func retrieveRecipes(cachedRecipes:[Int:Recipe], completionHandler: @escaping (Bool, [Recipe]) -> Swift.Void) {
 
         var json:[String:String] = [String:String]()
-        json["fb_user_id"] = UserDefaults.standard.object(forKey: Config.UserDefaultsKey.currentUserIdKey) as! String
+        json["fb_user_id"] = UserDefaults.standard.object(forKey: Config.UserDefaultsKey.currentUserIdKey) as? String
         
         let url = Config.ScriptUrl.retrieveRecipesURL
         var headers = [String:String]()
@@ -234,7 +234,7 @@ class RecipesService: NSObject {
         json["delete_image"] = deleteImage as AnyObject?
         
         
-        var url = Config.ScriptUrl.saveRecipeUrl
+        let url = Config.ScriptUrl.saveRecipeUrl
         var headers = [String:String]()
         headers["Content-Type"] = "application/json"
         headers["Accept"] = "application/json"

@@ -1,8 +1,8 @@
 //
-//  Extensions.swift
+//  UIImageExtensions.swift
 //  Recipes
 //
-//  Created by Tushar Verma on 1/5/17.
+//  Created by Tushar Verma on 4/2/17.
 //  Copyright © 2017 Tushar Verma. All rights reserved.
 //
 
@@ -16,7 +16,7 @@ extension UIImage {
         case high    = 0.75
         case highest = 1
     }
-        
+    
     var png: Data? { return UIImagePNGRepresentation(self) }
     
     func jpeg(_ quality: JPEGQuality) -> Data? {
@@ -46,7 +46,7 @@ extension UIImage {
         // print("original size: " + String(describing: self.size))
         
         let canvasSize = CGSize(width: width, height: CGFloat(ceil(width/size.width * size.height)))
-
+        
         UIGraphicsBeginImageContextWithOptions(canvasSize, false, 0)
         draw(in: CGRect(origin: .zero, size: canvasSize))
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
@@ -87,5 +87,5 @@ extension UIImage {
         // print("new size: " + String(describing: resizedImage?.size))
         return resizedImage
     }
- 
+    
 }

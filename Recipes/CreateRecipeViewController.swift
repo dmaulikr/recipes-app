@@ -441,7 +441,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         let instructionsMap:NSDictionary? = (json["instruction_to_id_map"])! as? NSDictionary
         if instructionsMap != nil {
             for (key, value) in instructionsMap! {
-                recipe.instructionToIdMap[key as! String] = value as! Int
+                recipe.instructionToIdMap[key as! String] = value as? Int
             }
         }
         
