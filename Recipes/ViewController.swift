@@ -26,7 +26,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     // Misc
     let alertControllerUtil = AlertControllerUtil()
-    let dataTaskUtil = DataTaskUtil()
     let fileManagerUtil = RecipesFileManagerUtil()
     let recipesService = RecipesService()
     
@@ -45,44 +44,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var currentLeftBarButtonItem:UIBarButtonSystemItem = UIBarButtonSystemItem.edit
     var refreshControl:UIRefreshControl = UIRefreshControl()
     
-    // This variable indicates whether this class will make a remote call to load the recipes for a user    
+    // This variable indicates whether this class will make a remote call to load the recipes for a user
+    // If set to false, the data cached in the file system will be used
+    // Can be set by anyone presenting this view controller
     var loadRecipes:Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Create file on device for saving recipes
-        let filemgr = self.fileManagerUtil.getDefaultFileManager()
-        let directoryHome = self.fileManagerUtil.getDocumentsDirectory().path
-        let dataDir = directoryHome + "/data"
-        let recipesFile = dataDir + "/recipes"
-        
-        if !filemgr.fileExists(atPath: dataDir) {
-            print("creating data directory")
-            fileManagerUtil.createDirectory(path: dataDir, withIntermediateDirectories: true, attributes: nil)
-        }
-        
-        if !filemgr.fileExists(atPath: recipesFile) {
-            print("creating recipes file")
-            filemgr.createFile(atPath: recipesFile, contents: nil, attributes: nil)
-        }
-                
-        // Cache the file system data
-        UserDefaults.standard.set(dataDir, forKey: Config.FilePathKey.mainDirectoryFilePathKey)
-        UserDefaults.standard.set(recipesFile, forKey: Config.FilePathKey.recipesFilePathKey)
-
+        let recipesFile = UserDefaults.standard.object(forKey: Config.FilePathKey.recipesFilePathKey) as! String
         if let savedRecipes = NSKeyedUnarchiver.unarchiveObject(withFile: recipesFile) as? [Recipe] {
             for i in 0 ..< savedRecipes.count {
                 let recipeId = savedRecipes[i].recipeId
-                
-                // Resize image
-                /*
-                if let image = savedRecipes[i].image {
-                    let screenWidth:CGFloat = UIScreen.main.bounds.width
-                    savedRecipes[i].image = image.resized(toWidth: screenWidth, toHeight: screenWidth * 0.67)
-                }*/
-                
-                // Can't cache savedRecipesMap to UserDefaults because it doesn't except general Object types
                 self.savedRecipesMap[recipeId] = savedRecipes[i]
                 self.recipes.append(savedRecipes[i])
             }

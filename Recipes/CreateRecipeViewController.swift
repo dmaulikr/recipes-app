@@ -51,7 +51,6 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     // Misc
     let recipesService:RecipesService = RecipesService()
     let alertControllerUtil:AlertControllerUtil = AlertControllerUtil()
-    let dataTaskUtil:DataTaskUtil = DataTaskUtil()
     
     var fusama:FusumaViewController = FusumaViewController() // Image Picker Controller
     var ingredients:[String] = [String]()

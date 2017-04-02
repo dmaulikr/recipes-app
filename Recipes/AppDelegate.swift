@@ -14,9 +14,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    let fileManagerUtil = RecipesFileManagerUtil()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // Create file on device for saving recipes if it hasn't already been created
+        let filemgr = self.fileManagerUtil.getDefaultFileManager()
+        let directoryHome = self.fileManagerUtil.getDocumentsDirectory().path
+        let dataDir = directoryHome + "/data"
+        let recipesFile = dataDir + "/recipes"
+        
+        if !filemgr.fileExists(atPath: dataDir) {
+            print("creating data directory")
+            fileManagerUtil.createDirectory(path: dataDir, withIntermediateDirectories: true, attributes: nil)
+        }
+        
+        if !filemgr.fileExists(atPath: recipesFile) {
+            print("creating recipes file")
+            filemgr.createFile(atPath: recipesFile, contents: nil, attributes: nil)
+        }
+        
+        // Cache the file system urls
+        UserDefaults.standard.set(dataDir, forKey: Config.FilePathKey.mainDirectoryFilePathKey)
+        UserDefaults.standard.set(recipesFile, forKey: Config.FilePathKey.recipesFilePathKey)
         
         // Facebook Delegate integration
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
