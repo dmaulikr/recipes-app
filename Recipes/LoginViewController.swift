@@ -70,10 +70,9 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
             if let unwrappedResult = result {
                 let json:[String:String] = unwrappedResult as! [String:String]
                 
-                // Set current user fields
-                CurrentUser.userId = json["id"]!
-                CurrentUser.userName = json["name"]!
-                
+                // Cache the current user
+                UserDefaults.standard.set(json["id"]!, forKey: Config.UserDefaultsKey.currentUserIdKey)
+                UserDefaults.standard.set(json["name"]!, forKey: Config.UserDefaultsKey.currentUserNameKey)
                 self.performSegue(withIdentifier: "toMainView", sender: self)
             }
 

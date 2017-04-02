@@ -69,7 +69,8 @@ class SettingsTableViewController: IASKAppSettingsViewController, IASKSettingsDe
             handler: { (alertAction:UIAlertAction!) in
                 
             NSLog("logging out")
-            CurrentUser.clearCurrentUser()
+            UserDefaults.standard.set("", forKey: Config.UserDefaultsKey.currentUserIdKey)
+            UserDefaults.standard.set("", forKey: Config.UserDefaultsKey.currentUserNameKey)
             let loginManager = FBSDKLoginManager()
             loginManager.logOut() // this is an instance function
             self.performSegue(withIdentifier: "toLogin", sender: self)

@@ -52,7 +52,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let recipesFile = UserDefaults.standard.object(forKey: Config.FilePathKey.recipesFilePathKey) as! String
+        let recipesFile = UserDefaults.standard.object(forKey: Config.UserDefaultsKey.recipesFilePathKey) as! String
         if let savedRecipes = NSKeyedUnarchiver.unarchiveObject(withFile: recipesFile) as? [Recipe] {
             for i in 0 ..< savedRecipes.count {
                 let recipeId = savedRecipes[i].recipeId
@@ -146,7 +146,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             // If any new recipes have been retrieved, update the recipes file and local cache
             if self.recipes.count > self.savedRecipesMap.count {
                 print("new recipes found, updating file system and local cache")
-                let recipesFile = UserDefaults.standard.object(forKey: Config.FilePathKey.recipesFilePathKey) as! String
+                let recipesFile = UserDefaults.standard.object(forKey: Config.UserDefaultsKey.recipesFilePathKey) as! String
                 self.fileManagerUtil.saveRecipesToFile(recipesToSave: self.recipes, filePath: recipesFile, appendToFile: false)
                 
                 for i in 0 ..< self.recipes.count {
@@ -378,7 +378,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.displayRecipes(recipes: self.recipes)
             
             DispatchQueue.global(qos: .background).async {
-                let recipesFile = UserDefaults.standard.object(forKey: Config.FilePathKey.recipesFilePathKey) as! String
+                let recipesFile = UserDefaults.standard.object(forKey: Config.UserDefaultsKey.recipesFilePathKey) as! String
                 self.savedRecipesMap.removeValue(forKey: recipeToDelete.recipeId)
                 self.fileManagerUtil.saveRecipesToFile(recipesToSave: self.recipes, filePath: recipesFile, appendToFile: false)                                            
             }

@@ -34,9 +34,11 @@ class Config: NSObject {
         static let defaultImageResizeScale:CGFloat = 0.1
     }
     
-    struct FilePathKey {
+    struct UserDefaultsKey {
         static let mainDirectoryFilePathKey:String = "dataDirectory"
         static let recipesFilePathKey:String = "recipesFile"
+        static let currentUserIdKey = "currentUserId"
+        static let currentUserNameKey = "currentUserName"
     }
     
     

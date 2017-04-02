@@ -15,7 +15,7 @@ class RecipesService: NSObject {
     func createRecipe(recipe:Recipe, imageId: Int?, completionHandler: @escaping (Bool, NSDictionary) -> Swift.Void) {
         
         var json:[String:AnyObject] = [
-            "fb_user_id" : CurrentUser.userId as AnyObject,
+            "fb_user_id" : UserDefaults.standard.object(forKey: Config.UserDefaultsKey.currentUserIdKey) as AnyObject,
             "name" : recipe.name as AnyObject,
             "description" : recipe.recipeDescription as AnyObject,
             "ingredients" : recipe.ingredients as AnyObject,
@@ -27,7 +27,7 @@ class RecipesService: NSObject {
             json["image_id"] = imageId! as AnyObject
         }
         
-        var url = Config.ScriptUrl.saveRecipeUrl
+        let url = Config.ScriptUrl.saveRecipeUrl
         var headers = [String:String]()
         headers["Content-Type"] = "application/json"
         headers["Accept"] = "application/json"
@@ -93,7 +93,7 @@ class RecipesService: NSObject {
     func retrieveRecipes(cachedRecipes:[Int:Recipe], completionHandler: @escaping (Bool, [Recipe]) -> Swift.Void) {
 
         var json:[String:String] = [String:String]()
-        json["fb_user_id"] = CurrentUser.userId
+        json["fb_user_id"] = UserDefaults.standard.object(forKey: Config.UserDefaultsKey.currentUserIdKey) as! String
         
         let url = Config.ScriptUrl.retrieveRecipesURL
         var headers = [String:String]()
@@ -214,7 +214,7 @@ class RecipesService: NSObject {
     func updateRecipe(recipe:Recipe, imageId:Int?, deleteImage:Bool, ingredientsToDelete:[Int], instructionsToDelete:[Int], completionHandler: @escaping (Bool, NSDictionary) -> Swift.Void) {
         
         var json:[String:AnyObject] = [
-            "fb_user_id" : CurrentUser.userId as AnyObject,
+            "fb_user_id" : UserDefaults.standard.object(forKey: Config.UserDefaultsKey.currentUserIdKey) as AnyObject,
             "name" : recipe.name as AnyObject,
             "description" : recipe.recipeDescription as AnyObject,
             "ingredients" : recipe.ingredients as AnyObject,

@@ -36,8 +36,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // Cache the file system urls
-        UserDefaults.standard.set(dataDir, forKey: Config.FilePathKey.mainDirectoryFilePathKey)
-        UserDefaults.standard.set(recipesFile, forKey: Config.FilePathKey.recipesFilePathKey)
+        UserDefaults.standard.set(dataDir, forKey: Config.UserDefaultsKey.mainDirectoryFilePathKey)
+        UserDefaults.standard.set(recipesFile, forKey: Config.UserDefaultsKey.recipesFilePathKey)
+        
+        // TODO: Only need initialize the key for testing because we're skipping the login
+        UserDefaults.standard.set("", forKey: Config.UserDefaultsKey.currentUserIdKey)
+        UserDefaults.standard.set("", forKey: Config.UserDefaultsKey.currentUserNameKey)
         
         // Facebook Delegate integration
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)

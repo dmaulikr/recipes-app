@@ -18,17 +18,20 @@ class DataTaskUtil: NSObject {
     func executeHttpRequest(url:String, httpMethod:HttpMethod, headerFieldValuePairs:[String:String], jsonPayload:NSDictionary?,
                             completionHandler: @escaping (Data?, URLResponse?, Error?) -> Swift.Void) {
         var data:Data?
-        do {
-            data = try JSONSerialization.data(withJSONObject: jsonPayload, options: JSONSerialization.WritingOptions.prettyPrinted)
-        }
-        catch let e as NSError {
-            print("Error: couldn't convert recipe json to data object, " + e.localizedDescription)
-            completionHandler(nil, nil, e)
-            return
+        if let jsonPayload = jsonPayload {
+            do {
+                data = try JSONSerialization.data(withJSONObject: jsonPayload, options:
+                    JSONSerialization.WritingOptions.prettyPrinted)
+            }
+            catch let e as NSError {
+                print("Error: couldn't convert recipe json to data object, " + e.localizedDescription)
+                completionHandler(nil, nil, e)
+                return
+            }
         }
         
-        let request:URLRequest = initializeUrlRequest(url: url, httpMethod: httpMethod,
-                                                      headerFieldValuePairs: headerFieldValuePairs, httpBody: data)
+        let request:URLRequest = initializeUrlRequest(url: url, httpMethod: httpMethod, headerFieldValuePairs: headerFieldValuePairs,
+                                                      httpBody: data)
         let task:URLSessionDataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
             completionHandler(data, response, error)
         }
