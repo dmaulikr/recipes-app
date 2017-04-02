@@ -11,6 +11,84 @@ import UIKit
 class RecipesService: NSObject {
     
     private let dataTaskUtil:DataTaskUtil = DataTaskUtil()
+    
+    func createRecipe(recipe:Recipe, imageId: Int?, completionHandler: @escaping (Bool, NSDictionary) -> Swift.Void) {
+        
+        var json:[String:AnyObject] = [
+            "fb_user_id" : CurrentUser.userId as AnyObject,
+            "name" : recipe.name as AnyObject,
+            "description" : recipe.recipeDescription as AnyObject,
+            "ingredients" : recipe.ingredients as AnyObject,
+            "instructions" : recipe.instructions as AnyObject
+        ]
+        
+        json["image_id"] = "" as AnyObject
+        if imageId != nil {
+            json["image_id"] = imageId! as AnyObject
+        }
+        
+        var url = Config.ScriptUrl.saveRecipeUrl
+        var headers = [String:String]()
+        headers["Content-Type"] = "application/json"
+        headers["Accept"] = "application/json"
+        
+        dataTaskUtil.executeHttpRequest(url: url, httpMethod: .post, headerFieldValuePairs: headers, jsonPayload: json as NSDictionary) { (data, response, error) in
+            
+            if !self.dataTaskUtil.isValidResponse(response: response, error: error) {
+                completionHandler(false, NSDictionary())
+                return
+            }
+            
+            let json:NSDictionary? = self.dataTaskUtil.getJson(data: data!)
+            if !self.dataTaskUtil.isValidJson(json: json) {
+                completionHandler(false, NSDictionary())
+                return
+            }
+            
+            completionHandler(true, json!)
+        }
+    }
+    
+    func saveRecipeImage(image: UIImage, completionHandler: @escaping (Bool, NSDictionary) -> Swift.Void) {
+        
+        let imageData:Data = image.jpeg(UIImage.JPEGQuality.high)!
+        
+        let boundary:String = "Boundary-\(NSUUID().uuidString)"
+        let filePathKey:String = "file"
+        let filename:String = "tmp.jpg" // the script will create the actual file name
+        let mimetype:String = "image/jpg"
+        
+        let body:NSMutableData = NSMutableData()
+        body.appendString(string: "--\(boundary)\r\n")
+        body.appendString(string: "Content-Disposition: form-data; name=\"\(filePathKey)\"; filename=\"\(filename)\"\r\n")
+        body.appendString(string: "Content-Type: \(mimetype)\r\n\r\n")
+        body.append(imageData)
+        body.appendString(string: "\r\n")
+        body.appendString(string: "--\(boundary)--\r\n")
+        
+        let url = Config.ScriptUrl.saveRecipeImageUrl
+        var headers = [String:String]()
+        headers["Content-Type"] = "multipart/form-data; boundary=\(boundary)"
+        
+        
+        dataTaskUtil.executeHttpRequest(url: url, httpMethod: .post, headerFieldValuePairs: headers, httpBody: body as Data) {
+            (data, response, error) in
+            
+            if !self.dataTaskUtil.isValidResponse(response: response, error: error) {
+                completionHandler(false, NSDictionary())
+                return
+            }
+            
+            let json:NSDictionary? = self.dataTaskUtil.getJson(data: data!)
+            if !self.dataTaskUtil.isValidJson(json: json) {
+                completionHandler(false, NSDictionary())
+                return
+            }
+            
+            completionHandler(true, json!)
+        }
+    }
+    
 
     func retrieveRecipes(cachedRecipes:[Int:Recipe], completionHandler: @escaping (Bool, [Recipe]) -> Swift.Void) {
 
@@ -133,43 +211,6 @@ class RecipesService: NSObject {
         }
     }
     
-    func createRecipe(recipe:Recipe, imageId: Int?, completionHandler: @escaping (Bool, NSDictionary) -> Swift.Void) {
-        
-        var json:[String:AnyObject] = [
-            "fb_user_id" : CurrentUser.userId as AnyObject,
-            "name" : recipe.name as AnyObject,
-            "description" : recipe.recipeDescription as AnyObject,
-            "ingredients" : recipe.ingredients as AnyObject,
-            "instructions" : recipe.instructions as AnyObject
-        ]
-        
-        json["image_id"] = "" as AnyObject
-        if imageId != nil {
-            json["image_id"] = imageId! as AnyObject
-        }
-        
-        var url = Config.ScriptUrl.saveRecipeUrl
-        var headers = [String:String]()
-        headers["Content-Type"] = "application/json"
-        headers["Accept"] = "application/json"
-        
-        dataTaskUtil.executeHttpRequest(url: url, httpMethod: .post, headerFieldValuePairs: headers, jsonPayload: json as NSDictionary) { (data, response, error) in
-            
-            if !self.dataTaskUtil.isValidResponse(response: response, error: error) {
-                completionHandler(false, NSDictionary())
-                return
-            }
-            
-            let json:NSDictionary? = self.dataTaskUtil.getJson(data: data!)
-            if !self.dataTaskUtil.isValidJson(json: json) {
-                completionHandler(false, NSDictionary())
-                return
-            }
-            
-            completionHandler(true, json!)
-        }
-    }
-    
     func updateRecipe(recipe:Recipe, imageId:Int?, deleteImage:Bool, ingredientsToDelete:[Int], instructionsToDelete:[Int], completionHandler: @escaping (Bool, NSDictionary) -> Swift.Void) {
         
         var json:[String:AnyObject] = [
@@ -191,13 +232,13 @@ class RecipesService: NSObject {
             json["new_image_id"] = imageId! as AnyObject
         }
         json["delete_image"] = deleteImage as AnyObject?
-
-
+        
+        
         var url = Config.ScriptUrl.saveRecipeUrl
         var headers = [String:String]()
         headers["Content-Type"] = "application/json"
         headers["Accept"] = "application/json"
-
+        
         dataTaskUtil.executeHttpRequest(url: url, httpMethod: .post, headerFieldValuePairs: headers, jsonPayload: json as NSDictionary) { (data, response, error) in
             
             if !self.dataTaskUtil.isValidResponse(response: response, error: error) {
@@ -213,47 +254,7 @@ class RecipesService: NSObject {
             
             completionHandler(true, json!)
         }
-
-    }
-    
-    func saveRecipeImage(image: UIImage, completionHandler: @escaping (Bool, NSDictionary) -> Swift.Void) {
         
-        let imageData:Data = image.jpeg(UIImage.JPEGQuality.high)!
-                
-        let boundary:String = "Boundary-\(NSUUID().uuidString)"
-        let filePathKey:String = "file"
-        let filename:String = "tmp.jpg" // the script will create the actual file name
-        let mimetype:String = "image/jpg"
-        
-        let body:NSMutableData = NSMutableData()
-        body.appendString(string: "--\(boundary)\r\n")
-        body.appendString(string: "Content-Disposition: form-data; name=\"\(filePathKey)\"; filename=\"\(filename)\"\r\n")
-        body.appendString(string: "Content-Type: \(mimetype)\r\n\r\n")
-        body.append(imageData)
-        body.appendString(string: "\r\n")
-        body.appendString(string: "--\(boundary)--\r\n")
-        
-        let url = Config.ScriptUrl.saveRecipeImageUrl
-        var headers = [String:String]()
-        headers["Content-Type"] = "multipart/form-data; boundary=\(boundary)"                
-        
-        
-        dataTaskUtil.executeHttpRequest(url: url, httpMethod: .post, headerFieldValuePairs: headers, httpBody: body as Data) {
-            (data, response, error) in
-            
-            if !self.dataTaskUtil.isValidResponse(response: response, error: error) {
-                completionHandler(false, NSDictionary())
-                return
-            }
-            
-            let json:NSDictionary? = self.dataTaskUtil.getJson(data: data!)
-            if !self.dataTaskUtil.isValidJson(json: json) {
-                completionHandler(false, NSDictionary())
-                return
-            }
-            
-            completionHandler(true, json!)
-        }
     }
     
     func deleteRecipes(recipeIds: [Int], completionHandler: @escaping (Bool) -> Swift.Void) {

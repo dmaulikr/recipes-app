@@ -49,6 +49,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     var instructionRowIds:[Int] = [Int]()
     
     // Misc
+    let recipesService:RecipesService = RecipesService()
     let alertControllerUtil:AlertControllerUtil = AlertControllerUtil()
     let dataTaskUtil:DataTaskUtil = DataTaskUtil()
     
@@ -145,15 +146,6 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         }
 
     }
-    
-//    override func viewDidLayoutSubviews() {
-//        // Check if the instruction view has been loaded and then set content height
-//        // to allow the scrollview to scroll
-//        if self.instructionsTableView.frame.origin.y > 0 {
-//            self.contentViewHeightConstraint.constant = self.instructionsTableView.frame.maxY + 100
-//        }
-//        
-//    }
     
     deinit {
         self.deregisterFromKeyboardNotifications()
@@ -331,40 +323,8 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         print("saving image")
         
         // Otherwise, we want to save the image and then save the recipe data on success
-        
-        // Create request object
-        let url:URL = URL(string: Config.ScriptUrl.saveRecipeImageUrl)!
-        var request:URLRequest = URLRequest(url: url)
-        request.httpMethod = "POST"
-        
-        // Create and initialize the body
-        let body:NSMutableData = NSMutableData()
-        
-        /*
-        let reducedImage = self.recipeImageView.image?.resized(withPercentage: Config.defaultImageResizeScale)
-        let imageData:Data = (reducedImage?.jpeg(UIImage.JPEGQuality.highest))!
-        print("image size: " + String(imageData.count))
-        */
-        let imageData:Data = self.recipeImageView.image!.jpeg(UIImage.JPEGQuality.high)!
-        
-        let boundary:String = "Boundary-\(NSUUID().uuidString)"
-        let filePathKey:String = "file"
-        let filename:String = "tmp.jpg" // the script will create the actual file name
-        let mimetype:String = "image/jpg"
-        
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        body.appendString(string: "--\(boundary)\r\n")
-        body.appendString(string: "Content-Disposition: form-data; name=\"\(filePathKey)\"; filename=\"\(filename)\"\r\n")
-        body.appendString(string: "Content-Type: \(mimetype)\r\n\r\n")
-        body.append(imageData)
-        body.appendString(string: "\r\n")
-        body.appendString(string: "--\(boundary)--\r\n")
-        
-        request.httpBody = body as Data
-        
-        let saveImageTask:URLSessionDataTask = URLSession.shared.dataTask(with: request, completionHandler: { (data:Data?, response:URLResponse?, error:Error?) in
-            
-            if !self.dataTaskUtil.isValidResponse(response: response, error: error) {
+        self.recipesService.saveRecipeImage(image: self.recipeImageView.image!) { (success, json) in
+            if !success {
                 print("There was an error saving the recipe image")
                 DispatchQueue.main.async {
                     self.endActivityIndicators()
@@ -375,31 +335,16 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
                 return
             }
             
-            let json:NSDictionary? = self.dataTaskUtil.getJson(data: data!)
-            if !self.dataTaskUtil.isValidJson(json: json) {
-                print("There was an error saving the recipe image")
-                print(json ?? "json: {}")
-                DispatchQueue.main.async {
-                    self.endActivityIndicators()
-                    self.alertControllerUtil.displayErrorAlert(presentOn: self, actionToRetry: {
-                        self.saveRecipeClicked(sender)
-                    })
-                }
+            let imageId:Int? = json["image_id"] as? Int
+            let imageUrl:String? = json["image_url"] as? String
+            print("successfully saved image, imageId = \(imageId), imageUrl = \(imageUrl)")
 
-                return
-            }
-            
-            let imageId:Int? = json?["image_id"] as? Int
-            let imageUrl:String? = json?["image_url"] as? String
-            
             // Go back to ViewController
             DispatchQueue.main.async {
-                self.saveRecipeData(imageId: imageId, imageUrl: imageUrl, updateExistingRecipe: self.editingRecipe, deleteImage: false)
+                self.saveRecipeData(imageId: imageId, imageUrl: imageUrl, updateExistingRecipe: self.editingRecipe,
+                                    deleteImage: false)
             }
-            
-        })
-        
-        saveImageTask.resume()
+        }
     }
     
     func saveRecipeData(imageId:Int?, imageUrl:String?, updateExistingRecipe: Bool, deleteImage:Bool) {
@@ -439,158 +384,84 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             
         }
         
-        var json:[String:AnyObject] = [
-            "fb_user_id" : CurrentUser.userId as AnyObject,
-            "name" : recipe.name as AnyObject,
-            "description" : recipe.recipeDescription as AnyObject,
-            "ingredients" : recipe.ingredients as AnyObject,
-            "instructions" : recipe.instructions as AnyObject
-        ]
-        
-        if updateExistingRecipe  {
-            json["recipe_id"] = (self.recipeToEdit?.recipeId)! as AnyObject
-            json["ingredient_to_id_map"] = recipe.ingredientToIdMap as AnyObject
-            json["instruction_to_id_map"] = recipe.instructionToIdMap as AnyObject
-            json["ingredients_to_delete"] = self.ingredientIdsToDelete as AnyObject
-            json["instructions_to_delete"] = self.instructionIdsToDelete as AnyObject
-            
-            json["new_image_id"] = "" as AnyObject
-            if imageId != nil {
-                json["new_image_id"] = imageId! as AnyObject
-            }
-            json["delete_image"] = deleteImage as AnyObject?
-        }
-        else {
-            json["image_id"] = "" as AnyObject
-            if imageId != nil {
-                json["image_id"] = imageId! as AnyObject
-            }
-        }
-
-        // Save the recipe as a json data object
-        var data:Data?
-        do {
-            data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
-            
-        }
-        catch let e as NSError {
-            NSLog("Error: couldn't convert recipe json to data object, " + e.localizedDescription)
-            self.endActivityIndicators()
-            self.alertControllerUtil.displayErrorAlert(presentOn: self, actionToRetry: {
-                self.saveRecipeData(imageId: imageId, imageUrl: imageUrl, updateExistingRecipe: updateExistingRecipe, deleteImage: deleteImage)
+        if self.editingRecipe {
+            recipesService.updateRecipe(recipe: recipe, imageId: imageId, deleteImage: deleteImage, ingredientsToDelete: self.ingredientIdsToDelete, instructionsToDelete: self.instructionIdsToDelete, completionHandler: {
+                (success, json) in
+                
+                if !success {
+                    print("There was an error saving the recipe data")
+                    DispatchQueue.main.async {
+                        self.endActivityIndicators()
+                        self.alertControllerUtil.displayErrorAlert(presentOn: self, actionToRetry: {
+                            self.saveRecipeData(imageId: imageId, imageUrl: imageUrl, updateExistingRecipe: updateExistingRecipe, deleteImage: deleteImage)
+                        })
+                    }
+                    return
+                }
+                
+                print("Recipe successfully updated")
+                self.saveRecipesCallback(recipe: recipe, imageUrl: imageUrl, json: json)
+                
             })
-            return
-        }
-
-        // Create url object
-        var url:URL?
-        if updateExistingRecipe {
-            url = URL(string: Config.ScriptUrl.updateRecipeUrl)!
         }
         else {
-            url = URL(string: Config.ScriptUrl.saveRecipeUrl)!
+            recipesService.createRecipe(recipe: recipe, imageId: imageId, completionHandler: { (success, json) in
+                if !success {
+                    print("There was an error saving the recipe data")
+                    DispatchQueue.main.async {
+                        self.endActivityIndicators()
+                        self.alertControllerUtil.displayErrorAlert(presentOn: self, actionToRetry: {
+                            self.saveRecipeData(imageId: imageId, imageUrl: imageUrl, updateExistingRecipe: updateExistingRecipe, deleteImage: deleteImage)
+                        })
+                    }
+                    return
+                }
+                
+                print("Recipe successfully saved")
+                self.saveRecipesCallback(recipe: recipe, imageUrl: imageUrl, json: json)
+            })
         }
-        
-        // Create and initialize request
-        var request:URLRequest = URLRequest(url: url!)
-        
-        request.httpMethod = "POST"
-        request.httpBody = data!
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        
-        // Create task to save or update the recipe
-        let session:URLSession = URLSession.shared
-        let saveRecipeTask:URLSessionDataTask = session.dataTask(with: request, completionHandler: { (data:Data?, response:URLResponse?, error:Error?) in
-            
-            self.endActivityIndicators()
-            
-            if !self.dataTaskUtil.isValidResponse(response: response, error: error) {
-                print("There was an error saving the recipe data")
-                DispatchQueue.main.async {
-                    self.endActivityIndicators()
-                    self.alertControllerUtil.displayErrorAlert(presentOn: self, actionToRetry: {
-                        self.saveRecipeData(imageId: imageId, imageUrl: imageUrl, updateExistingRecipe: updateExistingRecipe, deleteImage: deleteImage)
-                    })
-                }
-                return
-            }
-            
-            let json:NSDictionary? = self.dataTaskUtil.getJson(data: data!)
-            if !self.dataTaskUtil.isValidJson(json: json) {
-                NSLog("There was an error saving the recipe data")
-                print(json ?? "json: {}")
-                DispatchQueue.main.async {
-                    self.endActivityIndicators()
-                    self.alertControllerUtil.displayErrorAlert(presentOn: self, actionToRetry: {
-                        self.saveRecipeData(imageId: imageId, imageUrl: imageUrl, updateExistingRecipe: updateExistingRecipe, deleteImage: deleteImage)
-                    })
-                }
-                return
-            }
-
-            
-            print("Recipe successfully saved")
-            
-            recipe.image = self.recipeImageView.image
-            if let imageUrl = imageUrl {
-                recipe.imageUrl = imageUrl
-            }
-            
-            let ingredientsMap:NSDictionary? = (json?["ingredient_to_id_map"])! as? NSDictionary
-            if ingredientsMap != nil {
-                for (key, value) in ingredientsMap! {
-                    recipe.ingredientToIdMap[key as! String] = value as? Int
-                }
-            }
-            
-            let instructionsMap:NSDictionary? = (json?["instruction_to_id_map"])! as? NSDictionary
-            if instructionsMap != nil {
-                for (key, value) in instructionsMap! {
-                    recipe.instructionToIdMap[key as! String] = value as! Int
-                }
-            }
-            
-            // Go back to ViewController
-            DispatchQueue.main.async {
-                let fileManagerService = RecipesFileManagerUtil()
-                let recipesFile = UserDefaults.standard.object(forKey: Config.FilePathKey.recipesFilePathKey) as! String
-                
-                if self.editingRecipe {
-                    recipe.recipeId = (self.recipeToEdit?.recipeId)!
-                    fileManagerService.overwriteRecipe(withRecipeId: recipe.recipeId, newRecipe: recipe, filePath: recipesFile)
-                }
-                else {
-                    recipe.recipeId = (json?["recipe_id"])! as! Int
-                    fileManagerService.saveRecipesToFile(recipesToSave: [recipe], filePath: recipesFile, appendToFile: true)
-                }
-                
-                self.performSegue(withIdentifier: "toAllRecipes", sender: self)
-            }
-            
-        })
-        
-        
-        // Run the task
-        saveRecipeTask.resume()
     }
     
     // MARK: - Utility functions
-    func startActivityIndicators() {
-        self.activityIndicator.startAnimating()
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-    }
     
-    func endActivityIndicators() {
-        self.activityIndicator.stopAnimating()
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-    }
-    
-    func presentNavigationController() {
-        let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let recipesVC:UIViewController = storyBoard.instantiateViewController(withIdentifier: "navigationController")
+    func saveRecipesCallback(recipe:Recipe, imageUrl:String?, json:NSDictionary) {
         
-        self.present(recipesVC, animated: false, completion: nil)
+        recipe.image = self.recipeImageView.image
+        if let imageUrl = imageUrl {
+            recipe.imageUrl = imageUrl
+        }
+        
+        let ingredientsMap:NSDictionary? = (json["ingredient_to_id_map"])! as? NSDictionary
+        if ingredientsMap != nil {
+            for (key, value) in ingredientsMap! {
+                recipe.ingredientToIdMap[key as! String] = value as? Int
+            }
+        }
+        
+        let instructionsMap:NSDictionary? = (json["instruction_to_id_map"])! as? NSDictionary
+        if instructionsMap != nil {
+            for (key, value) in instructionsMap! {
+                recipe.instructionToIdMap[key as! String] = value as! Int
+            }
+        }
+        
+        // Go back to ViewController
+        DispatchQueue.main.async {
+            let fileManagerService = RecipesFileManagerUtil()
+            let recipesFile = UserDefaults.standard.object(forKey: Config.FilePathKey.recipesFilePathKey) as! String
+            
+            if self.editingRecipe {
+                recipe.recipeId = (self.recipeToEdit?.recipeId)!
+                fileManagerService.overwriteRecipe(withRecipeId: recipe.recipeId, newRecipe: recipe, filePath: recipesFile)
+            }
+            else {
+                recipe.recipeId = (json["recipe_id"])! as! Int
+                fileManagerService.saveRecipesToFile(recipesToSave: [recipe], filePath: recipesFile, appendToFile: true)
+            }
+            
+            self.performSegue(withIdentifier: "toAllRecipes", sender: self)
+        }
     }
     
     func addImageToView(image: UIImage) {
@@ -684,7 +555,6 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         
     }
     
-    
     func imageFilterTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         let tappedImage = tapGestureRecognizer.view as! UIImageView
         self.recipeImageView.image = tappedImage.image
@@ -693,6 +563,16 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         // Not handling special case where user clicks on same filter as original
         // because we're not keeping track of the original filter at all
         self.newRecipeImageSelected = true
+    }
+    
+    func startActivityIndicators() {
+        self.activityIndicator.startAnimating()
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+    }
+    
+    func endActivityIndicators() {
+        self.activityIndicator.stopAnimating()
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
     
     // MARK: - Keyboard functions

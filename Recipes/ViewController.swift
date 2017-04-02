@@ -28,6 +28,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     let alertControllerUtil = AlertControllerUtil()
     let dataTaskUtil = DataTaskUtil()
     let fileManagerUtil = RecipesFileManagerUtil()
+    let recipesService = RecipesService()
     
     lazy var maxTableHeight:CGFloat = {
         return UIScreen.main.bounds.height
@@ -139,29 +140,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         print("loading recipes from server")
         if startIndicators {
             self.startActivityIndicators()
-        }
+        }                
         
-        // Create json object
-        var json:[String:String] = [String:String]()
-        json["fb_user_id"] = CurrentUser.userId
-        
-        let data:Data = try! JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
-        
-        // Create url object
-        let url:URL = URL(string: Config.ScriptUrl.retrieveRecipesURL)!
-        
-        // Create and initialize request
-        var request:URLRequest = URLRequest(url: url)
-        
-        request.httpMethod = "POST"
-        request.httpBody = data
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        
-        // Create task to retrieve recipes from url
-        let task:URLSessionDataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in            
-            
-            if !self.dataTaskUtil.isValidResponse(response: response, error: error) {
+        recipesService.retrieveRecipes(cachedRecipes: self.savedRecipesMap) { (success, recipes) in
+            if !success {
                 print("There was an error retrieving the recipes")
                 DispatchQueue.main.async {
                     self.endActivityIndicators()
@@ -172,77 +154,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 return
             }
             
-            let dataDictionary:NSDictionary? = self.dataTaskUtil.getJson(data: data!)
-            if !self.dataTaskUtil.isValidJson(json: dataDictionary) {
-                print("There was an error retrieving the recipes")
-                print(dataDictionary ?? "json: {}")
-                DispatchQueue.main.async {
-                    self.endActivityIndicators()
-                    self.alertControllerUtil.displayErrorAlert(presentOn: self, actionToRetry: {
-                        self.retrieveRecipes(startIndicators: startIndicators)
-                    })
-                }
-                return
-            }
-                
-            // Get array of json recipe objects
-            let dataArray = dataDictionary?["recipes"] as! NSArray
-            
-            // Loop through array and parse each recipe
-            for i in 0 ..< dataArray.count {
-                let recipeDictionary = dataArray[i] as! NSDictionary
-                
-                // Skip if this recipe has already been loaded
-                let recipeId:Int = recipeDictionary["recipe_id"] as! Int
-                if self.savedRecipesMap[recipeId] != nil {
-                    print("already loaded recipe with id \(recipeId), skipping")
-                    continue
-                }
-
-                let recipe:Recipe = Recipe()
-                recipe.recipeId = recipeId
-                recipe.name = recipeDictionary["name"] as! String
-                recipe.recipeDescription =  recipeDictionary["description"] as! String
-                recipe.imageUrl = recipeDictionary["image_url"] as! String
-                    
-                // Parse and save each ingredient
-                let ingredientsArray = recipeDictionary["ingredients"] as! NSArray
-                for j in 0 ..< ingredientsArray.count {
-                    let ingredientsDictionary = ingredientsArray[j] as! NSDictionary
-                    
-                    let ingredient:String = ingredientsDictionary["ingredient"] as! String
-                    let ingredient_id:Int = ingredientsDictionary["ingredient_id"] as! Int
-                        
-                    recipe.ingredients.append(ingredient)
-                    recipe.ingredientToIdMap[ingredient] = ingredient_id
-                }
-                    
-                // Parse and save each instruction
-                let instructionsArray = recipeDictionary["instructions"] as! NSArray
-                for j in 0 ..< instructionsArray.count {
-                    let instructionsDictionary = instructionsArray[j] as! NSDictionary
-                    
-                    let instruction:String = instructionsDictionary["instruction"] as! String
-                    let instruction_id:Int = instructionsDictionary["instruction_id"] as! Int
-                    
-                    recipe.instructions.append(instruction)
-                    recipe.instructionToIdMap[instruction] = instruction_id
-                }
-                    
-                // Add to recipes array
-                self.recipes.append(recipe)
-                    
-            }
-            
-            // Update the recipe image in the main thread
+            self.recipes = recipes
             DispatchQueue.main.async {
                 self.loadRecipeImages(startIndicators: false)
             }
         }
-        
-        // Run the task
-        task.resume()
-        
     }
     
     func loadRecipeImages(startIndicators:Bool) {
@@ -251,53 +167,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.startActivityIndicators()
         }
         
-        // Create queue for running the download tasks in parallel
-        let queue = DispatchQueue(label: "test", qos: .userInitiated, attributes: .concurrent)
-        
-        // Implements semaphore to figure out when all tasks in queue are done
-        let group = DispatchGroup()
-        
-        let domainName:String = "http://iosrecipes.com/"
-        
-        for i in 0..<self.recipes.count {
-            let recipe:Recipe = self.recipes[i]
-            
-            // If there is no image url, just continue
-            if recipe.imageUrl == "" {
-                continue
-            }
-            
-            // Skip if the recipe has already been loaded
-            if self.savedRecipesMap[recipe.recipeId] != nil {
-                print("already loaded image for recipe with id \(recipe.recipeId), skipping")
-                continue
-            }
-            
-            // Increase semaphore
-            group.enter()
-            
-            // Add a download task for each recipe image
-            queue.async(group: group, execute: {
-                
-                // Create request to download image
-                let url:URL? = URL(string: domainName + recipe.imageUrl)
-                let myPicture = UIImage(data: try! Data(contentsOf: url!))!
-                
-                /*
-                let screenWidth:CGFloat = UIScreen.main.bounds.width
-                self.recipes[i].image = myPicture.resized(toWidth: screenWidth, toHeight: screenWidth * 0.67)
-                */
-                self.recipes[i].image = myPicture
-                print("loaded image")
-                    
-                // Decrease semaphore
-                group.leave()
-            
-            
-            })
-        }
-        
-        group.notify(queue: DispatchQueue.main) {
+        self.recipesService.retrieveRecipeImages(recipes: self.recipes, cachedRecipes: self.savedRecipesMap) { (recipes) in
             print("done loading images, displaying recipes")
             
             // If any new recipes have been retrieved, update the recipes file and local cache
@@ -305,7 +175,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 print("new recipes found, updating file system and local cache")
                 let recipesFile = UserDefaults.standard.object(forKey: Config.FilePathKey.recipesFilePathKey) as! String
                 self.fileManagerUtil.saveRecipesToFile(recipesToSave: self.recipes, filePath: recipesFile, appendToFile: false)
-            
+                
                 for i in 0 ..< self.recipes.count {
                     self.savedRecipesMap[self.recipes[i].recipeId] = self.recipes[i]
                 }
@@ -315,9 +185,30 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.endActivityIndicators()
             self.refreshControl.endRefreshing()
             self.displayRecipes(recipes: self.recipes)
-        }
+        }        
     }
     
+    func deleteRecipes(recipeIds:[Int]) {
+        
+        if recipeIds.count == 0 {
+            print("No recipes to delete")
+            return
+        }
+        
+        print("deleting recipes")
+        recipesService.deleteRecipes(recipeIds: recipeIds) { (success) in
+            if !success {
+                print("There was an error deleting the recipe")
+                DispatchQueue.main.async {
+                    self.alertControllerUtil.displayErrorAlert(presentOn: self, actionToRetry: {
+                        self.deleteRecipes(recipeIds: recipeIds)
+                    })
+                }
+                return
+            }
+            print("Successfully removed recipes")
+        }
+    }
     
     @IBAction func leftBarButtonClicked(_ sender: UIBarButtonItem) {
 
@@ -362,66 +253,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.addImageClicked = true
         self.performSegue(withIdentifier: "createRecipe", sender: self)
     }
-    
-    func deleteRecipes(recipeIds:[Int]) {
-        
-        if recipeIds.count == 0 {
-            print("No recipes to delete")
-            return
-        }
-        
-        print("deleting recipes")
-        
-        // Create json object
-        var json:[String:[Int]] = [String:[Int]]()
-        json["recipe_ids"] = recipeIds
-                
-        let data:Data = try! JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
-        
-        // Create url object
-        let url:URL = URL(string: Config.ScriptUrl.deleteRecipesUrl)!
-        
-        // Create and initialize request
-        var request:URLRequest = URLRequest(url: url)
-        
-        request.httpMethod = "POST"
-        request.httpBody = data
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        
-        let task:URLSessionDataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
             
-            if !self.dataTaskUtil.isValidResponse(response: response, error: error) {
-                print("There was an error deleting the recipe")
-                DispatchQueue.main.async {
-                    self.alertControllerUtil.displayErrorAlert(presentOn: self, actionToRetry: {
-                        self.deleteRecipes(recipeIds: recipeIds)
-                    })
-                }
-                return
-            }
-
-            let json:NSDictionary? = self.dataTaskUtil.getJson(data: data!)
-            if !self.dataTaskUtil.isValidJson(json: json) {
-                print("There was an error deleting the recipe")
-                print(json ?? "json: {}")
-                DispatchQueue.main.async {
-                    self.alertControllerUtil.displayErrorAlert(presentOn: self, actionToRetry: {
-                        self.deleteRecipes(recipeIds: recipeIds)
-                    })
-                }
-                return
-            }
-
-            print("Successfully removed recipes")
-            
-        }
-        
-        task.resume()
-    }
-    
-    
-    
     // MARK: - Utility functions
     
     func displayRecipes(recipes:[Recipe]) {

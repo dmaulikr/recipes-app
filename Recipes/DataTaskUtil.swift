@@ -19,7 +19,7 @@ class DataTaskUtil: NSObject {
                             completionHandler: @escaping (Data?, URLResponse?, Error?) -> Swift.Void) {
         var data:Data?
         do {
-            data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
+            data = try JSONSerialization.data(withJSONObject: jsonPayload, options: JSONSerialization.WritingOptions.prettyPrinted)
         }
         catch let e as NSError {
             print("Error: couldn't convert recipe json to data object, " + e.localizedDescription)
