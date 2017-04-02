@@ -144,14 +144,14 @@
 				8D67C52C1E8F2F6B0097D699 /* Util */,
 				8DB9AD5D1E90CCF6003501AC /* ViewControllers */,
 				8D8402411DD4D0E7009BBA62 /* AppDelegate.swift */,
+				8DDF6A231E80D5AA00D34932 /* Assets.xcassets */,
 				8D06C6291E724E1900B5EAC7 /* ButtonWithRecipe.swift */,
 				8DEF1A5A1E8727340031CD03 /* Config.swift */,
-				8D8402531DD4D14F009BBA62 /* Recipe.swift */,
+				8D84024D1DD4D0E7009BBA62 /* Info.plist */,
 				8D84024A1DD4D0E7009BBA62 /* LaunchScreen.storyboard */,
 				8D8402451DD4D0E7009BBA62 /* Main.storyboard */,
-				8DDF6A231E80D5AA00D34932 /* Assets.xcassets */,
+				8D8402531DD4D14F009BBA62 /* Recipe.swift */,
 				8D0BF8891E2D750300C3B563 /* Recipes.entitlements */,
-				8D84024D1DD4D0E7009BBA62 /* Info.plist */,
 			);
 			path = Recipes;
 			sourceTree = "<group>";
