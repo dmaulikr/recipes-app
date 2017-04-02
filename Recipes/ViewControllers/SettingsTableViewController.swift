@@ -47,7 +47,7 @@ class SettingsTableViewController: IASKAppSettingsViewController, IASKSettingsDe
     }
     
     func tableView(_ tableView: UITableView!, heightFor specifier: IASKSpecifier!) -> CGFloat {
-        return 44
+        return 44 // Just decided on this through trial and error
     }
     
     func tableView(_ tableView: UITableView!, cellFor specifier: IASKSpecifier!) -> UITableViewCell! {
@@ -61,14 +61,12 @@ class SettingsTableViewController: IASKAppSettingsViewController, IASKSettingsDe
     }
     
     @IBAction func logoutTapped(_ sender: UIBarButtonItem) {
-        // Create a new alert controller
         let actionSheet:UIAlertController = UIAlertController(title: nil, message: "Are you sure?", preferredStyle: UIAlertControllerStyle.actionSheet)
         
-        // Add an Alert Action
         let logoutAction:UIAlertAction = UIAlertAction(title: "Logout", style: UIAlertActionStyle.destructive,
             handler: { (alertAction:UIAlertAction!) in
                 
-            NSLog("logging out")
+            print("logging out")
             UserDefaults.standard.set("", forKey: Config.UserDefaultsKey.currentUserIdKey)
             UserDefaults.standard.set("", forKey: Config.UserDefaultsKey.currentUserNameKey)
             let loginManager = FBSDKLoginManager()
@@ -76,12 +74,10 @@ class SettingsTableViewController: IASKAppSettingsViewController, IASKSettingsDe
             self.performSegue(withIdentifier: "toLogin", sender: self)
         })
         
-        // Add another action
         let cancelAction:UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: {
             (alertAction:UIAlertAction!) in
-            NSLog("canceled logout")
-        })
-        
+            print("canceled logout")
+        })        
         
         actionSheet.addAction(logoutAction)
         actionSheet.addAction(cancelAction)

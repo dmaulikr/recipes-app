@@ -266,7 +266,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Initialize recipe object for RecipeViewController
         if segue.identifier == "toRecipeView" {
             let recipeVC:RecipeViewController = segue.destination as! RecipeViewController
             recipeVC.recipe = self.selectedRecipe
@@ -317,13 +316,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // Get reusable cell
         let cell:UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "TableCell")!
         
-        // Get recipe
         let recipe:Recipe = self.recipesToDisplay[indexPath.row]
         
-        // Initialize label text with recipe name
         let label:UILabel = cell.viewWithTag(1) as! UILabel
         label.text = recipe.name
         
@@ -370,13 +366,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             self.deleteRecipes(recipeIds: [recipeToDelete.recipeId])
             
-            // remove from recipes array
             let index = self.recipes.index(of: recipeToDelete)
             self.recipes.remove(at: index!)
 
-            // Display recipes
             self.displayRecipes(recipes: self.recipes)
-            
             DispatchQueue.global(qos: .background).async {
                 let recipesFile = UserDefaults.standard.object(forKey: Config.UserDefaultsKey.recipesFilePathKey) as! String
                 self.savedRecipesMap.removeValue(forKey: recipeToDelete.recipeId)

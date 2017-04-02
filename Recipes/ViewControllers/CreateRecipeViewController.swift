@@ -61,17 +61,17 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     
     var activeTextField:UITextField?
     
-    // Flag to figure out how to save image
+    // Flags to figure out how to save image
     var newRecipeImageSelected:Bool = false
     var imageDeleted:Bool = false
     
     let filtersToIntensity:[String:Float?] = [
         "CIPhotoEffectChrome" : nil,
-        "CIPhotoEffectFade" : nil, // only takes image
-        "CIPhotoEffectInstant" : nil, // only image
-        "CIPhotoEffectProcess": nil, // image
-        "CIPhotoEffectTonal": nil, // image
-        "CIPhotoEffectTransfer": nil, // image
+        "CIPhotoEffectFade" : nil,
+        "CIPhotoEffectInstant" : nil,
+        "CIPhotoEffectProcess": nil,
+        "CIPhotoEffectTonal": nil,
+        "CIPhotoEffectTransfer": nil,
         "CISepiaTone": 0.5,
         "CIVignette" : 1
     ]
@@ -158,6 +158,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toAllRecipes" {
+            // Let the view controller know that it doesn't need to make a remote call to load the recipes
             let tabBarController = segue.destination as! UITabBarController
             let navigationController = tabBarController.viewControllers?.first as! UINavigationController
             let viewController = navigationController.viewControllers.first as! ViewController
@@ -221,10 +222,8 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     @IBAction func deleteImageClicked(_ sender: UIButton) {
-        // Create alert controller object
         let myAlert:UIAlertController = UIAlertController(title: "Are you sure you want to delete the image?", message: "", preferredStyle: UIAlertControllerStyle.alert)
         
-        // Create a alert action
         let firstAction:UIAlertAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default, handler: { (alertAction:UIAlertAction!) in
             
             self.recipeImageView.image = nil
@@ -251,7 +250,6 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         })
         
         
-        // Create a alert action
         let secondAction:UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (alertAction:UIAlertAction!) in
                 print("cancel button clicked")
         })
@@ -353,12 +351,10 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         
         recipe.name = recipeNameTextField.text!
         
-        // Save recipe description if it's not the placeholder
         if descriptionTextView.text != self.textViewPlaceholder {
             recipe.recipeDescription = descriptionTextView.text
         }
         
-        // Loop through each ingredient
         for i in 0 ..< self.ingredients.count {
             
             let ingredient:String = self.ingredients[i]
@@ -370,7 +366,6 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             }
         }
         
-        // Loop through each instruction
         for i in 0 ..< self.instructions.count {
             
             let instruction:String = self.instructions[i]
@@ -426,6 +421,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     
     func saveRecipesCallback(recipe:Recipe, imageUrl:String?, json:NSDictionary) {
         
+        // Set the following recipe properties so it can by saved to the file system
         recipe.image = self.recipeImageView.image
         if let imageUrl = imageUrl {
             recipe.imageUrl = imageUrl
@@ -507,8 +503,6 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             imageNumber += 1
             if imageNumber == imagesPerRow {
                 imageNumber = 0
-                
-                // TODO: Change logic so we don't hardcode indeces
                 currentStackView = secondRowStackView
             }
         }
@@ -650,7 +644,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
                     self.instructionTextField.resignFirstResponder()
                 
                 default:
-                    NSLog("There was an unrecognized text field tag, dismissing all")
+                    print("There was an unrecognized text field tag, dismissing all")
                     self.recipeNameTextField.endEditing(true)
                     self.recipeNameTextField.resignFirstResponder()
                     self.ingredientTextField.endEditing(true)
@@ -747,11 +741,10 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
-        // Adjust height of content
+        // Row has been deleted
         self.contentViewHeightConstraint.constant -= self.defaultTableRowHeight
 
         if tableView == self.ingredientsTableView {
-            // Adjust table height
             self.ingredientsTableHeightConstraint.constant -= self.defaultTableRowHeight
             
             // If this row has an id it means it's in the database so we
@@ -761,7 +754,6 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
                 self.ingredientRowIds.remove(at: indexPath.row)
             }
             
-            // Remove from table and reload
             self.ingredients.remove(at: indexPath.row)
             self.ingredientsTableView.reloadData()
             
@@ -770,7 +762,6 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             }
         }
         else {
-            // Adjust table height
             self.instructionsTableHeightConstraint.constant -= self.defaultTableRowHeight
             
             // If this row has an id it means it's in the database so we
@@ -780,7 +771,6 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
                 self.instructionRowIds.remove(at: indexPath.row)
             }
             
-            // Remove from table and reload
             self.instructions.remove(at: indexPath.row)
             self.instructionsTableView.reloadData()
             

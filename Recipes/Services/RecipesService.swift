@@ -132,7 +132,6 @@ class RecipesService: NSObject {
                 recipe.recipeDescription =  recipeDictionary["description"] as! String
                 recipe.imageUrl = recipeDictionary["image_url"] as! String
                 
-                // Parse and save each ingredient
                 let ingredientsArray = recipeDictionary["ingredients"] as! NSArray
                 for j in 0 ..< ingredientsArray.count {
                     let ingredientsDictionary = ingredientsArray[j] as! NSDictionary
@@ -144,7 +143,6 @@ class RecipesService: NSObject {
                     recipe.ingredientToIdMap[ingredient] = ingredient_id
                 }
                 
-                // Parse and save each instruction
                 let instructionsArray = recipeDictionary["instructions"] as! NSArray
                 for j in 0 ..< instructionsArray.count {
                     let instructionsDictionary = instructionsArray[j] as! NSDictionary

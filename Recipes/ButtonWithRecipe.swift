@@ -9,14 +9,7 @@
 import UIKit
 
 class ButtonWithRecipe: UIButton {
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-    
+    // Simple object to associate a recipe with a button
     var associatedRecipe:Recipe? = nil
 
 }
