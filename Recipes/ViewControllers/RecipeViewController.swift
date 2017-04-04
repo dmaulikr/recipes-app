@@ -26,6 +26,7 @@ class RecipeViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var recipeImageHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var descriptionViewHeightConstraint: NSLayoutConstraint!        
     @IBOutlet weak var ingredientsTableHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var instructionsTableHeightConstraint: NSLayoutConstraint!
     
@@ -66,7 +67,8 @@ class RecipeViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
             self.descriptionTextView.text = unwrappedRecipe.recipeDescription
             self.descriptionTextView.isUserInteractionEnabled = false
-            
+            self.descriptionViewHeightConstraint.constant = self.descriptionTextView.getSizeThatFits().height
+                        
             let numIngredients:Int = (self.recipe?.ingredients.count)!
             self.ingredientsTableHeightConstraint.constant = CGFloat(numIngredients) * self.defaultTableRowHeight
             self.contentViewHeightConstraint.constant += self.ingredientsTableHeightConstraint.constant

@@ -170,6 +170,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     func populateViewWithRecipeToEdit() {
         self.recipeNameTextField.text = self.recipeToEdit?.name
         self.descriptionTextView.text = self.recipeToEdit?.recipeDescription
+        self.descriptionViewHeightConstraint.constant = self.descriptionTextView.getSizeThatFits().height
         
         // Add each ingredient to view
         let recipeIngredients:[String] = (self.recipeToEdit?.ingredients)!
@@ -674,9 +675,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        let fixedWidth:CGFloat = textView.frame.size.width
-        let newSize:CGSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
-        self.descriptionViewHeightConstraint.constant = newSize.height
+        self.descriptionViewHeightConstraint.constant = textView.getSizeThatFits().height
     }
     
     // MARK: - Fusama delegate methods

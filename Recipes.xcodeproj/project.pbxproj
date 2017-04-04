@@ -22,6 +22,7 @@
 		8D84024C1DD4D0E7009BBA62 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D84024A1DD4D0E7009BBA62 /* LaunchScreen.storyboard */; };
 		8D8402541DD4D14F009BBA62 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8402531DD4D14F009BBA62 /* Recipe.swift */; };
 		8D8413DE1E5B98D100E9AC9B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D8413DD1E5B98D100E9AC9B /* QuartzCore.framework */; };
+		8D861C661E93492600CFE87F /* UITextViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D861C651E93492600CFE87F /* UITextViewExtensions.swift */; };
 		8D9B15A91DD62BBE00855D3B /* CreateRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9B15A81DD62BBE00855D3B /* CreateRecipeViewController.swift */; };
 		8DB9AD581E90CB5A003501AC /* NSMutableDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB9AD571E90CB5A003501AC /* NSMutableDataExtensions.swift */; };
 		8DB9AD5A1E90CB69003501AC /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB9AD591E90CB69003501AC /* UIViewControllerExtensions.swift */; };
@@ -55,6 +56,7 @@
 		8D84024D1DD4D0E7009BBA62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D8402531DD4D14F009BBA62 /* Recipe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		8D8413DD1E5B98D100E9AC9B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		8D861C651E93492600CFE87F /* UITextViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextViewExtensions.swift; sourceTree = "<group>"; };
 		8D9B15A81DD62BBE00855D3B /* CreateRecipeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateRecipeViewController.swift; sourceTree = "<group>"; };
 		8DB9AD571E90CB5A003501AC /* NSMutableDataExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSMutableDataExtensions.swift; sourceTree = "<group>"; };
 		8DB9AD591E90CB69003501AC /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				8DB9AD571E90CB5A003501AC /* NSMutableDataExtensions.swift */,
 				8DB9AD5B1E90CB81003501AC /* UIImageExtensions.swift */,
 				8DB9AD591E90CB69003501AC /* UIViewControllerExtensions.swift */,
+				8D861C651E93492600CFE87F /* UITextViewExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -318,6 +321,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DDD9B461E8602B100F5D766 /* AlertControllerUtil.swift in Sources */,
+				8D861C661E93492600CFE87F /* UITextViewExtensions.swift in Sources */,
 				8D8402541DD4D14F009BBA62 /* Recipe.swift in Sources */,
 				8D7D55E51E888DD3008E7E8B /* RecipesFileManagerUtil.swift in Sources */,
 				8DB9AD5C1E90CB81003501AC /* UIImageExtensions.swift in Sources */,
