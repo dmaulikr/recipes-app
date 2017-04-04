@@ -232,7 +232,7 @@ class RecipesService: NSObject {
         json["delete_image"] = deleteImage as AnyObject?
         
         
-        let url = Config.ScriptUrl.saveRecipeUrl
+        let url = Config.ScriptUrl.updateRecipeUrl
         var headers = [String:String]()
         headers["Content-Type"] = "application/json"
         headers["Accept"] = "application/json"
