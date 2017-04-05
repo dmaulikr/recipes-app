@@ -22,7 +22,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var recipeNameTextField: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var ingredientTextField: UITextField!
-    @IBOutlet weak var instructionTextField: UITextField!
+    @IBOutlet weak var instructionTextView: UITextView!
     @IBOutlet weak var ingredientsTableView: UITableView!
     @IBOutlet weak var instructionsTableView: UITableView!
     
@@ -35,11 +35,15 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var recipeFiltersHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var descriptionViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var ingredientsTableHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var instructionViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var instructionsTableHeightConstraint: NSLayoutConstraint!
+        
+    @IBOutlet weak var descriptionPlaceholder: UILabel!
+    @IBOutlet weak var instructionPlaceholder: UILabel!
+    
     
     // Constants
     let defaultTableRowHeight:CGFloat = 50
-    let textViewPlaceholder:String = "Add description ..."
     
     // Member variables to be set before presenting view if editing a recipe
     var editingRecipe:Bool = false
@@ -75,13 +79,6 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         "CISepiaTone": 0.5,
         "CIVignette" : 1
     ]
-
-    enum TextFieldTags:Int {
-        case RECIPE = 1
-        case INGREDIENT = 2
-        case INSTRUCTION = 3
-        case ALL = 4
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,13 +87,9 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         self.ingredientsTableView.backgroundColor = UIColor.clear
         self.instructionsTableView.backgroundColor = UIColor.clear
 
-        // Style description text view
-        descriptionTextView.layer.borderWidth = 0.5
-        descriptionTextView.layer.borderColor = Config.DefaultColor.greyBorderColor.cgColor
-        descriptionTextView.layer.cornerRadius = 5.0
-        descriptionTextView.text = self.textViewPlaceholder
-        descriptionTextView.font = UIFont.italicSystemFont(ofSize: UIFont.systemFontSize)
-        descriptionTextView.textColor = UIColor.lightGray
+        // Style text views
+        self.descriptionTextView.config()
+        self.instructionTextView.config()
         
         // Set properties of fusama image picker controller
         fusama.hasVideo = false
@@ -106,9 +99,9 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
 
         recipeNameTextField.delegate = self
         ingredientTextField.delegate = self
-        instructionTextField.delegate = self
         descriptionTextView.delegate = self
         ingredientsTableView.delegate = self
+        instructionTextView.delegate = self
         instructionsTableView.delegate = self
         
         ingredientsTableView.dataSource = self
@@ -287,16 +280,18 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     
     @IBAction func addInstructionClicked(_ sender: UIButton) {
         
-        if self.instructionTextField.text == "" {
-            self.instructionTextField.becomeFirstResponder()
+        if self.instructionTextView.isEmpty() {
+            self.instructionTextView.becomeFirstResponder()
             return
         }
         
         self.instructionsTableHeightConstraint.constant += self.defaultTableRowHeight
         self.contentViewHeightConstraint.constant += self.defaultTableRowHeight
         
-        self.instructions.append(self.instructionTextField.text!)
-        self.instructionTextField.text = ""
+        self.instructions.append(self.instructionTextView.text!)
+        self.instructionTextView.text = ""
+        self.instructionPlaceholder.alpha = 1
+        self.instructionViewHeightConstraint.constant = self.instructionTextView.getSizeThatFits().height
         self.instructionsTableView.reloadData()
         
         self.editInstructionButton.alpha = 1
@@ -352,7 +347,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         
         recipe.name = recipeNameTextField.text!
         
-        if descriptionTextView.text != self.textViewPlaceholder {
+        if !self.descriptionTextView.isEmpty() {
             recipe.recipeDescription = descriptionTextView.text
         }
         
@@ -624,58 +619,41 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.endEditing(textFieldTag: textField.tag)
+        if textField == self.recipeNameTextField {
+            self.recipeNameTextField.endEditing(true)
+            self.recipeNameTextField.resignFirstResponder()
+        }
+        else {
+            self.ingredientTextField.endEditing(true)
+            self.ingredientTextField.resignFirstResponder()
+        }
         return true
     }
     
-    func endEditing(textFieldTag:Int) {
-        // Dismiss the appropriate text field keyboard
-        UIView.animate(withDuration: 0.25, animations: {
-            switch(textFieldTag) {
-                case TextFieldTags.RECIPE.rawValue:
-                    self.recipeNameTextField.endEditing(true)
-                    self.recipeNameTextField.resignFirstResponder()
-                
-                case TextFieldTags.INGREDIENT.rawValue:
-                    self.ingredientTextField.endEditing(true)
-                    self.ingredientTextField.resignFirstResponder()
-                
-                case TextFieldTags.INSTRUCTION.rawValue:
-                    self.instructionTextField.endEditing(true)
-                    self.instructionTextField.resignFirstResponder()
-                
-                default:
-                    print("There was an unrecognized text field tag, dismissing all")
-                    self.recipeNameTextField.endEditing(true)
-                    self.recipeNameTextField.resignFirstResponder()
-                    self.ingredientTextField.endEditing(true)
-                    self.ingredientTextField.resignFirstResponder()
-                    self.instructionTextField.endEditing(true)
-                    self.instructionTextField.resignFirstResponder()
-            }
-        })
-        
-    }
     
     // MARK: - Text View Delegate Methods
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == self.textViewPlaceholder {
-            textView.text = nil
-            textView.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-            textView.textColor = UIColor.black
-        }
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-            textView.text = self.textViewPlaceholder
-            textView.font = UIFont.italicSystemFont(ofSize: UIFont.systemFontSize)
-            textView.textColor = UIColor.lightGray
-        }
-    }
     
     func textViewDidChange(_ textView: UITextView) {
-        self.descriptionViewHeightConstraint.constant = textView.getSizeThatFits().height
+        
+        if textView.isEmpty() {
+            if textView == self.descriptionTextView {
+                self.descriptionPlaceholder.alpha = 1
+            }
+            else if textView == self.instructionTextView {
+                self.instructionPlaceholder.alpha = 1
+            }
+            return
+        }
+        
+        if textView == self.descriptionTextView {
+            self.descriptionPlaceholder.alpha = 0
+            self.descriptionViewHeightConstraint.constant = textView.getSizeThatFits().height
+        }
+        else if textView == self.instructionTextView {
+            self.instructionPlaceholder.alpha = 0
+            self.instructionViewHeightConstraint.constant = textView.getSizeThatFits().height
+        }
+        
     }
     
     // MARK: - Fusama delegate methods
