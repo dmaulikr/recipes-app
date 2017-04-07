@@ -23,7 +23,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // Constants
     let defaultTableRowHeight:CGFloat = 100
-
+    let placeholderViewAlpha:CGFloat = 0.25
+    
     // Misc
     let alertControllerUtil = AlertControllerUtil()
     let fileManagerUtil = RecipesFileManagerUtil()
@@ -43,6 +44,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var addImageClicked:Bool = false
     var currentLeftBarButtonItem:UIBarButtonSystemItem = UIBarButtonSystemItem.edit
     var refreshControl:UIRefreshControl = UIRefreshControl()
+    var placeholderView:UIView?
     
     // This variable indicates whether this class will make a remote call to load the recipes for a user
     // If set to false, the data cached in the file system will be used
@@ -279,16 +281,43 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     // MARK: - Search Bar Delegate methods
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        if searchBar.text == nil || searchBar.text == "" {
+            // Create placeholder view to display with empty search bar
+            // Allows users to click on the screen and dismiss the keyboard without clicking on a recipe
+            if self.placeholderView == nil {
+                let yCoord = searchBar.frame.origin.y + searchBar.frame.height
+                let screenSize = UIScreen.main.bounds
+                
+                let frame = CGRect(x: 0, y: yCoord, width: screenSize.width, height: screenSize.height)
+                self.placeholderView = UIView(frame: frame)
+                
+                self.placeholderView!.backgroundColor = UIColor.black
+                self.placeholderView!.alpha = self.placeholderViewAlpha
+                self.view.addSubview(self.placeholderView!)
+            }
+            else {
+                self.placeholderView!.alpha = self.placeholderViewAlpha
+            }
+        }
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        self.placeholderView?.alpha = 0
+    }
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         if searchText == "" {
+            self.placeholderView?.alpha = self.placeholderViewAlpha
             self.recipesToDisplay = self.recipes
             self.recipesTableView.reloadData()
             return
         }
+        self.placeholderView?.alpha = 0
         
         let searchTextLowerCase:String = searchText.lowercased()
-        
         self.recipesToDisplay = self.recipes.filter({ (recipe:Recipe) -> Bool in
             
             let match = recipe.name.lowercased().range(of: searchTextLowerCase)
@@ -304,10 +333,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.recipesTableView.reloadData()
     }
     
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {       
-        self.recipesToDisplay = self.recipes
-        self.recipesTableView.reloadData()
-    }
 
     // MARK: - Table View Delegate Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

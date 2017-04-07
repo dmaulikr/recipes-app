@@ -12,8 +12,7 @@ extension UIViewController {
     func hideKeyboardWhenTappedAround() {
         let gestureRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
         
-        // Don't let gesture recognizer selctor be triggered when a view, such as a button
-        // or table cell is touched
+        // Don't disable other tap gestures in the view
         gestureRecognizer.cancelsTouchesInView = false
         view.addGestureRecognizer(gestureRecognizer)
     }
