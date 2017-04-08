@@ -110,6 +110,12 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         // Add keyboard listener
         self.registerForKeyboardNotifications()
         
+        // Add text field targets to change font dynamically
+        self.recipeNameTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)),
+                            for: UIControlEvents.editingChanged)
+        self.ingredientTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)),
+                                           for: UIControlEvents.editingChanged)
+        
         // Dismiss keyboard when user taps outside
         self.hideKeyboardWhenTappedAround()
         
@@ -616,6 +622,15 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     
     func textFieldDidEndEditing(_ textField: UITextField){
         self.activeTextField = nil
+    }
+    
+    func textFieldDidChange(_ textField: UITextField) {
+        if textField.text != "" && textField.font?.fontName == ".SFUIText-Italic" {
+            textField.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+        }
+        else if textField.text == "" && textField.font?.fontName != ".SFUIText-Italic" {
+            textField.font = UIFont.italicSystemFont(ofSize: UIFont.systemFontSize)
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
