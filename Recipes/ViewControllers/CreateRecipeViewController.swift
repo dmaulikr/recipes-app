@@ -37,12 +37,14 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var ingredientsTableHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var instructionViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var instructionsTableHeightConstraint: NSLayoutConstraint!
-        
+    @IBOutlet weak var tableMarginConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var descriptionPlaceholder: UILabel!
     @IBOutlet weak var instructionPlaceholder: UILabel!
     
     
     // Constants
+    let tableCellFontSize:CGFloat = 20
     let defaultTableRowHeight:CGFloat = 50
     
     // Member variables to be set before presenting view if editing a recipe
@@ -57,11 +59,18 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     let alertControllerUtil:AlertControllerUtil = AlertControllerUtil()
     
     var fusama:FusumaViewController = FusumaViewController() // Image Picker Controller
-    var ingredients:[String] = [String]()
-    var instructions:[String] = [String]()
     
+    var ingredients:[String] = [String]()
+    var ingredientRowHeights:[String:CGFloat] = [String:CGFloat]()
     var ingredientIdsToDelete:[Int] = [Int]()
+    
+    var instructions:[String] = [String]()
+    var instructionRowHeights:[String:CGFloat] = [String:CGFloat]()
     var instructionIdsToDelete:[Int] = [Int]()
+    
+    lazy var tableWidth:CGFloat = {
+        return UIScreen.main.bounds.width - (2 * self.tableMarginConstraint.constant)
+    }()
     
     var activeTextField:UITextField?
     
@@ -179,12 +188,15 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             let ingredient:String = recipeIngredients[i]
             self.ingredients.append(ingredient)
             
+            let height = ingredient.calculateHeight(inWidth: self.tableWidth, withFontSize: self.tableCellFontSize)
+            self.ingredientRowHeights[ingredient] = (height > self.defaultTableRowHeight) ? height : self.defaultTableRowHeight
+            
             // Add to row ids array
             self.ingredientRowIds.append((self.recipeToEdit?.ingredientToIdMap[ingredient])!)
             
             // Adjust height constraints
-            self.ingredientsTableHeightConstraint.constant += self.defaultTableRowHeight
-            self.contentViewHeightConstraint.constant += self.defaultTableRowHeight
+            self.ingredientsTableHeightConstraint.constant += self.ingredientRowHeights[ingredient]!
+            self.contentViewHeightConstraint.constant += self.ingredientRowHeights[ingredient]!
         }
         
         // Add each instruction to the table
@@ -195,13 +207,15 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             let instruction:String = recipeInstructions[i]
             self.instructions.append(instruction)
             
+            let height = instruction.calculateHeight(inWidth: self.tableWidth, withFontSize: self.tableCellFontSize)
+            self.instructionRowHeights[instruction] = (height > self.defaultTableRowHeight) ? 97 : self.defaultTableRowHeight
+            
             // Add to row ids array
-            self.instructionRowIds
-                    .append((self.recipeToEdit?.instructionToIdMap[instruction])!)
+            self.instructionRowIds.append((self.recipeToEdit?.instructionToIdMap[instruction])!)
             
             // Adjust height constraints
-            self.instructionsTableHeightConstraint.constant += self.defaultTableRowHeight
-            self.contentViewHeightConstraint.constant += self.defaultTableRowHeight
+            self.instructionsTableHeightConstraint.constant += self.instructionRowHeights[instruction]!
+            self.contentViewHeightConstraint.constant += self.instructionRowHeights[instruction]!
         }
         
         if let image = self.recipeToEdit?.image {
@@ -267,12 +281,17 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             self.ingredientTextField.becomeFirstResponder()
             return
         }
-
-        self.ingredientsTableHeightConstraint.constant += self.defaultTableRowHeight
-        self.contentViewHeightConstraint.constant += self.defaultTableRowHeight
         
-        self.ingredients.append(self.ingredientTextField.text!)
+        let ingredient = self.ingredientTextField.text!
+        self.ingredients.append(ingredient)
+        
+        let height = ingredient.calculateHeight(inWidth: self.tableWidth, withFontSize: self.tableCellFontSize)
+        self.ingredientRowHeights[ingredient] = (height > self.defaultTableRowHeight) ? height : self.defaultTableRowHeight
+        
         self.ingredientTextField.text = ""
+        
+        self.ingredientsTableHeightConstraint.constant += self.ingredientRowHeights[ingredient]!
+        self.contentViewHeightConstraint.constant += self.ingredientRowHeights[ingredient]!
         self.ingredientsTableView.reloadData()
         
         self.editIngredientButton.alpha = 1
@@ -291,13 +310,18 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             return
         }
         
-        self.instructionsTableHeightConstraint.constant += self.defaultTableRowHeight
-        self.contentViewHeightConstraint.constant += self.defaultTableRowHeight
+        let instruction = self.instructionTextView.text!
+        self.instructions.append(instruction)
         
-        self.instructions.append(self.instructionTextView.text!)
+        let height = instruction.calculateHeight(inWidth: self.tableWidth, withFontSize: self.tableCellFontSize)
+        self.instructionRowHeights[instruction] = (height > self.defaultTableRowHeight) ? height : self.defaultTableRowHeight
+        
         self.instructionTextView.text = ""
         self.instructionPlaceholder.alpha = 1
+        
         self.instructionViewHeightConstraint.constant = self.instructionTextView.getSizeThatFits().height
+        self.instructionsTableHeightConstraint.constant += self.instructionRowHeights[instruction]!
+        self.contentViewHeightConstraint.constant += self.instructionRowHeights[instruction]!
         self.instructionsTableView.reloadData()
         
         self.editInstructionButton.alpha = 1
@@ -720,8 +744,15 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return self.defaultTableRowHeight
-    }
+        if tableView == self.ingredientsTableView {
+            let ingredient = self.ingredients[indexPath.row]
+            return self.ingredientRowHeights[ingredient]!
+        }
+        else {
+            let instruction = self.instructions[indexPath.row]
+            return self.instructionRowHeights[instruction]!
+        }
+    }        
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return tableView.isEditing
@@ -734,10 +765,14 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
         // Row has been deleted
-        self.contentViewHeightConstraint.constant -= self.defaultTableRowHeight
 
         if tableView == self.ingredientsTableView {
-            self.ingredientsTableHeightConstraint.constant -= self.defaultTableRowHeight
+            
+            let ingredient = self.ingredients[indexPath.row]
+            let height = self.ingredientRowHeights[ingredient]
+
+            self.contentViewHeightConstraint.constant -= height!
+            self.ingredientsTableHeightConstraint.constant -= height!
             
             // If this row has an id it means it's in the database so we
             // add it to ingredientsToDelete array and stop storing its row id
@@ -757,7 +792,12 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             }
         }
         else {
-            self.instructionsTableHeightConstraint.constant -= self.defaultTableRowHeight
+            
+            let instruction = self.instructions[indexPath.row]
+            let height = self.instructionRowHeights[instruction]
+            
+            self.contentViewHeightConstraint.constant -= height!
+            self.instructionsTableHeightConstraint.constant -= height!
             
             // If this row has an id it means it's in the database so we
             // add it to instructionsToDelete array and stop storing its row id

@@ -29,12 +29,24 @@ class RecipeViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var descriptionViewHeightConstraint: NSLayoutConstraint!        
     @IBOutlet weak var ingredientsTableHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var instructionsTableHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var tableMarginConstraint: NSLayoutConstraint!
+    
     
     // Constants
+    let tableCellFontSize:CGFloat = 20
     let defaultTableRowHeight:CGFloat = 50
     
     // Recipe object to be initialized before view is presented
-    var recipe:Recipe?        
+    var recipe:Recipe?
+    
+    // Misc
+    lazy var tableWidth:CGFloat = {
+        return UIScreen.main.bounds.width - (2 * self.tableMarginConstraint.constant)
+    }()
+    
+    var ingredientRowHeights:[String:CGFloat] = [String:CGFloat]()
+    var instructionRowHeights:[String:CGFloat] = [String:CGFloat]()
+ 
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,14 +80,26 @@ class RecipeViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.descriptionTextView.text = unwrappedRecipe.recipeDescription
             self.descriptionTextView.isUserInteractionEnabled = false
             self.descriptionViewHeightConstraint.constant = self.descriptionTextView.getSizeThatFits().height
-                        
-            let numIngredients:Int = (self.recipe?.ingredients.count)!
-            self.ingredientsTableHeightConstraint.constant = CGFloat(numIngredients) * self.defaultTableRowHeight
-            self.contentViewHeightConstraint.constant += self.ingredientsTableHeightConstraint.constant
             
-            let numInstructions:Int = (self.recipe?.instructions.count)!
-            self.instructionsTableHeightConstraint.constant = CGFloat(numInstructions) * self.defaultTableRowHeight
-            self.contentViewHeightConstraint.constant += self.instructionsTableHeightConstraint.constant
+            var totalIngredientRowHeights:CGFloat = 0
+            for i in 0 ..< (self.recipe?.ingredients.count)! {
+                let ingredient:String = (self.recipe?.ingredients[i])!
+                let height = ingredient.calculateHeight(inWidth: self.tableWidth, withFontSize: self.tableCellFontSize)
+                self.ingredientRowHeights[ingredient] = (height > self.defaultTableRowHeight) ? height : self.defaultTableRowHeight
+                totalIngredientRowHeights += self.ingredientRowHeights[ingredient]!
+            }
+            self.ingredientsTableHeightConstraint.constant = totalIngredientRowHeights
+            self.contentViewHeightConstraint.constant += totalIngredientRowHeights
+            
+            var totalInstructionsRowHeights:CGFloat = 0
+            for i in 0 ..< (self.recipe?.instructions.count)! {
+                let instruction = (self.recipe?.instructions[i])!
+                let height = instruction.calculateHeight(inWidth: self.tableWidth, withFontSize: self.tableCellFontSize)
+                self.ingredientRowHeights[instruction] = (height > self.defaultTableRowHeight) ? height : self.defaultTableRowHeight
+                totalInstructionsRowHeights += self.ingredientRowHeights[instruction]!
+            }
+            self.instructionsTableHeightConstraint.constant = totalInstructionsRowHeights
+            self.contentViewHeightConstraint.constant += totalInstructionsRowHeights
             
             self.ingredientsTableView.reloadData()
             self.instructionsTableView.reloadData()
@@ -140,7 +164,14 @@ class RecipeViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return self.defaultTableRowHeight
+        if tableView == self.ingredientsTableView {
+            let ingredient:String = (self.recipe?.ingredients[indexPath.row])!
+            return self.ingredientRowHeights[ingredient]!
+        }
+        else {
+            let instruction:String = (self.recipe?.instructions[indexPath.row])!
+            return self.ingredientRowHeights[instruction]!
+        }
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

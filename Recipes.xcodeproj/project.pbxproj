@@ -14,6 +14,7 @@
 		8D0BF8861E2D6B7400C3B563 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D0BF8821E2D6B7300C3B563 /* FBSDKShareKit.framework */; };
 		8D0BF8881E2D721A00C3B563 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0BF8871E2D721A00C3B563 /* LoginViewController.swift */; };
 		8D4AEEB31DD5063B00127BEB /* RecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4AEEB21DD5063B00127BEB /* RecipeViewController.swift */; };
+		8D5FF99A1E98AF89005B1D15 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D5FF9991E98AF89005B1D15 /* StringExtensions.swift */; };
 		8D67C52F1E8F4BD20097D699 /* RecipesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D67C52E1E8F4BD20097D699 /* RecipesService.swift */; };
 		8D7D55E51E888DD3008E7E8B /* RecipesFileManagerUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7D55E41E888DD3008E7E8B /* RecipesFileManagerUtil.swift */; };
 		8D8402421DD4D0E7009BBA62 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8402411DD4D0E7009BBA62 /* AppDelegate.swift */; };
@@ -46,6 +47,7 @@
 		8D0BF8871E2D721A00C3B563 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		8D0BF8891E2D750300C3B563 /* Recipes.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Recipes.entitlements; sourceTree = "<group>"; };
 		8D4AEEB21DD5063B00127BEB /* RecipeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeViewController.swift; sourceTree = "<group>"; };
+		8D5FF9991E98AF89005B1D15 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		8D67C52E1E8F4BD20097D699 /* RecipesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipesService.swift; sourceTree = "<group>"; };
 		8D7D55E41E888DD3008E7E8B /* RecipesFileManagerUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipesFileManagerUtil.swift; sourceTree = "<group>"; };
 		8D84023E1DD4D0E7009BBA62 /* Recipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Recipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -165,6 +167,7 @@
 				8DB9AD5B1E90CB81003501AC /* UIImageExtensions.swift */,
 				8DB9AD591E90CB69003501AC /* UIViewControllerExtensions.swift */,
 				8D861C651E93492600CFE87F /* UITextViewExtensions.swift */,
+				8D5FF9991E98AF89005B1D15 /* StringExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 				8DB9AD5A1E90CB69003501AC /* UIViewControllerExtensions.swift in Sources */,
 				8D06C62A1E724E1900B5EAC7 /* ButtonWithRecipe.swift in Sources */,
 				8D0BF8881E2D721A00C3B563 /* LoginViewController.swift in Sources */,
+				8D5FF99A1E98AF89005B1D15 /* StringExtensions.swift in Sources */,
 				8D8402421DD4D0E7009BBA62 /* AppDelegate.swift in Sources */,
 				8DE35C9B1E80AFAE004DD14F /* SettingsTableViewController.swift in Sources */,
 				8DB9AD581E90CB5A003501AC /* NSMutableDataExtensions.swift in Sources */,

@@ -485,6 +485,7 @@
                         <outlet property="recipeImageView" destination="cjx-RJ-nbd" id="evv-bx-hTX"/>
                         <outlet property="recipeNameTextField" destination="a3c-Ia-U5u" id="gg4-5o-5Ji"/>
                         <outlet property="scrollView" destination="M6N-Rp-Iyz" id="h0p-bB-F5S"/>
+                        <outlet property="tableMarginConstraint" destination="Ith-ZO-HrQ" id="YlG-48-IB1"/>
                         <segue destination="6Ja-in-eAq" kind="presentation" identifier="toAllRecipes" id="k4Z-aO-vpE"/>
                     </connections>
                 </viewController>
@@ -689,21 +690,21 @@
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0FC-Ao-AZD" userLabel="Recipe Name Section Border">
-                                                <rect key="frame" x="15" y="244" width="360" height="2"/>
+                                                <rect key="frame" x="15" y="209" width="360" height="2"/>
                                                 <color key="backgroundColor" red="0.01176470588" green="0.1058823529" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="2" id="8T8-6d-44B"/>
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ingredients" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uvc-X1-RdF" userLabel="IngredientsLabel">
-                                                <rect key="frame" x="30" y="291" width="117.5" height="49"/>
+                                                <rect key="frame" x="30" y="221" width="117.5" height="49"/>
                                                 <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="40"/>
                                                 <color key="textColor" red="0.01176470588" green="0.1058823529" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                                 <color key="shadowColor" red="0.01176470588" green="0.1058823529" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             </label>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="KSK-db-Xpp" userLabel="Ingredients Table View">
-                                                <rect key="frame" x="20" y="350" width="335" height="75"/>
+                                                <rect key="frame" x="20" y="280" width="335" height="75"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="75" id="Bv1-Rz-gFt"/>
@@ -717,7 +718,7 @@
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qvC-92-mif">
-                                                                    <rect key="frame" x="10" y="9.5" width="25" height="25"/>
+                                                                    <rect key="frame" x="10" y="0.0" width="25" height="25"/>
                                                                     <color key="backgroundColor" red="0.01176470588" green="0.1058823529" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="25" id="0mv-tB-4pb"/>
@@ -728,16 +729,16 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ingredient" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C68-0u-I0P" userLabel="Ingredient">
-                                                                    <rect key="frame" x="45" y="10" width="290" height="24"/>
+                                                                    <rect key="frame" x="45" y="0.0" width="290" height="24"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="C68-0u-I0P" firstAttribute="centerY" secondItem="kPn-kX-cvZ" secondAttribute="centerY" id="2p7-uw-bEw"/>
+                                                                <constraint firstItem="qvC-92-mif" firstAttribute="top" secondItem="kPn-kX-cvZ" secondAttribute="top" id="Jq8-Jo-S36"/>
+                                                                <constraint firstItem="C68-0u-I0P" firstAttribute="top" secondItem="kPn-kX-cvZ" secondAttribute="top" id="UsT-ld-Nfi"/>
                                                                 <constraint firstItem="C68-0u-I0P" firstAttribute="leading" secondItem="qvC-92-mif" secondAttribute="trailing" constant="10" id="bvS-dW-Pg3"/>
-                                                                <constraint firstItem="qvC-92-mif" firstAttribute="centerY" secondItem="kPn-kX-cvZ" secondAttribute="centerY" id="eCN-n4-bIP"/>
                                                                 <constraint firstItem="qvC-92-mif" firstAttribute="leading" secondItem="kPn-kX-cvZ" secondAttribute="leading" constant="10" id="yCC-P5-Sp8"/>
                                                                 <constraint firstAttribute="trailing" secondItem="C68-0u-I0P" secondAttribute="trailing" id="z9W-iz-zPz"/>
                                                             </constraints>
@@ -746,21 +747,21 @@
                                                 </prototypes>
                                             </tableView>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0pf-qv-wtg" userLabel="Ingredients Section Border">
-                                                <rect key="frame" x="15" y="470" width="360" height="2"/>
+                                                <rect key="frame" x="15" y="400" width="360" height="2"/>
                                                 <color key="backgroundColor" red="0.01176470588" green="0.1058823529" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="2" id="oHI-RT-C7H"/>
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Instructions" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pbd-aj-A7D" userLabel="InstructionsLabel">
-                                                <rect key="frame" x="30" y="517" width="122.5" height="49"/>
+                                                <rect key="frame" x="30" y="447" width="122.5" height="49"/>
                                                 <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="40"/>
                                                 <color key="textColor" red="0.01176470588" green="0.1058823529" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                                 <color key="shadowColor" red="0.01176470588" green="0.1058823529" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             </label>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="cuq-JJ-T1W" userLabel="Instructions Table View">
-                                                <rect key="frame" x="20" y="576" width="335" height="75"/>
+                                                <rect key="frame" x="20" y="506" width="335" height="75"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="75" id="nFY-3F-kfy"/>
@@ -774,7 +775,7 @@
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EaN-Vj-Cil">
-                                                                    <rect key="frame" x="10" y="9.5" width="25" height="25"/>
+                                                                    <rect key="frame" x="10" y="0.0" width="25" height="25"/>
                                                                     <color key="backgroundColor" red="0.01176470588" green="0.1058823529" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="25" id="7ap-Yc-IVZ"/>
@@ -785,18 +786,18 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Instruction" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OQs-WT-3Tr">
-                                                                    <rect key="frame" x="45" y="10" width="290" height="24"/>
+                                                                    <rect key="frame" x="45" y="0.0" width="290" height="24"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                                     <color key="textColor" red="0.01176470588" green="0.1058823529" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="EaN-Vj-Cil" firstAttribute="centerY" secondItem="BU5-fq-Xin" secondAttribute="centerY" id="2hb-Rl-OFx"/>
                                                                 <constraint firstAttribute="trailing" secondItem="OQs-WT-3Tr" secondAttribute="trailing" id="7s4-xw-MCn"/>
                                                                 <constraint firstItem="OQs-WT-3Tr" firstAttribute="leading" secondItem="EaN-Vj-Cil" secondAttribute="trailing" constant="10" id="OcK-21-noC"/>
-                                                                <constraint firstItem="OQs-WT-3Tr" firstAttribute="centerY" secondItem="BU5-fq-Xin" secondAttribute="centerY" id="ckR-UX-o0C"/>
+                                                                <constraint firstItem="EaN-Vj-Cil" firstAttribute="top" secondItem="BU5-fq-Xin" secondAttribute="top" id="RTo-Rl-dwP"/>
                                                                 <constraint firstItem="EaN-Vj-Cil" firstAttribute="leading" secondItem="BU5-fq-Xin" secondAttribute="leading" constant="10" id="lOE-if-ckn"/>
+                                                                <constraint firstItem="OQs-WT-3Tr" firstAttribute="top" secondItem="BU5-fq-Xin" secondAttribute="top" id="ofk-5h-XFt"/>
                                                             </constraints>
                                                         </tableViewCellContentView>
                                                     </tableViewCell>
@@ -804,12 +805,12 @@
                                             </tableView>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="uvc-X1-RdF" firstAttribute="top" secondItem="0FC-Ao-AZD" secondAttribute="bottom" constant="45" id="1Rd-b3-p4D"/>
+                                            <constraint firstItem="uvc-X1-RdF" firstAttribute="top" secondItem="0FC-Ao-AZD" secondAttribute="bottom" constant="10" id="1Rd-b3-p4D"/>
                                             <constraint firstAttribute="trailing" secondItem="KSK-db-Xpp" secondAttribute="trailing" constant="20" id="7gL-j3-ESh"/>
                                             <constraint firstItem="KJm-M8-f4a" firstAttribute="leading" secondItem="Sra-2A-B6e" secondAttribute="leading" constant="20" id="8pi-ev-11z"/>
                                             <constraint firstItem="cuq-JJ-T1W" firstAttribute="top" secondItem="Pbd-aj-A7D" secondAttribute="bottom" constant="10" id="APF-dx-hoE"/>
                                             <constraint firstAttribute="trailing" secondItem="0FC-Ao-AZD" secondAttribute="trailing" id="HdZ-b6-U2F"/>
-                                            <constraint firstItem="0FC-Ao-AZD" firstAttribute="top" secondItem="KJm-M8-f4a" secondAttribute="bottom" constant="45" id="KAL-kV-Xb6"/>
+                                            <constraint firstItem="0FC-Ao-AZD" firstAttribute="top" secondItem="KJm-M8-f4a" secondAttribute="bottom" constant="10" id="KAL-kV-Xb6"/>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="LwO-eV-S2K"/>
                                             <constraint firstItem="Pbd-aj-A7D" firstAttribute="top" secondItem="0pf-qv-wtg" secondAttribute="bottom" constant="45" id="OdG-rs-Myz"/>
                                             <constraint firstItem="KSK-db-Xpp" firstAttribute="top" secondItem="uvc-X1-RdF" secondAttribute="bottom" constant="10" id="OfC-hW-eCr"/>
@@ -876,6 +877,7 @@
                         <outlet property="navItem" destination="Ea7-sF-KvW" id="0ZH-3w-YQc"/>
                         <outlet property="recipeImageHeightConstraint" destination="rv6-YL-ILw" id="nGV-kO-qiZ"/>
                         <outlet property="recipeImageView" destination="qD6-6k-ptT" id="vcM-R6-MHF"/>
+                        <outlet property="tableMarginConstraint" destination="ySI-gY-gpH" id="Z8X-Si-NFR"/>
                         <outlet property="titleLabel" destination="QIQ-CI-7ge" id="PMM-ux-DvN"/>
                         <segue destination="6dR-iX-OMH" kind="show" identifier="editRecipe" id="QZ1-a2-4o9"/>
                     </connections>
