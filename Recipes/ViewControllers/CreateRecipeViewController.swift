@@ -750,6 +750,9 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             self.ingredientsTableView.reloadData()
             
             if self.ingredients.count == 0 {
+                if tableView.isEditing {
+                    tableView.isEditing = false
+                }
                 self.editIngredientButton.alpha = 0
             }
         }
@@ -767,6 +770,9 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             self.instructionsTableView.reloadData()
             
             if self.instructions.count == 0 {
+                if tableView.isEditing {
+                    tableView.isEditing = false
+                }
                 self.editInstructionButton.alpha = 0
             }
         }
