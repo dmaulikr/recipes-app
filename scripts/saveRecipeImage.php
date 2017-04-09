@@ -37,11 +37,11 @@ if(!$conn->query($insert_image_blob_sql)) {
 
 // Get image blob id from last query
 $image_blob_id = mysqli_insert_id($conn);
-$relative_url = "images/image" . $image_blob_id . "_" . hash("md5", $image_blob_id) . ".jpg";
+$save_image_url = "images/image" . $image_blob_id . "_" . hash("md5", $image_blob_id) . ".jpg";
 
 // Insert into images table
 $insert_image_ps = $conn->prepare(INSERT_IMAGE_SQL);
-$insert_image_ps->bind_param("is", $image_blob_id, $relative_url);
+$insert_image_ps->bind_param("is", $image_blob_id, $save_image_url);
 if(!$insert_image_ps->execute()) {
 	echo $json_service->get_json_result("Error inserting image: " . $insert_image_ps->error, false);
 	die();
@@ -51,8 +51,7 @@ if(!$insert_image_ps->execute()) {
 $image_id = mysqli_insert_id($conn);
 
 // After all the other queries are successful, save the image to server
-$url = Constants::DOMAIN_NAME . Constants::ENV . "/" . $relative_url;
-if(!move_uploaded_file($image, Constants::DOMAIN_NAME . $url)) {
+if(!move_uploaded_file($image, "../" . $save_image_url)) {
 	echo $json_service->get_json_result("There was an error uploading the file to the server", false);
 	die();
 }
@@ -66,7 +65,7 @@ $conn->close();
 // Print success message
 echo json_encode([
 	"image_id" => $image_id,
-	"image_url" => $image_url,
+	"image_url" => $save_image_url,
 	"message" => "Image saved successfully",
 	"status" => "success"
 ]);

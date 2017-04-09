@@ -5,13 +5,13 @@ include "jsonService.php";
 
 const RETRIEVE_RECIPE_SQL = "SELECT recipes.recipe_id, recipes.name, recipes.description, images.image_url FROM " . Constants::RECIPES_TABLE . 
 							" LEFT OUTER JOIN " . Constants::IMAGES_TABLE . " on recipes.image_id = images.image_id" .
-							" WHERE recipes.fb_user_id = ? and recipes.deleted = false" . 
+							" WHERE recipes.fb_user_id = ? and recipes.date_removed IS NULL" . 
 							" ORDER BY recipes.recipe_id ASC";
 
-const RETRIEVE_INGREDIENTS_SQL = "SELECT * FROM " . Constants::RECIPE_INGREDIENTS_TABLE . " WHERE recipe_id IN (?) AND deleted = false" . 
+const RETRIEVE_INGREDIENTS_SQL = "SELECT * FROM " . Constants::RECIPE_INGREDIENTS_TABLE . " WHERE recipe_id IN (?) AND date_removed IS NULL" . 
 							" ORDER BY ingredient_id asc";
 							
-const RETRIEVE_INSTRUCTIONS_SQL = "SELECT * FROM " . Constants::RECIPE_INSTRUCTIONS_TABLE . " WHERE recipe_id IN (?) AND deleted = false" .
+const RETRIEVE_INSTRUCTIONS_SQL = "SELECT * FROM " . Constants::RECIPE_INSTRUCTIONS_TABLE . " WHERE recipe_id IN (?) AND date_removed IS NULL" . 
 							" ORDER BY instruction_id asc";
 
 

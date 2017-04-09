@@ -3,7 +3,7 @@
 include "constants.php";
 include "jsonService.php";
 
-const DELETE_RECIPE_SQL = "UPDATE " . Constants::RECIPES_TABLE . " SET deleted = true WHERE recipe_id IN (?)";
+const DELETE_RECIPE_SQL = "UPDATE " . Constants::RECIPES_TABLE . " SET date_modified = NOW(), date_removed = NOW() WHERE recipe_id IN (?)";
 
 
 $json_service = new JsonService();

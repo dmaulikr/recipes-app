@@ -3,16 +3,16 @@
 include "constants.php";
 include "jsonService.php";
 
-const UPDATE_RECIPE_SQL = "UPDATE " . Constants::RECIPES_TABLE . " SET name = ?, description = ? WHERE recipe_id = ?";
-const UPDATE_RECIPE_SQL_WITH_IMAGE = "UPDATE " . Constants::RECIPES_TABLE . " SET name = ?, description = ?, image_id = ? WHERE recipe_id = ?";
-const UPDATE_INGREDIENTS_SQL = "UPDATE " . Constants::RECIPE_INGREDIENTS_TABLE . " SET ingredient = ? WHERE ingredient_id = ?";
-const UPDATE_INSTRUCTIONS_SQL = "UPDATE " . Constants::RECIPE_INSTRUCTIONS_TABLE . " SET instruction = ? WHERE instruction_id = ?";
+const UPDATE_RECIPE_SQL = "UPDATE " . Constants::RECIPES_TABLE . " SET name = ?, description = ?, date_modified = NOW() WHERE recipe_id = ?";
+const UPDATE_RECIPE_SQL_WITH_IMAGE = "UPDATE " . Constants::RECIPES_TABLE . " SET name = ?, description = ?, image_id = ?, date_modified = NOW() WHERE recipe_id = ?";
+const UPDATE_INGREDIENTS_SQL = "UPDATE " . Constants::RECIPE_INGREDIENTS_TABLE . " SET ingredient = ?, date_modified = NOW() WHERE ingredient_id = ?";
+const UPDATE_INSTRUCTIONS_SQL = "UPDATE " . Constants::RECIPE_INSTRUCTIONS_TABLE . " SET instruction = ?, date_modified = NOW() WHERE instruction_id = ?";
 
 const INSERT_INGREDIENTS_SQL = "INSERT INTO " . Constants::RECIPE_INGREDIENTS_TABLE . " (recipe_id, ingredient) VALUES ";
 const INSERT_INSTRUCTIONS_SQL = "INSERT INTO " . Constants::RECIPE_INSTRUCTIONS_TABLE . " (recipe_id, instruction) VALUES ";
 
-const DELETE_INGREDIENTS_SQL = "UPDATE " . Constants::RECIPE_INGREDIENTS_TABLE . " SET deleted = true WHERE ingredient_id IN (?)";
-const DELETE_INSTRUCTION_SQL = "UPDATE " . Constants::RECIPE_INSTRUCTIONS_TABLE . " SET deleted = true WHERE instruction_id IN (?)";
+const DELETE_INGREDIENTS_SQL = "UPDATE " . Constants::RECIPE_INGREDIENTS_TABLE . " SET date_removed = NOW(), date_modified = NOW() WHERE ingredient_id IN (?)";
+const DELETE_INSTRUCTION_SQL = "UPDATE " . Constants::RECIPE_INSTRUCTIONS_TABLE . " SET date_removed = NOW(), date_modified = NOW() WHERE instruction_id IN (?)";
 
 const GET_RECIPE_IMAGE_SQL = "SELECT image_id from " . Constants::RECIPES_TABLE . " where recipe_id = ?";
 
@@ -38,13 +38,13 @@ function get_current_recipe_image($conn, $recipe_id, $json_service) {
 }
 
 function delete_recipe_image($conn, $recipe_id, $image_id, $json_service) {
-	$delete_image_sql = "UPDATE " . Constants::IMAGES_TABLE . " SET deleted = true where image_id = " . $image_id;
+	$delete_image_sql = "UPDATE " . Constants::IMAGES_TABLE . " SET date_removed = NOW(), date_modified = NOW() where image_id = " . $image_id;
 	if(!$conn->query($delete_image_sql)) {
 		echo $json_service->get_json_result("Couldn't delete from images table: " . $conn->error, false);
 		die();
 	}
 
-	$delete_recipe_image_sql = "UPDATE " . Constants::RECIPES_TABLE . " SET image_id = NULL where recipe_id = " . $recipe_id;
+	$delete_recipe_image_sql = "UPDATE " . Constants::RECIPES_TABLE . " SET image_id = NULL, date_modified = NOW() where recipe_id = " . $recipe_id;
 	if(!$conn->query($delete_recipe_image_sql)) {
 		echo $json_service->get_json_result("Couldn't delete image from recipes table: " . $conn->error, false);
 		die();
