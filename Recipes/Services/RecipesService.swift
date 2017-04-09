@@ -27,7 +27,7 @@ class RecipesService: NSObject {
             json["image_id"] = imageId! as AnyObject
         }
         
-        let url = Config.ScriptUrl.saveRecipeUrl
+        let url = Config.sharedInstance.getAPIEndpoint(endpoint: .saveRecipe)
         var headers = [String:String]()
         headers["Content-Type"] = "application/json"
         headers["Accept"] = "application/json"
@@ -66,7 +66,7 @@ class RecipesService: NSObject {
         body.appendString(string: "\r\n")
         body.appendString(string: "--\(boundary)--\r\n")
         
-        let url = Config.ScriptUrl.saveRecipeImageUrl
+        let url = Config.sharedInstance.getAPIEndpoint(endpoint: .saveRecipeImage)
         var headers = [String:String]()
         headers["Content-Type"] = "multipart/form-data; boundary=\(boundary)"
         
@@ -95,7 +95,7 @@ class RecipesService: NSObject {
         var json:[String:String] = [String:String]()
         json["fb_user_id"] = UserDefaults.standard.object(forKey: Config.UserDefaultsKey.currentUserIdKey) as? String
         
-        let url = Config.ScriptUrl.retrieveRecipesURL
+        let url = Config.sharedInstance.getAPIEndpoint(endpoint: .retrieveRecipes)
         var headers = [String:String]()
         headers["Content-Type"] = "application/json"
         headers["Accept"] = "application/json"
@@ -170,7 +170,7 @@ class RecipesService: NSObject {
         // Implements semaphore to figure out when all tasks in queue are done
         let group = DispatchGroup()
         
-        let domainName:String = Config.ScriptUrl.domainName
+        let domainName:String = Config.sharedInstance.getConfigProperty(property: .domainName)
         
         for i in 0 ..< recipes.count {
             let recipe:Recipe = recipes[i]
@@ -232,7 +232,7 @@ class RecipesService: NSObject {
         json["delete_image"] = deleteImage as AnyObject?
         
         
-        let url = Config.ScriptUrl.updateRecipeUrl
+        let url = Config.sharedInstance.getAPIEndpoint(endpoint: .updateRecipe)
         var headers = [String:String]()
         headers["Content-Type"] = "application/json"
         headers["Accept"] = "application/json"
@@ -259,7 +259,7 @@ class RecipesService: NSObject {
         var json:[String:[Int]] = [String:[Int]]()
         json["recipe_ids"] = recipeIds
         
-        let url = Config.ScriptUrl.deleteRecipesUrl
+        let url = Config.sharedInstance.getAPIEndpoint(endpoint: .deleteRecipe)
         var headers = [String:String]()
         headers["Content-Type"] = "application/json"
         headers["Accept"] = "application/json"

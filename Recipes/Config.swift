@@ -10,17 +10,25 @@ import UIKit
 
 class Config: NSObject {
     
-    struct ScriptUrl {
-        static let domainName:String = "http://iosrecipes.com/DEV/"
-        static let saveFBAccountUrl:String = "http://iosrecipes.com/DEV/scripts/saveFBAccount.php"
-        static let retrieveRecipesURL:String = "http://iosrecipes.com/DEV/scripts/retrieveRecipes.php"
-        static let deleteRecipesUrl:String = "http://iosrecipes.com/DEV/scripts/deleteRecipeData.php"
-        static let saveRecipeUrl:String = "http://iosrecipes.com/DEV/scripts/saveRecipe.php"
-        static let saveRecipeImageUrl:String = "http://iosrecipes.com/DEV/scripts/saveRecipeImage.php"
-        static let updateRecipeUrl:String = "http://iosrecipes.com/DEV/scripts/updateRecipe.php"
+    static let sharedInstance = Config()
+    private var configs: NSDictionary!
+    
+    enum ConfigProperty:String {
+        case loggingLevel = "loggingLevel"
+        case domainName = "domainName"
+        case apiBaseUrl = "apiBaseUrl"
     }
     
-    struct DefaultColor {
+    enum APIEndpoint:String {
+        case saveRecipe = "saveRecipe"
+        case saveRecipeImage = "saveRecipeImage"
+        case saveFBAccount = "saveFBAccount"
+        case retrieveRecipes = "retrieveRecipes"
+        case updateRecipe = "updateRecipe"
+        case deleteRecipe = "deleteRecipe"
+    }
+    
+    struct Color {
         static let darkBlueColor:UIColor = UIColor(displayP3Red: 3/255, green: 27/255, blue: 51/255, alpha: 1)
         static let darkBlueColorHex:Int = 0x031B33
     
@@ -41,5 +49,19 @@ class Config: NSObject {
         static let currentUserNameKey = "currentUserName"
     }
     
+    override init() {
+        let path = Bundle.main.path(forResource: "Config", ofType: "plist")!
+        let currentConfiguration = Bundle.main.object(forInfoDictionaryKey: "Config")!
+        self.configs = NSDictionary(contentsOfFile: path)!.object(forKey: currentConfiguration) as! NSDictionary
+    }
+    
+    func getConfigProperty(property: ConfigProperty) -> String {
+        return self.configs.object(forKey: property.rawValue) as! String
+    }
+    
+    func getAPIEndpoint(endpoint: APIEndpoint) -> String {
+        let apiBaseUrl = self.configs.object(forKey: ConfigProperty.apiBaseUrl.rawValue) as! String
+        return apiBaseUrl + (self.configs.object(forKey: endpoint.rawValue) as! String)
+    }
     
 }

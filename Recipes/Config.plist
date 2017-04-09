@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Debug</key>
+	<dict>
+		<key>logginLevel</key>
+		<string>DEBUG</string>
+		<key>domainName</key>
+		<string>http://iosrecipes.com/DEV/</string>
+		<key>apiBaseUrl</key>
+		<string>http://iosrecipes.com/DEV/scripts/</string>
+		<key>saveRecipe</key>
+		<string>saveRecipe.php</string>
+		<key>saveRecipeImage</key>
+		<string>saveRecipeImage.php</string>
+		<key>saveFBAccount</key>
+		<string>saveFBAccount.php</string>
+		<key>retrieveRecipes</key>
+		<string>retrieveRecipes.php</string>
+		<key>updateRecipe</key>
+		<string>updateRecipe.php</string>
+		<key>deleteRecipe</key>
+		<string>deleteRecipe.php</string>
+	</dict>
+	<key>Development</key>
+	<dict>
+		<key>loggingLevel</key>
+		<string>DEBUG</string>
+		<key>domainName</key>
+		<string>http://iosrecipes.com/DEV/</string>
+		<key>apiBaseUrl</key>
+		<string>http://iosrecipes.com/DEV/scripts/</string>
+		<key>saveRecipe</key>
+		<string>saveRecipe.php</string>
+		<key>saveRecipeImage</key>
+		<string>saveRecipeImage.php</string>
+		<key>saveFBAccount</key>
+		<string>saveFBAccount.php</string>
+		<key>retrieveRecipes</key>
+		<string>retrieveRecipes.php</string>
+		<key>updateRecipe</key>
+		<string>updateRecipe.php</string>
+		<key>deleteRecipe</key>
+		<string>deleteRecipe.php</string>
+	</dict>
+</dict>
+</plist>
