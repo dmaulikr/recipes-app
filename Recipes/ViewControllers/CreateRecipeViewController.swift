@@ -177,8 +177,12 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     
     func populateViewWithRecipeToEdit() {
         self.recipeNameTextField.text = self.recipeToEdit?.name
-        self.descriptionTextView.text = self.recipeToEdit?.recipeDescription
-        self.descriptionViewHeightConstraint.constant = self.descriptionTextView.getSizeThatFits().height
+        
+        if self.recipeToEdit?.recipeDescription != "" {
+            self.descriptionTextView.text = self.recipeToEdit?.recipeDescription
+            self.descriptionViewHeightConstraint.constant = self.descriptionTextView.getSizeThatFits().height
+            self.descriptionPlaceholder.alpha = 0
+        }
         
         // Add each ingredient to view
         let recipeIngredients:[String] = (self.recipeToEdit?.ingredients)!
@@ -208,7 +212,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
             self.instructions.append(instruction)
             
             let height = instruction.calculateHeight(inWidth: self.tableWidth, withFontSize: self.tableCellFontSize)
-            self.instructionRowHeights[instruction] = (height > self.defaultTableRowHeight) ? 97 : self.defaultTableRowHeight
+            self.instructionRowHeights[instruction] = (height > self.defaultTableRowHeight) ? height : self.defaultTableRowHeight
             
             // Add to row ids array
             self.instructionRowIds.append((self.recipeToEdit?.instructionToIdMap[instruction])!)
