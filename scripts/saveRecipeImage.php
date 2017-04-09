@@ -37,11 +37,11 @@ if(!$conn->query($insert_image_blob_sql)) {
 
 // Get image blob id from last query
 $image_blob_id = mysqli_insert_id($conn);
-$image_url = "images/image" . $image_blob_id . "_" . hash("md5", $image_blob_id) . ".jpg";
+$relative_url = "images/image" . $image_blob_id . "_" . hash("md5", $image_blob_id) . ".jpg";
 
 // Insert into images table
 $insert_image_ps = $conn->prepare(INSERT_IMAGE_SQL);
-$insert_image_ps->bind_param("is", $image_blob_id, $image_url);
+$insert_image_ps->bind_param("is", $image_blob_id, $relative_url);
 if(!$insert_image_ps->execute()) {
 	echo $json_service->get_json_result("Error inserting image: " . $insert_image_ps->error, false);
 	die();
@@ -51,7 +51,8 @@ if(!$insert_image_ps->execute()) {
 $image_id = mysqli_insert_id($conn);
 
 // After all the other queries are successful, save the image to server
-if(!move_uploaded_file($image, $image_url)) {
+$url = Constants::DOMAIN_NAME . Constants::ENV . "/" . $relative_url;
+if(!move_uploaded_file($image, Constants::DOMAIN_NAME . $url)) {
 	echo $json_service->get_json_result("There was an error uploading the file to the server", false);
 	die();
 }

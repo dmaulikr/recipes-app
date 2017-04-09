@@ -11,13 +11,13 @@ import UIKit
 class Config: NSObject {
     
     struct ScriptUrl {
-        static let domainName:String = "http://iosrecipes.com/"
-        static let saveFBAccountUrl:String = "http://iosrecipes.com/saveFBAccount.php"
-        static let retrieveRecipesURL:String = "http://iosrecipes.com/retrieveRecipes.php"
-        static let deleteRecipesUrl:String = "http://iosrecipes.com/deleteRecipeData.php"
-        static let saveRecipeUrl:String = "http://iosrecipes.com/saveRecipe.php"
-        static let saveRecipeImageUrl:String = "http://iosrecipes.com/saveRecipeImage.php"
-        static let updateRecipeUrl:String = "http://iosrecipes.com/updateRecipe.php"
+        static let domainName:String = "http://iosrecipes.com/DEV/"
+        static let saveFBAccountUrl:String = "http://iosrecipes.com/DEV/scripts/saveFBAccount.php"
+        static let retrieveRecipesURL:String = "http://iosrecipes.com/DEV/scripts/retrieveRecipes.php"
+        static let deleteRecipesUrl:String = "http://iosrecipes.com/DEV/scripts/deleteRecipeData.php"
+        static let saveRecipeUrl:String = "http://iosrecipes.com/DEV/scripts/saveRecipe.php"
+        static let saveRecipeImageUrl:String = "http://iosrecipes.com/DEV/scripts/saveRecipeImage.php"
+        static let updateRecipeUrl:String = "http://iosrecipes.com/DEV/scripts/updateRecipe.php"
     }
     
     struct DefaultColor {
