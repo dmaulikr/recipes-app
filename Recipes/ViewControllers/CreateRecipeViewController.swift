@@ -409,6 +409,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         }
         
         if self.editingRecipe {
+            recipe.recipeId = (recipeToEdit?.recipeId)!
             recipesService.updateRecipe(recipe: recipe, imageId: imageId, deleteImage: deleteImage, ingredientsToDelete: self.ingredientIdsToDelete, instructionsToDelete: self.instructionIdsToDelete, completionHandler: {
                 (success, json) in
                 
@@ -455,6 +456,11 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
         recipe.image = self.recipeImageView.image
         if let imageUrl = imageUrl {
             recipe.imageUrl = imageUrl
+        }
+        
+        let recipeId:Int? = json["recipe_id"] as? Int
+        if let recipeId = recipeId {
+            recipe.recipeId = recipeId
         }
         
         let ingredientsMap:NSDictionary? = (json["ingredient_to_id_map"])! as? NSDictionary
