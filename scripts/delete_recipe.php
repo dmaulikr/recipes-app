@@ -1,15 +1,19 @@
 <?php
 
-include "constants.php";
-include "jsonService.php";
+include "config.php";
+include "json_service.php";
 
-const DELETE_RECIPE_SQL = "UPDATE " . Constants::RECIPES_TABLE . " SET date_modified = NOW(), date_removed = NOW() WHERE recipe_id IN (?)";
-
-
+$config = new Config();
 $json_service = new JsonService();
 
+
+$delete_recipes_sql = "UPDATE " . $config->get_table(Config::RECIPES_TABLE) . " SET date_modified = NOW(), date_removed = NOW() WHERE recipe_id IN (?)";
+
+
 // Create connection
-$conn = mysqli_connect(Constants::SERVER_NAME, Constants::USER_NAME, Constants::PASSWORD);
+$conn = mysqli_connect($config->get_config(Config::SERVER_NAME), 
+					$config->get_config(Config::USER_NAME), 
+					$config->get_config(Config::PASSWORD));
 
 // Check connection
 if ($conn->connect_error) {
@@ -31,7 +35,7 @@ $recipe_ids = $json["recipe_ids"];
 $recipe_ids_string = implode(",", $recipe_ids);
 
 // Delete recipes
-$delete_recipes_sql = str_replace("?", $recipe_ids_string, DELETE_RECIPE_SQL);
+$delete_recipes_sql = str_replace("?", $recipe_ids_string, $delete_recipes_sql);
 if(!$conn->query($delete_recipes_sql)) {
 	echo $json_service->get_json_result("Error deleting recipes: " . $conn->error, false);
 	die();

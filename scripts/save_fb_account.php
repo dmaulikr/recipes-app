@@ -1,16 +1,20 @@
 <?php
 
-include "constants.php";
-include "jsonService.php";
+include "config.php";
+include "json_service.php";
 
-const INSERT_NEW_FB_ACCOUNT_SQL = "INSERT INTO " . Constants::FB_USER_ACCOUNTS_TABLE . " (fb_user_id, fb_profile_name) VALUES(?, ?)" . 
+$config = new Config();
+$json_service = new JsonService();
+
+
+$insert_new_fb_account_sql = "INSERT INTO " . $config->get_table(Config::FB_USER_ACCOUNTS_TABLE) . " (fb_user_id, fb_profile_name) VALUES(?, ?)" . 
 								" ON DUPLICATE KEY UPDATE fb_user_id = ?";
 
 
-$json_service = new JsonService();
-
-// Create connection to sql
-$conn = mysqli_connect(Constants::SERVER_NAME, Constants::USER_NAME, Constants::PASSWORD);
+// Create connection
+$conn = mysqli_connect($config->get_config(Config::SERVER_NAME), 
+					$config->get_config(Config::USER_NAME), 
+					$config->get_config(Config::PASSWORD));
 
 // Check connection
 if ($conn->connect_error) {
@@ -27,7 +31,7 @@ $fb_profile_name = $json["fb_profile_name"];
 // Begin transaction
 $conn->begin_transaction(MYSQLI_TRANS_START_READ_WRITE);
 
-$insert_new_fb_account_ps = $conn->prepare(INSERT_NEW_FB_ACCOUNT_SQL);
+$insert_new_fb_account_ps = $conn->prepare($insert_new_fb_account_sql);
 $insert_new_fb_account_ps->bind_param("sss", $fb_user_id, $fb_profile_name, $fb_user_id);
 
 if(!$insert_new_fb_account_ps->execute()) {

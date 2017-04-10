@@ -11,17 +11,17 @@
 		<key>apiBaseUrl</key>
 		<string>http://iosrecipes.com/DEV/scripts/</string>
 		<key>saveRecipe</key>
-		<string>saveRecipe.php</string>
+		<string>save_recipe.php</string>
 		<key>saveRecipeImage</key>
-		<string>saveRecipeImage.php</string>
+		<string>save_recipe_image.php</string>
 		<key>saveFBAccount</key>
-		<string>saveFBAccount.php</string>
+		<string>save_fb_account.php</string>
 		<key>retrieveRecipes</key>
-		<string>retrieveRecipes.php</string>
+		<string>retrieve_recipes.php</string>
 		<key>updateRecipe</key>
-		<string>updateRecipe.php</string>
+		<string>update_recipe.php</string>
 		<key>deleteRecipe</key>
-		<string>deleteRecipe.php</string>
+		<string>delete_recipe.php</string>
 	</dict>
 	<key>Development</key>
 	<dict>
@@ -32,17 +32,17 @@
 		<key>apiBaseUrl</key>
 		<string>http://iosrecipes.com/DEV/scripts/</string>
 		<key>saveRecipe</key>
-		<string>saveRecipe.php</string>
+		<string>save_recipe.php</string>
 		<key>saveRecipeImage</key>
-		<string>saveRecipeImage.php</string>
+		<string>save_recipe_image.php</string>
 		<key>saveFBAccount</key>
-		<string>saveFBAccount.php</string>
+		<string>save_fb_account.php</string>
 		<key>retrieveRecipes</key>
-		<string>retrieveRecipes.php</string>
+		<string>retrieve_recipes.php</string>
 		<key>updateRecipe</key>
-		<string>updateRecipe.php</string>
+		<string>update_recipe.php</string>
 		<key>deleteRecipe</key>
-		<string>deleteRecipe.php</string>
+		<string>delete_recipe.php</string>
 	</dict>
 </dict>
 </plist>

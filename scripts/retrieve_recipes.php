@@ -1,24 +1,33 @@
 <?php
 
-include "constants.php";
-include "jsonService.php";
+include "config.php";
+include "json_service.php";
 
-const RETRIEVE_RECIPE_SQL = "SELECT recipes.recipe_id, recipes.name, recipes.description, images.image_url FROM " . Constants::RECIPES_TABLE . 
-							" LEFT OUTER JOIN " . Constants::IMAGES_TABLE . " on recipes.image_id = images.image_id" .
+$config = new Config();
+$json_service = new JsonService();
+
+$recipes_table = $config->get_table(Config::RECIPES_TABLE);
+$recipe_ingredients_table = $config->get_table(Config::RECIPE_INGREDIENTS_TABLE);
+$recipe_instructions_table = $config->get_table(Config::RECIPE_INSTRUCTIONS_TABLE);
+$images_table = $config->get_table(Config::IMAGES_TABLE);
+
+
+$retrieve_recipes_sql = "SELECT recipes.recipe_id, recipes.name, recipes.description, images.image_url FROM " . $recipes_table . 
+							" LEFT OUTER JOIN " . $images_table . " on recipes.image_id = images.image_id" .
 							" WHERE recipes.fb_user_id = ? and recipes.date_removed IS NULL" . 
 							" ORDER BY recipes.recipe_id ASC";
 
-const RETRIEVE_INGREDIENTS_SQL = "SELECT * FROM " . Constants::RECIPE_INGREDIENTS_TABLE . " WHERE recipe_id IN (?) AND date_removed IS NULL" . 
+$retrieve_ingredients_sql = "SELECT * FROM " . $recipe_ingredients_table . " WHERE recipe_id IN (?) AND date_removed IS NULL" . 
 							" ORDER BY ingredient_id asc";
 							
-const RETRIEVE_INSTRUCTIONS_SQL = "SELECT * FROM " . Constants::RECIPE_INSTRUCTIONS_TABLE . " WHERE recipe_id IN (?) AND date_removed IS NULL" . 
+$retrieve_instructions_sql = "SELECT * FROM " . $recipe_instructions_table . " WHERE recipe_id IN (?) AND date_removed IS NULL" . 
 							" ORDER BY instruction_id asc";
 
 
-$json_service = new JsonService();
-
 // Create connection
-$conn = mysqli_connect(Constants::SERVER_NAME, Constants::USER_NAME, Constants::PASSWORD);
+$conn = mysqli_connect($config->get_config(Config::SERVER_NAME), 
+					$config->get_config(Config::USER_NAME), 
+					$config->get_config(Config::PASSWORD));
 
 // Check connection
 if ($conn->connect_error) {
@@ -34,7 +43,7 @@ $json = json_decode($data, true);
 $fb_user_id = $json["fb_user_id"];
 
 // Prepare statement to retrieve recipes
-$retrieve_recipes_ps = $conn->prepare(RETRIEVE_RECIPE_SQL);
+$retrieve_recipes_ps = $conn->prepare($retrieve_recipes_sql);
 $retrieve_recipes_ps->bind_param("s", $fb_user_id);
 
 // Retrieve recipes
@@ -52,7 +61,6 @@ $recipe_ids = array();
 // Create map of recipe id to recipe json respresentation
 while ($retrieve_recipes_ps->fetch()) {
 	array_push($recipe_ids, $recipe_id);
-
     $recipes[$recipe_id] = array(   
     	"recipe_id" => $recipe_id,    	
     	"name" => $name, 
@@ -69,7 +77,7 @@ if(count($recipes) > 0) {
 	$recipe_ids_string = implode(",", $recipe_ids);
 
 	// Retrieve ingredients
-	$retrieve_ingredients_sql = str_replace("?", $recipe_ids_string, RETRIEVE_INGREDIENTS_SQL);
+	$retrieve_ingredients_sql = str_replace("?", $recipe_ids_string, $retrieve_ingredients_sql);
 	$result = $conn->query($retrieve_ingredients_sql);
 	while($row = $result->fetch_assoc()) {
 
@@ -81,7 +89,7 @@ if(count($recipes) > 0) {
 	}
 
 	// Retrieve instructions
-	$retrieve_instructions_sql = str_replace("?", $recipe_ids_string, RETRIEVE_INSTRUCTIONS_SQL);
+	$retrieve_instructions_sql = str_replace("?", $recipe_ids_string, $retrieve_instructions_sql);
 	$result = $conn->query($retrieve_instructions_sql);
 	while($row = $result->fetch_assoc()) {
 

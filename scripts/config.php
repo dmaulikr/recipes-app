@@ -21,7 +21,7 @@ class Config {
   	const BASE_DIR_NAME = "/home5/iosrecip/public_html/";
 
 	private $configs = array();
-  	private $recipes_database = "iosrecipes_ENV";
+  	private $recipes_database = "iosrecip_ENV";
 	private $tables = array(
 		self::FB_USER_ACCOUNTS_TABLE => "fb_user_account",
 		self::RECIPES_TABLE => "recipes",

@@ -1,16 +1,20 @@
 <?php
 
-include "constants.php";
-include "jsonService.php";
+include "config.php";
+include "json_service.php";
 
-const INSERT_IMAGE_BLOB_SQL = "INSERT INTO " . Constants::IMAGE_BLOBS_TABLE . " (image) VALUES ";
-const INSERT_IMAGE_SQL = "INSERT INTO " . Constants::IMAGES_TABLE . " (image_blob_id, image_url) VALUES (?, ?)";
-
-
+$config = new Config();
 $json_service = new JsonService();
 
+
+$insert_image_blob_sql = "INSERT INTO " . $config->get_table(Config::IMAGE_BLOBS_TABLE) . " (image) VALUES ";
+$insert_image_sql = "INSERT INTO " . $config->get_table(Config::IMAGES_TABLE) . " (image_blob_id, image_url) VALUES (?, ?)";
+
+
 // Create connection
-$conn = mysqli_connect(Constants::SERVER_NAME, Constants::USER_NAME, Constants::PASSWORD);
+$conn = mysqli_connect($config->get_config(Config::SERVER_NAME), 
+					$config->get_config(Config::USER_NAME), 
+					$config->get_config(Config::PASSWORD));
 
 // Check connection
 if ($conn->connect_error) {
@@ -29,7 +33,7 @@ if(!array_key_exists("file", $_FILES) || is_null($_FILES["file"]["tmp_name"])) {
 
 // Insert into image blobs table
 $image = $_FILES["file"]["tmp_name"];
-$insert_image_blob_sql = INSERT_IMAGE_BLOB_SQL . "('$image')";
+$insert_image_blob_sql = $insert_image_blob_sql . "('$image')";
 if(!$conn->query($insert_image_blob_sql)) {
 	echo $json_service->get_json_result("Error inserting image blob: " . $conn->error, false);
 	die();
@@ -40,7 +44,7 @@ $image_blob_id = mysqli_insert_id($conn);
 $save_image_url = "images/image" . $image_blob_id . "_" . hash("md5", $image_blob_id) . ".jpg";
 
 // Insert into images table
-$insert_image_ps = $conn->prepare(INSERT_IMAGE_SQL);
+$insert_image_ps = $conn->prepare($insert_image_sql);
 $insert_image_ps->bind_param("is", $image_blob_id, $save_image_url);
 if(!$insert_image_ps->execute()) {
 	echo $json_service->get_json_result("Error inserting image: " . $insert_image_ps->error, false);
