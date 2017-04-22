@@ -4,21 +4,30 @@
 <dict>
 	<key>PreferenceSpecifiers</key>
 	<array>
-        <dict>
-            <key>Type</key>
-            <string>PSGroupSpecifier</string>
-            <key>Title</key>
-            <string></string>
-            <key>FooterText</key>
-            <string>Version #&#xA;&#xA;Copyright Statement&#xA;Icons and images provided by Freepik: www.flaticon.com
-            </string>
-        </dict>
 		<dict>
 			<key>Type</key>
-			<string>PSChildPaneSpecifier</string>
+			<string>PSGroupSpecifier</string>
 			<key>Title</key>
-			<string>Invite Friends</string>
+			<string></string>
+			<key>FooterText</key>
+			<string>Version #
+
+Copyright Statement
+Icons and images provided by: www.flaticon.com
+            </string>
 		</dict>
+        <dict>
+            <key>IASKViewControllerClass</key>
+            <string>SMSViewController</string>
+            <key>IASKViewControllerSelector</key>
+            <string>initWithFile:specifier:</string>
+            <key>Title</key>
+            <string>Invite Friends</string>
+            <key>Type</key>
+            <string>PSChildPaneSpecifier</string>
+        </dict>
+
+        
 		<dict>
 			<key>Type</key>
 			<string>IASKCustomViewSpecifier</string>
