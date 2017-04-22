@@ -4,7 +4,7 @@ class Config {
 
 	// Config property keys
   	const ENV = "env";  	
-  	const SERVER_NAME = "server";
+  	const SERVER_NAME = "db_server";
   	const USER_NAME = "username";
   	const PASSWORD = "password";
 
@@ -15,10 +15,6 @@ class Config {
 	const RECIPE_INSTRUCTIONS_TABLE = "recipe_instructions_table";
 	const IMAGES_TABLE = "images_table";
 	const IMAGE_BLOBS_TABLE = "image_blobs_table";
-
-	// Misc
-  	const DOMAIN_NAME = "http://iosrecipes.com/";
-  	const BASE_DIR_NAME = "/home5/iosrecip/public_html/";
 
 	private $configs = array();
   	private $recipes_database = "iosrecip_ENV";
@@ -32,7 +28,7 @@ class Config {
 	);
 
 	function __construct() {		
-		$file = fopen(self::BASE_DIR_NAME . "Config/dev.yaml", "r");
+		$file = fopen("../config.yaml", "r");
 		if ($file) {
 		    while (($line = fgets($file)) !== false) {		        
 		        $property = explode(":", $line);
