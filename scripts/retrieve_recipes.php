@@ -15,7 +15,7 @@ $images_table = $config->get_table(Config::IMAGES_TABLE);
 $retrieve_recipes_sql = "SELECT recipes.recipe_id, recipes.name, recipes.description, images.image_url FROM " . $recipes_table . 
 							" LEFT OUTER JOIN " . $images_table . " on recipes.image_id = images.image_id" .
 							" WHERE recipes.fb_user_id = ? and recipes.date_removed IS NULL" . 
-							" ORDER BY recipes.recipe_id ASC";
+							" ORDER BY recipes.name ASC";
 
 $retrieve_ingredients_sql = "SELECT * FROM " . $recipe_ingredients_table . " WHERE recipe_id IN (?) AND date_removed IS NULL" . 
 							" ORDER BY ingredient_id asc";

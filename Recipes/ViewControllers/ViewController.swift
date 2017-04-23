@@ -63,6 +63,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
         print("loaded " + String(self.savedRecipesMap.count) + " recipes from file system")
+        self.recipes = self.recipes.sorted(by: { $0.name <= $1.name })
         
         // Pull to refresh
         refreshControl.addTarget(self, action: #selector(ViewController.handleRefresh), for: UIControlEvents.valueChanged)
