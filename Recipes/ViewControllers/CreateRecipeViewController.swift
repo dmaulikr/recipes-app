@@ -44,7 +44,7 @@ class CreateRecipeViewController: UIViewController, UITableViewDelegate, UITable
     
     
     // Constants
-    let tableCellFontSize:CGFloat = 20
+    let tableCellFontSize:CGFloat = 20 // The max font size we'll probably use
     let defaultTableRowHeight:CGFloat = 50
     
     // Member variables to be set before presenting view if editing a recipe
