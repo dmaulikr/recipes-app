@@ -4,30 +4,78 @@
 <dict>
 	<key>PreferenceSpecifiers</key>
 	<array>
-		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-			<key>Title</key>
-			<string></string>
-			<key>FooterText</key>
-			<string>Version #
-
-Copyright Statement
-Icons and images provided by: www.flaticon.com
-            </string>
-		</dict>
         <dict>
-            <key>IASKViewControllerClass</key>
-            <string>SMSViewController</string>
-            <key>IASKViewControllerSelector</key>
-            <string>initWithFile:specifier:</string>
+            <key>Type</key>
+            <string>PSGroupSpecifier</string>
+        </dict>
+        <dict>
             <key>Title</key>
             <string>Invite Friends</string>
             <key>Type</key>
             <string>PSChildPaneSpecifier</string>
+            <key>IASKViewControllerClass</key>
+            <string>SMSViewController</string>
+            <key>IASKViewControllerSelector</key>
+            <string>initWithFile:specifier:</string>
         </dict>
-
-        
+        <dict>
+            <key>Type</key>
+            <string>PSGroupSpecifier</string>
+        </dict>
+        <dict>
+            <key>Title</key>
+            <string>Rate This App</string>
+            <key>Type</key>
+            <string>IASKOpenURLSpecifier</string>
+            <key>File</key>
+            <string></string>
+        </dict>
+        <dict>
+            <key>Title</key>
+            <string>Privacy Policy</string>
+            <key>Type</key>
+            <string>IASKOpenURLSpecifier</string>
+            <key>File</key>
+            <string></string>
+        </dict>
+        <dict>
+            <key>Title</key>
+            <string>Terms of Use</string>
+            <key>Type</key>
+            <string>IASKOpenURLSpecifier</string>
+            <key>File</key>
+            <string></string>
+        </dict>
+        <dict>
+            <key>Title</key>
+            <string>Contact Us</string>
+            <key>Type</key>
+            <string>IASKMailComposeSpecifier</string>
+            <key>IASKMailComposeToRecipents</key>
+            <array>
+                <string></string>
+            </array>
+            <key>IASKMailComposeCcRecipents</key>
+            <array/>
+            <key>IASKMailComposeBccRecipents</key>
+            <array/>
+            <key>IASKMailComposeBody</key>
+            <string>Version 1.0</string>
+            <key>IASKMailComposeBodyIsHTML</key>
+            <string>NO</string>
+        </dict>
+        <dict>
+            <key>Type</key>
+            <string>PSGroupSpecifier</string>
+            <key>Title</key>
+            <string></string>
+            <key>FooterText</key>
+            <string>Version 1.0
+                
+Copyright Statement
+Icons and images provided by: www.flaticon.com
+            </string>
+        </dict>
 		<dict>
 			<key>Type</key>
 			<string>IASKCustomViewSpecifier</string>

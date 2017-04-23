@@ -15,7 +15,6 @@ class SettingsTableViewController: IASKAppSettingsViewController, IASKSettingsDe
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -26,7 +25,7 @@ class SettingsTableViewController: IASKAppSettingsViewController, IASKSettingsDe
     override func viewDidLayoutSubviews() {
         // Override default behavior of title, which is being set sometime after viewDidLoad()
         self.title = ""
-        self.navigationItem.title = ""
+        self.navigationItem.title = ""        
     }
     
     override func synchronizeSettings() {

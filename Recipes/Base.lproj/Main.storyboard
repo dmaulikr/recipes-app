@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1421" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="8dE-bl-LbF">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1421" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="6Ja-in-eAq">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -35,7 +35,7 @@
             </objects>
             <point key="canvasLocation" x="-92" y="1058"/>
         </scene>
-        <!--Settings Table View Controller-->
+        <!--Settings-->
         <scene sceneID="q08-re-4Kc">
             <objects>
                 <tableViewController id="GBE-7l-Jva" customClass="SettingsTableViewController" customModule="Recipes" customModuleProvider="target" sceneMemberID="viewController">
@@ -73,7 +73,7 @@
                             <outlet property="delegate" destination="GBE-7l-Jva" id="0XH-vB-1Ox"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="IYl-xx-hef"/>
+                    <navigationItem key="navigationItem" title="Settings" id="IYl-xx-hef"/>
                     <connections>
                         <segue destination="8dE-bl-LbF" kind="presentation" identifier="toLogin" id="Nug-qJ-MB2"/>
                     </connections>
@@ -551,9 +551,9 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="99"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3MQ-cQ-O6K">
-                                                    <rect key="frame" x="150" y="38" width="225" height="24"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3MQ-cQ-O6K">
+                                                    <rect key="frame" x="140" y="40" width="235" height="21.5"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
                                                     <color key="textColor" red="0.01176470588" green="0.1058823529" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -582,7 +582,7 @@
                                                 <constraint firstItem="LlW-3b-OmW" firstAttribute="top" secondItem="Qyt-wa-WMr" secondAttribute="top" constant="5" id="QxQ-MQ-JLa"/>
                                                 <constraint firstItem="LlW-3b-OmW" firstAttribute="centerY" secondItem="Qyt-wa-WMr" secondAttribute="centerY" id="hRQ-h8-ZoY"/>
                                                 <constraint firstItem="dZA-Fu-GTZ" firstAttribute="centerX" secondItem="LlW-3b-OmW" secondAttribute="centerX" id="ipW-hQ-5Pr"/>
-                                                <constraint firstItem="3MQ-cQ-O6K" firstAttribute="leading" secondItem="LlW-3b-OmW" secondAttribute="trailing" constant="30" id="p34-t2-cvs"/>
+                                                <constraint firstItem="3MQ-cQ-O6K" firstAttribute="leading" secondItem="LlW-3b-OmW" secondAttribute="trailing" constant="20" id="p34-t2-cvs"/>
                                                 <constraint firstAttribute="bottom" secondItem="LlW-3b-OmW" secondAttribute="bottom" constant="5" id="xii-Ui-Ciu"/>
                                             </constraints>
                                         </tableViewCellContentView>
