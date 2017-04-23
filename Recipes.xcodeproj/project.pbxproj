@@ -35,6 +35,7 @@
 		8DE35C9B1E80AFAE004DD14F /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE35C9A1E80AFAE004DD14F /* SettingsTableViewController.swift */; };
 		8DE9B5351E9AAFC3002E6BB9 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8DE9B5341E9AAFC3002E6BB9 /* Config.plist */; };
 		8DEF1A5B1E8727340031CD03 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEF1A5A1E8727340031CD03 /* Config.swift */; };
+		8DF3E9671EABF52000E72B70 /* SMSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF3E9661EABF52000E72B70 /* SMSViewController.swift */; };
 		A799C05826D6D17B4C71093D /* Pods_Recipes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 701DC4A84E39966D9FF7204F /* Pods_Recipes.framework */; };
 /* End PBXBuildFile section */
 
@@ -72,6 +73,7 @@
 		8DE35C9A1E80AFAE004DD14F /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		8DE9B5341E9AAFC3002E6BB9 /* Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		8DEF1A5A1E8727340031CD03 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		8DF3E9661EABF52000E72B70 /* SMSViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSViewController.swift; sourceTree = "<group>"; };
 		8FF23F7FF079F72FD4F32169 /* Pods-Recipes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Recipes.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Recipes/Pods-Recipes.debug.xcconfig"; sourceTree = "<group>"; };
 		FAB3CD6830C3451B40D83217 /* Pods-Recipes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Recipes.release.xcconfig"; path = "Pods/Target Support Files/Pods-Recipes/Pods-Recipes.release.xcconfig"; sourceTree = "<group>"; };
 		FFB531A7A42133A2A381C2C8 /* Pods-Recipes.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Recipes.staging.xcconfig"; path = "Pods/Target Support Files/Pods-Recipes/Pods-Recipes.staging.xcconfig"; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				8D4AEEB21DD5063B00127BEB /* RecipeViewController.swift */,
 				8DE35C9A1E80AFAE004DD14F /* SettingsTableViewController.swift */,
 				8D8402431DD4D0E7009BBA62 /* ViewController.swift */,
+				8DF3E9661EABF52000E72B70 /* SMSViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -334,6 +337,7 @@
 				8DDD9B461E8602B100F5D766 /* AlertControllerUtil.swift in Sources */,
 				8D861C661E93492600CFE87F /* UITextViewExtensions.swift in Sources */,
 				8D8402541DD4D14F009BBA62 /* Recipe.swift in Sources */,
+				8DF3E9671EABF52000E72B70 /* SMSViewController.swift in Sources */,
 				8D7D55E51E888DD3008E7E8B /* RecipesFileManagerUtil.swift in Sources */,
 				8DB9AD5C1E90CB81003501AC /* UIImageExtensions.swift in Sources */,
 				8D9B15A91DD62BBE00855D3B /* CreateRecipeViewController.swift in Sources */,

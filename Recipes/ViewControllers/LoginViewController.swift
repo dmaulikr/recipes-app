@@ -11,133 +11,130 @@ import FBSDKLoginKit
 
 class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
+    // Outlets
+    @IBOutlet weak var sloganLabel: UILabel!
+    
     let alertControllerUtil:AlertControllerUtil = AlertControllerUtil()
+    let dataTaskUtil:DataTaskUtil = DataTaskUtil()
+    let margin:CGFloat = 30
+    
+    // Views to add
+    var loginButton:FBSDKLoginButton = FBSDKLoginButton()
+    var activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView()
     
     // Needed because viewDidLayoutSubviews() is called multiple times
-    var presentedMainView:Bool = false
+    var needToDisplayMainView:Bool = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        self.loginButton.delegate = self
         
         if FBSDKAccessToken.current() == nil {
             print("not logged in")
-            let loginButton:FBSDKLoginButton = FBSDKLoginButton()
-            loginButton.delegate = self
-            
-            view.addSubview(loginButton)
-            
+        
             let screenWidth:CGFloat = view.frame.width
             let screenHeight:CGFloat = view.frame.height
-            loginButton.frame = CGRect(x: 16, y: (screenHeight / 2) + 30, width: screenWidth - 32, height: 50)
-        }                
+            
+            // The slogan label is in the middle of the screen, so we put the login button right below
+            self.loginButton.frame = CGRect(x: self.margin, y: (screenHeight / 2) + 30, width: screenWidth - (2 * self.margin), height: 50)
+            view.addSubview(loginButton)
+        }
     }
     
     override func viewDidLayoutSubviews() {
-        if FBSDKAccessToken.current() != nil && !self.presentedMainView {
+        if FBSDKAccessToken.current() != nil && self.needToDisplayMainView {
             print("already logged in")
-            self.performSegue(withIdentifier: "toMainView", sender: self)
-            self.presentedMainView = true
-            
+            self.getFBInfo(accessToken: FBSDKAccessToken.current(), completionHandler: { (fbUserId, fbProfileName) in
+                UserDefaults.standard.set(fbUserId, forKey: Config.UserDefaultsKey.currentUserIdKey)
+                UserDefaults.standard.set(fbProfileName, forKey: Config.UserDefaultsKey.currentUserNameKey)
+                
+                self.performSegue(withIdentifier: "toMainView", sender: self)
+                self.needToDisplayMainView = false
+            })
         }
     }
+    
+    // Return fbUserId, fbProfileName
+    func getFBInfo(accessToken:FBSDKAccessToken, completionHandler: @escaping (String, String) -> Swift.Void) {
+        let request:FBSDKGraphRequest? = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"name"], tokenString: accessToken.tokenString, version: nil, httpMethod: "GET")
+        
+        request?.start(completionHandler: { (_, result, error) in
+            let json:[String:String] = result as! [String:String]
+            completionHandler(json["id"]!, json["name"]!)
+        })
+    }
+    
+    func saveFBAccount(userId:String, fbProfileName:String, completionHandler: @escaping (Bool) -> Swift.Void) {
+        
+        print("Saving fb account \(userId) \(fbProfileName)")
+        
+        var json:[String:String] = [String:String]()
+        json["fb_user_id"] = userId
+        json["fb_profile_name"] = fbProfileName
+        
+        let url = Config.sharedInstance.getAPIEndpoint(endpoint: .saveFBAccount)
+        var headers = [String:String]()
+        headers["Content-Type"] = "application/json"
+        headers["Accept"] = "application/json"
+        
+        
+        self.dataTaskUtil.executeHttpRequest(url: url, httpMethod: .post, headerFieldValuePairs: headers, jsonPayload: json as NSDictionary) { (data, response, error) in
+            
+            if !self.dataTaskUtil.isValidResponse(response: response, error: error) {
+                completionHandler(false)
+                return
+            }
+                
+            let json:NSDictionary? = self.dataTaskUtil.getJson(data: data!)
+            if !self.dataTaskUtil.isValidJson(json: json) {
+                completionHandler(false)
+                return
+            }
+                
+            print("fb data saved successfully")
+            completionHandler(true)
+        }
+        
+    }
+
     
     // MARK: - Login Button Delegate Methods
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
         
         if error != nil {
             print(error)
-            self.alertControllerUtil.displayAlertMessage(presentOn: self,
-                                                  message: "Oops, there was an issue logging in! Please try again")
+            self.alertControllerUtil.displayAlertMessage(presentOn: self, message: "Oops, there was an issue logging in! Please try again")
             return
         }
         
+        // We don't want the user to be logged in from viewDidLayoutSubviews()
+        self.needToDisplayMainView = false
+        
         print("logged in to fb successfully")
+        let buttonText = NSAttributedString(string: "Logging in ...")
+        self.loginButton.setAttributedTitle(buttonText, for: .normal)
         
-        let accessToken:FBSDKAccessToken = FBSDKAccessToken.current()
-        let request:FBSDKGraphRequest? = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"name"], tokenString: accessToken.tokenString, version: nil, httpMethod: "GET")
+        let x = self.loginButton.frame.origin.x + self.loginButton.frame.width - 50
+        self.activityIndicator.frame = CGRect(x: x, y: self.loginButton.frame.origin.y, width: 50, height: 50)
+        self.activityIndicator.startAnimating()
+        view.addSubview(self.activityIndicator)
         
-        request?.start(completionHandler: { (_, result, error) in
-            
-            if(error != nil) {
-                print("There was an error logging into fb: \(error)")
-                self.alertControllerUtil.displayAlertMessage(presentOn: self,
-                                                      message: "Oops, there was an issue logging in! Please try again")
-                return
-            }
-            
-            if let unwrappedResult = result {
-                let json:[String:String] = unwrappedResult as! [String:String]
-                
-                // Cache the current user
-                UserDefaults.standard.set(json["id"]!, forKey: Config.UserDefaultsKey.currentUserIdKey)
-                UserDefaults.standard.set(json["name"]!, forKey: Config.UserDefaultsKey.currentUserNameKey)
-                self.performSegue(withIdentifier: "toMainView", sender: self)
-            }
-
+        self.getFBInfo(accessToken: FBSDKAccessToken.current(), completionHandler: { (fbUserId, fbProfileName) in
+            self.saveFBAccount(userId: fbUserId, fbProfileName: fbProfileName, completionHandler: { (success) in
+                // Although we normally want to check for success, and retry if it's false, saving this data isn't necessary
+                // for the user to actually use the app. 
+                // So, in case there is some issue, we ignore the success flag and just log the user in
+                DispatchQueue.main.async {
+                    UserDefaults.standard.set(fbUserId, forKey: Config.UserDefaultsKey.currentUserIdKey)
+                    UserDefaults.standard.set(fbProfileName, forKey: Config.UserDefaultsKey.currentUserNameKey)
+                    self.performSegue(withIdentifier: "toMainView", sender: self)
+                }
+            })
         })
-        
     }
     
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
         // Don't need to handle logout from this view
     }
-    
-    //    // Leave this in case we want to start saving fb data
-    //    func saveFBAccount(userId:String, fbProfileName:String) {
-    //
-    //        // Create json object
-    //        var json:[String:String] = [String:String]()
-    //        json["fb_user_id"] = userId
-    //        json["fb_profile_name"] = fbProfileName
-    //
-    //        let data:Data = try! JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
-    //
-    //        // Create url object
-    //        let url:URL = URL(string: Config.ScriptUrl.saveFBAccountUrl)!
-    //
-    //        // Create and initialize request
-    //        var request:URLRequest = URLRequest(url: url)
-    //
-    //        request.httpMethod = "POST"
-    //        request.httpBody = data
-    //        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-    //        request.addValue("application/json", forHTTPHeaderField: "Accept")
-    //
-    //        let task:URLSessionDataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
-    //            if error != nil {
-    //                print("There was an error running the save fb account task")
-    //                print((error?.localizedDescription)!)
-    //                return
-    //            }
-    //
-    //            do {
-    //                // Parse response data into json
-    //                let json:NSDictionary = try JSONSerialization.jsonObject(with: data!, options: []) as! NSDictionary
-    //
-    //                // Check status
-    //                if String(describing: json["status"]).lowercased().range(of: "error") != nil {
-    //                    print("Error saving fb account: " + String(describing: json["message"]))
-    //                    return
-    //                }
-    //            }
-    //            catch let e as NSError {
-    //                print("Error: couldn't convert response to valid json, " + e.localizedDescription)
-    //                return
-    //            }
-    //
-    //            // Set current user fields
-    //            CurrentUser.userId = userId
-    //            CurrentUser.userName = fbProfileName
-    //
-    //            // Segue to main view
-    //            let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-    //            let navigationVC:UIViewController = storyBoard.instantiateViewController(withIdentifier: "navigationController")
-    //            
-    //            self.present(navigationVC, animated: true, completion: nil)
-    //        }
-    //        
-    //        task.resume()
-    //    }
 }

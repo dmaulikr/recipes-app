@@ -19,7 +19,7 @@ class Config {
 	private $configs = array();
   	private $recipes_database = "iosrecip_ENV";
 	private $tables = array(
-		self::FB_USER_ACCOUNTS_TABLE => "fb_user_account",
+		self::FB_USER_ACCOUNTS_TABLE => "fb_user_accounts",
 		self::RECIPES_TABLE => "recipes",
 		self::RECIPE_INGREDIENTS_TABLE => "recipe_ingredients",
 		self::RECIPE_INSTRUCTIONS_TABLE => "recipe_instructions",
