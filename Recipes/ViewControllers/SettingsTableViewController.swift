@@ -25,7 +25,7 @@ class SettingsTableViewController: IASKAppSettingsViewController, IASKSettingsDe
     override func viewDidLayoutSubviews() {
         // Override default behavior of title, which is being set sometime after viewDidLoad()
         self.title = ""
-        self.navigationItem.title = ""        
+        self.navigationItem.title = "Settings"
     }
     
     override func synchronizeSettings() {
