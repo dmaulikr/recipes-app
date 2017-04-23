@@ -32,7 +32,7 @@ class SMSViewController: UIViewController, MFMessageComposeViewControllerDelegat
             
             self.smsComposer?.messageComposeDelegate = self
             
-            self.smsComposer?.body = "Hey! Go download ___! It lets you create, manage, and update any home-made recipes so you can remember all the awesome meals you've made!"
+            self.smsComposer?.body = "Hey! Go download HomeCooked! It lets you create, manage, and update any home-made recipes so you can remember all the awesome meals you've made! Just search HomeCooked in the app store to find it."
             
             self.present(self.smsComposer!, animated: true, completion: nil)
         }

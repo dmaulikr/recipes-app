@@ -22,29 +22,29 @@
             <key>Type</key>
             <string>PSGroupSpecifier</string>
         </dict>
-        <dict>
-            <key>Title</key>
-            <string>Rate This App</string>
-            <key>Type</key>
-            <string>IASKOpenURLSpecifier</string>
-            <key>File</key>
-            <string></string>
-        </dict>
+<!--        <dict>-->
+<!--            <key>Title</key>-->
+<!--            <string>Rate This App</string>-->
+<!--            <key>Type</key>-->
+<!--            <string>IASKOpenURLSpecifier</string>-->
+<!--            <key>File</key>-->
+<!--            <string></string>-->
+<!--        </dict>-->
         <dict>
             <key>Title</key>
             <string>Privacy Policy</string>
             <key>Type</key>
             <string>IASKOpenURLSpecifier</string>
             <key>File</key>
-            <string></string>
+            <string>http://iosrecipes.com/privacy.html</string>
         </dict>
         <dict>
             <key>Title</key>
-            <string>Terms of Use</string>
+            <string>Terms and Conditions</string>
             <key>Type</key>
             <string>IASKOpenURLSpecifier</string>
             <key>File</key>
-            <string></string>
+            <string>http://iosrecipes.com/terms.html</string>
         </dict>
         <dict>
             <key>Title</key>
