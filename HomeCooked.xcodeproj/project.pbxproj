@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		75229354D4E341E8616AB9D8 /* Pods_HomeCooked.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C711B1D32B833F7002F5DFE /* Pods_HomeCooked.framework */; };
 		8D06C62A1E724E1900B5EAC7 /* ButtonWithRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D06C6291E724E1900B5EAC7 /* ButtonWithRecipe.swift */; };
 		8D0BF8831E2D6B7400C3B563 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D0BF87F1E2D6B7300C3B563 /* Bolts.framework */; };
 		8D0BF8841E2D6B7400C3B563 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D0BF8801E2D6B7300C3B563 /* FBSDKCoreKit.framework */; };
@@ -36,24 +37,23 @@
 		8DE9B5351E9AAFC3002E6BB9 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8DE9B5341E9AAFC3002E6BB9 /* Config.plist */; };
 		8DEF1A5B1E8727340031CD03 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEF1A5A1E8727340031CD03 /* Config.swift */; };
 		8DF3E9671EABF52000E72B70 /* SMSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF3E9661EABF52000E72B70 /* SMSViewController.swift */; };
-		A799C05826D6D17B4C71093D /* Pods_Recipes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 701DC4A84E39966D9FF7204F /* Pods_Recipes.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		43E5C48CBE4561310CB39DA0 /* Pods-Recipes.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Recipes.development.xcconfig"; path = "Pods/Target Support Files/Pods-Recipes/Pods-Recipes.development.xcconfig"; sourceTree = "<group>"; };
-		701DC4A84E39966D9FF7204F /* Pods_Recipes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Recipes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		79F6527FF3B978897CCDDC4A /* Pods-HomeCooked.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HomeCooked.development.xcconfig"; path = "Pods/Target Support Files/Pods-HomeCooked/Pods-HomeCooked.development.xcconfig"; sourceTree = "<group>"; };
+		8C711B1D32B833F7002F5DFE /* Pods_HomeCooked.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HomeCooked.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D06C6291E724E1900B5EAC7 /* ButtonWithRecipe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonWithRecipe.swift; sourceTree = "<group>"; };
 		8D0BF87F1E2D6B7300C3B563 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		8D0BF8801E2D6B7300C3B563 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		8D0BF8811E2D6B7300C3B563 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		8D0BF8821E2D6B7300C3B563 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		8D0BF8871E2D721A00C3B563 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		8D0BF8891E2D750300C3B563 /* Recipes.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Recipes.entitlements; sourceTree = "<group>"; };
+		8D0BF8891E2D750300C3B563 /* HomeCooked.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HomeCooked.entitlements; sourceTree = "<group>"; };
 		8D4AEEB21DD5063B00127BEB /* RecipeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeViewController.swift; sourceTree = "<group>"; };
 		8D5FF9991E98AF89005B1D15 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		8D67C52E1E8F4BD20097D699 /* RecipesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipesService.swift; sourceTree = "<group>"; };
 		8D7D55E41E888DD3008E7E8B /* RecipesFileManagerUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipesFileManagerUtil.swift; sourceTree = "<group>"; };
-		8D84023E1DD4D0E7009BBA62 /* Recipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Recipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D84023E1DD4D0E7009BBA62 /* HomeCooked.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HomeCooked.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D8402411DD4D0E7009BBA62 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8D8402431DD4D0E7009BBA62 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8D8402461DD4D0E7009BBA62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -74,9 +74,9 @@
 		8DE9B5341E9AAFC3002E6BB9 /* Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		8DEF1A5A1E8727340031CD03 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		8DF3E9661EABF52000E72B70 /* SMSViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSViewController.swift; sourceTree = "<group>"; };
-		8FF23F7FF079F72FD4F32169 /* Pods-Recipes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Recipes.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Recipes/Pods-Recipes.debug.xcconfig"; sourceTree = "<group>"; };
-		FAB3CD6830C3451B40D83217 /* Pods-Recipes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Recipes.release.xcconfig"; path = "Pods/Target Support Files/Pods-Recipes/Pods-Recipes.release.xcconfig"; sourceTree = "<group>"; };
-		FFB531A7A42133A2A381C2C8 /* Pods-Recipes.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Recipes.staging.xcconfig"; path = "Pods/Target Support Files/Pods-Recipes/Pods-Recipes.staging.xcconfig"; sourceTree = "<group>"; };
+		95E333C537CB6A29D0B2B070 /* Pods-HomeCooked.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HomeCooked.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HomeCooked/Pods-HomeCooked.debug.xcconfig"; sourceTree = "<group>"; };
+		95FD5B2E1B908B785D762A65 /* Pods-HomeCooked.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HomeCooked.release.xcconfig"; path = "Pods/Target Support Files/Pods-HomeCooked/Pods-HomeCooked.release.xcconfig"; sourceTree = "<group>"; };
+		E626CFACDA60222DBF842A1D /* Pods-HomeCooked.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HomeCooked.staging.xcconfig"; path = "Pods/Target Support Files/Pods-HomeCooked/Pods-HomeCooked.staging.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,7 +89,7 @@
 				8D0BF8831E2D6B7400C3B563 /* Bolts.framework in Frameworks */,
 				8D0BF8841E2D6B7400C3B563 /* FBSDKCoreKit.framework in Frameworks */,
 				8D0BF8851E2D6B7400C3B563 /* FBSDKLoginKit.framework in Frameworks */,
-				A799C05826D6D17B4C71093D /* Pods_Recipes.framework in Frameworks */,
+				75229354D4E341E8616AB9D8 /* Pods_HomeCooked.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,7 +104,7 @@
 				8D0BF8801E2D6B7300C3B563 /* FBSDKCoreKit.framework */,
 				8D0BF8811E2D6B7300C3B563 /* FBSDKLoginKit.framework */,
 				8D0BF8821E2D6B7300C3B563 /* FBSDKShareKit.framework */,
-				701DC4A84E39966D9FF7204F /* Pods_Recipes.framework */,
+				8C711B1D32B833F7002F5DFE /* Pods_HomeCooked.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -133,7 +133,7 @@
 				8D0BF87E1E2D690300C3B563 /* Frameworks */,
 				F4C2A4FB30931D7095BC658F /* Pods */,
 				8D84023F1DD4D0E7009BBA62 /* Products */,
-				8D8402401DD4D0E7009BBA62 /* Recipes */,
+				8D8402401DD4D0E7009BBA62 /* HomeCooked */,
 				8DE35C981E80A9D2004DD14F /* Settings.bundle */,
 			);
 			sourceTree = "<group>";
@@ -141,12 +141,12 @@
 		8D84023F1DD4D0E7009BBA62 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D84023E1DD4D0E7009BBA62 /* Recipes.app */,
+				8D84023E1DD4D0E7009BBA62 /* HomeCooked.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8D8402401DD4D0E7009BBA62 /* Recipes */ = {
+		8D8402401DD4D0E7009BBA62 /* HomeCooked */ = {
 			isa = PBXGroup;
 			children = (
 				8DB9AD561E90CB2E003501AC /* Extensions */,
@@ -160,11 +160,11 @@
 				8D84024A1DD4D0E7009BBA62 /* LaunchScreen.storyboard */,
 				8D8402451DD4D0E7009BBA62 /* Main.storyboard */,
 				8DDF6A231E80D5AA00D34932 /* Assets.xcassets */,
-				8D0BF8891E2D750300C3B563 /* Recipes.entitlements */,
+				8D0BF8891E2D750300C3B563 /* HomeCooked.entitlements */,
 				8D84024D1DD4D0E7009BBA62 /* Info.plist */,
 				8DE9B5341E9AAFC3002E6BB9 /* Config.plist */,
 			);
-			path = Recipes;
+			path = HomeCooked;
 			sourceTree = "<group>";
 		};
 		8DB9AD561E90CB2E003501AC /* Extensions */ = {
@@ -195,10 +195,10 @@
 		F4C2A4FB30931D7095BC658F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				8FF23F7FF079F72FD4F32169 /* Pods-Recipes.debug.xcconfig */,
-				FAB3CD6830C3451B40D83217 /* Pods-Recipes.release.xcconfig */,
-				43E5C48CBE4561310CB39DA0 /* Pods-Recipes.development.xcconfig */,
-				FFB531A7A42133A2A381C2C8 /* Pods-Recipes.staging.xcconfig */,
+				95E333C537CB6A29D0B2B070 /* Pods-HomeCooked.debug.xcconfig */,
+				E626CFACDA60222DBF842A1D /* Pods-HomeCooked.staging.xcconfig */,
+				79F6527FF3B978897CCDDC4A /* Pods-HomeCooked.development.xcconfig */,
+				95FD5B2E1B908B785D762A65 /* Pods-HomeCooked.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -206,9 +206,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8D84023D1DD4D0E7009BBA62 /* Recipes */ = {
+		8D84023D1DD4D0E7009BBA62 /* HomeCooked */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8D8402501DD4D0E7009BBA62 /* Build configuration list for PBXNativeTarget "Recipes" */;
+			buildConfigurationList = 8D8402501DD4D0E7009BBA62 /* Build configuration list for PBXNativeTarget "HomeCooked" */;
 			buildPhases = (
 				5CBF3BDAE7B1A65E18C92DE5 /* [CP] Check Pods Manifest.lock */,
 				8D84023A1DD4D0E7009BBA62 /* Sources */,
@@ -221,9 +221,9 @@
 			);
 			dependencies = (
 			);
-			name = Recipes;
+			name = HomeCooked;
 			productName = Recipes;
-			productReference = 8D84023E1DD4D0E7009BBA62 /* Recipes.app */;
+			productReference = 8D84023E1DD4D0E7009BBA62 /* HomeCooked.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -248,7 +248,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 8D8402391DD4D0E7009BBA62 /* Build configuration list for PBXProject "Recipes" */;
+			buildConfigurationList = 8D8402391DD4D0E7009BBA62 /* Build configuration list for PBXProject "HomeCooked" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -261,7 +261,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D84023D1DD4D0E7009BBA62 /* Recipes */,
+				8D84023D1DD4D0E7009BBA62 /* HomeCooked */,
 			);
 		};
 /* End PBXProject section */
@@ -294,7 +294,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Recipes/Pods-Recipes-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HomeCooked/Pods-HomeCooked-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		363E1F562764EE08173ED529 /* [CP] Copy Pods Resources */ = {
@@ -309,7 +309,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Recipes/Pods-Recipes-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HomeCooked/Pods-HomeCooked-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5CBF3BDAE7B1A65E18C92DE5 /* [CP] Check Pods Manifest.lock */ = {
@@ -431,10 +431,10 @@
 		};
 		8D5FF9A41E99EE6B005B1D15 /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 43E5C48CBE4561310CB39DA0 /* Pods-Recipes.development.xcconfig */;
+			baseConfigurationReference = 79F6527FF3B978897CCDDC4A /* Pods-HomeCooked.development.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Recipes/Recipes.entitlements;
+				CODE_SIGN_ENTITLEMENTS = HomeCooked/HomeCooked.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 522ZNNMW8Z;
@@ -442,9 +442,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = Recipes/Info.plist;
+				INFOPLIST_FILE = HomeCooked/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tusharverma.Recipes;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tusharverma.HomeCooked;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -543,10 +543,10 @@
 		};
 		8D8402511DD4D0E7009BBA62 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8FF23F7FF079F72FD4F32169 /* Pods-Recipes.debug.xcconfig */;
+			baseConfigurationReference = 95E333C537CB6A29D0B2B070 /* Pods-HomeCooked.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Recipes/Recipes.entitlements;
+				CODE_SIGN_ENTITLEMENTS = HomeCooked/HomeCooked.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 522ZNNMW8Z;
@@ -554,9 +554,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = Recipes/Info.plist;
+				INFOPLIST_FILE = HomeCooked/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tusharverma.Recipes;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tusharverma.HomeCooked;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -564,10 +564,10 @@
 		};
 		8D8402521DD4D0E7009BBA62 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FAB3CD6830C3451B40D83217 /* Pods-Recipes.release.xcconfig */;
+			baseConfigurationReference = 95FD5B2E1B908B785D762A65 /* Pods-HomeCooked.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Recipes/Recipes.entitlements;
+				CODE_SIGN_ENTITLEMENTS = HomeCooked/HomeCooked.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 522ZNNMW8Z;
@@ -575,9 +575,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = Recipes/Info.plist;
+				INFOPLIST_FILE = HomeCooked/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tusharverma.Recipes;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tusharverma.HomeCooked;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -634,10 +634,10 @@
 		};
 		8DAA3B6F1E99FB3300E4AE8E /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FFB531A7A42133A2A381C2C8 /* Pods-Recipes.staging.xcconfig */;
+			baseConfigurationReference = E626CFACDA60222DBF842A1D /* Pods-HomeCooked.staging.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Recipes/Recipes.entitlements;
+				CODE_SIGN_ENTITLEMENTS = HomeCooked/HomeCooked.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 522ZNNMW8Z;
@@ -645,9 +645,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = Recipes/Info.plist;
+				INFOPLIST_FILE = HomeCooked/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tusharverma.Recipes;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tusharverma.HomeCooked;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -656,7 +656,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8D8402391DD4D0E7009BBA62 /* Build configuration list for PBXProject "Recipes" */ = {
+		8D8402391DD4D0E7009BBA62 /* Build configuration list for PBXProject "HomeCooked" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8D84024E1DD4D0E7009BBA62 /* Debug */,
@@ -667,7 +667,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		8D8402501DD4D0E7009BBA62 /* Build configuration list for PBXNativeTarget "Recipes" */ = {
+		8D8402501DD4D0E7009BBA62 /* Build configuration list for PBXNativeTarget "HomeCooked" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8D8402511DD4D0E7009BBA62 /* Debug */,

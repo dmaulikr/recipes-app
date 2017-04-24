@@ -10,10 +10,10 @@
 		01AEBFDAB8AE025A3FB77E3ABC1532EC /* IASKSlider.h in Headers */ = {isa = PBXBuildFile; fileRef = 9329A5C809608AB35B5E58839955DD0E /* IASKSlider.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		06AD51F5DFBBD785A132538580863AB9 /* de.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 511B75E1521F09B4CFB7AD505A20E6A0 /* de.lproj */; };
 		081A50447943221B39624D1A1E345232 /* pt-PT.lproj in Resources */ = {isa = PBXBuildFile; fileRef = EBF77A336A5293BEE3DDFAFC52D4DBB1 /* pt-PT.lproj */; };
-		0AC9A2E6932DF95EE7E80D8AA2729699 /* Pods-Recipes-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 369BD25DF3707125AA8A09DC7770F159 /* Pods-Recipes-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0AD01E8F5EB3B526CE46A33B04075AA1 /* IASKPSSliderSpecifierViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F5BF390127C3EBE92E34A012D6429A /* IASKPSSliderSpecifierViewCell.m */; };
 		11D6C03A5F75B7BF0CD43E95D4CAE0D5 /* Fusuma-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = AABF356E8A36DD55F985F198BBCBA958 /* Fusuma-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		169A1EA235602DCE2ABA3EB4E0727038 /* IASKPSTextFieldSpecifierViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = EED858E43D31616FF9A11CD72B6D7830 /* IASKPSTextFieldSpecifierViewCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		183182B8E2FC3493338C45B0385DA73C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85CC5E1646199280661E0767C5F13247 /* Foundation.framework */; };
 		193A82FD5A850A5AF27D2848E04BE9DC /* es.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 511B3FEDB0D49C5839A123A541A4C395 /* es.lproj */; };
 		1ABC805A9FFE877C7537F9CEAFDA9821 /* pt.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 47F2EF5E89E3F21C5A8B57E1BA5F815A /* pt.lproj */; };
 		1FE39436B955297905C7346A5F0232CF /* IASKSpecifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 802CD77BD547752C657DB264F4926597 /* IASKSpecifier.m */; };
@@ -28,6 +28,7 @@
 		468D0D35536771D7BBB92368609F01F8 /* IASKAppSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC39E8A722E2A5CBB0FF7DA30F9601C1 /* IASKAppSettingsViewController.m */; };
 		4C5D65409C96478C1AD87572333460E9 /* FSCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DCBEDF3B7FA4E97316B80021E9BDA7 /* FSCameraView.swift */; };
 		4CC51B4987E06CFB1E4BB15824714101 /* IASKAppSettingsWebViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F8C855117C1B2BD182DD29EABAD8ABF /* IASKAppSettingsWebViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4FF84A6C504522C3E7ED88EFF06E775F /* Pods-HomeCooked-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B8EC42D72D4E4416DE84595DE31A858 /* Pods-HomeCooked-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5706CA5E246E09EAE6F60B7991971D3C /* IASKSettingsStoreUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = E4D4D509A8170143A1C3DBDA636B7107 /* IASKSettingsStoreUserDefaults.m */; };
 		62A835C8C0FB3C019CA05A1B2D48D8E0 /* FSCameraView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B169D59B32F717E9962AAD536519ACE0 /* FSCameraView.xib */; };
 		62E1A7BD74C675817E239126CC352B23 /* ja.lproj in Resources */ = {isa = PBXBuildFile; fileRef = EAC03B2DC77786079ED2EBD6F4598556 /* ja.lproj */; };
@@ -37,7 +38,6 @@
 		689B0EAB3A44C7682C95DA303CA2CE8E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F32A44C64AD9BADC7C56C71C0751F3E /* MessageUI.framework */; };
 		69EE496550F184B4FB9FCB1B0C73F73D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85CC5E1646199280661E0767C5F13247 /* Foundation.framework */; };
 		6B466D517632559248D7827BAC79CB3C /* ru.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 7D930EE668329D5B38C05789193D66C4 /* ru.lproj */; };
-		70335C245C30A0F586B730FA012B4D5D /* Pods-Recipes-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C22BA5B03A439FF52DB2B7E4BF415996 /* Pods-Recipes-dummy.m */; };
 		730F46AEEA3A658906D1734C5960A3D6 /* IASKSettingsStoreUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = 80D63A3AE7D6869C44AF9C2E76A02CC7 /* IASKSettingsStoreUserDefaults.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7BE1C46E11AD216915492F908F30699B /* FusumaViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5E6ECD9ADC2F10EEDC364AA7DE61578F /* FusumaViewController.xib */; };
 		7DAA438A7FFB3D3145C8E8E9367565A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 238F5873693D7528496BC70AD8F4238E /* Assets.xcassets */; };
@@ -47,6 +47,7 @@
 		836E2517C6A24887456588EFC3CA6B81 /* FSVideoCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D99845C4C19F420D6659C11AB11165 /* FSVideoCameraView.swift */; };
 		85BF85D33C4717C968FB5D1B116578DB /* IASKTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1948F63B4305BFB9ED80DA991152F9F5 /* IASKTextView.m */; };
 		880FF45E8058FB05C1155BE48AD31B60 /* FSAlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4716986754DBFA079BD8FDF0593ED32 /* FSAlbumView.swift */; };
+		89BE1927D0151CC2025369D5BCF40C55 /* Pods-HomeCooked-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = BA09931E05310162855A8072174FC78D /* Pods-HomeCooked-dummy.m */; };
 		9219D7D152E9A4B54AE5EDE1B9ED55E2 /* IASKPSTextFieldSpecifierViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E288470234132F9DB3336DFF7A2370D /* IASKPSTextFieldSpecifierViewCell.m */; };
 		94E10E1A1836DC0400B637EF5CC150BD /* FSAlbumViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 087B4BE2A18AB9198741ED5859FEBA98 /* FSAlbumViewCell.xib */; };
 		962B12D9E481FAD4119CF7EFDEF49A4E /* IASKSettingsStore.h in Headers */ = {isa = PBXBuildFile; fileRef = CDA9BD1696C9278AB64384D7D973DDCD /* IASKSettingsStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -64,11 +65,10 @@
 		BE99B271BC2CF0DFB6726E5F871DC271 /* th.lproj in Resources */ = {isa = PBXBuildFile; fileRef = BF2AEBDBEFBF1A69939DEB356C7E37A9 /* th.lproj */; };
 		C1E2E20539BEE4A555B1560B097B8731 /* IASKSpecifier.h in Headers */ = {isa = PBXBuildFile; fileRef = AD8CF606AB578943DCD67BD8D77E4412 /* IASKSpecifier.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C2290749414FD803E961A00205975CD1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F492D78EB0EAC7E3FCE5CAACCE3F80E /* UIKit.framework */; };
-		C83AC50475F94BC1DABEB6A850DA11EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85CC5E1646199280661E0767C5F13247 /* Foundation.framework */; };
 		CB342EBC72F02521F26AB7269ED720A5 /* InAppSettingsKit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = D98BBA7ADCD68D181DEA55A5C785682B /* InAppSettingsKit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF82963C1CFCB61E11C2621FF9B33033 /* IASKMultipleValueSelection.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BE506C15D0063FB7F980001A4D3ED57 /* IASKMultipleValueSelection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D2C9A6A2CED94B6BD2851199D9B1B8CE /* Fusuma-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 632DD841FF23E8440B2A2C5050028D9B /* Fusuma-dummy.m */; };
-		DB1AB0DFEB0BE22C0C44A5153DC4509F /* InAppSettingsKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 231887A7BC12D6C8E30EFFC650ACC4B0 /* InAppSettingsKit.bundle */; };
+		DB1AB0DFEB0BE22C0C44A5153DC4509F /* InAppSettingsKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C8917998CC5E6799F3A49FA350909653 /* InAppSettingsKit.bundle */; };
 		E0546512239A159B6CB157BDE9613C6D /* FSAlbumView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BD3286661F26156B2A70BEC0B8406DB /* FSAlbumView.xib */; };
 		E34FFE176B5CC4B3CAD25C47F4477AF4 /* IASKSettingsReader.m in Sources */ = {isa = PBXBuildFile; fileRef = FB20EA70462BEFD65F63070AC8DD35F0 /* IASKSettingsReader.m */; };
 		E47AFF4079E24EF24D2000CDAA3807DA /* InAppSettingsKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA82CC13CC24579D9DB85D7805BE223 /* InAppSettingsKit-dummy.m */; };
@@ -90,19 +90,19 @@
 			remoteGlobalIDString = BA7A3BC1907D905684ED18BBAFF11261;
 			remoteInfo = "InAppSettingsKit-InAppSettingsKit";
 		};
-		874112AF1E87D160D82C49534685F7DA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D369E8D0C81CC336FAADB86882C9EB8D;
-			remoteInfo = Fusuma;
-		};
-		F90BF4B575A7741E82F744F20756F97A /* PBXContainerItemProxy */ = {
+		4AE7F9A2ED221C190F5994F8982C1A9B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = D86677F4268749DFB854C7D9551A8D62;
 			remoteInfo = InAppSettingsKit;
+		};
+		CBB726CE0E2D66CFA6F7C0E688E197A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D369E8D0C81CC336FAADB86882C9EB8D;
+			remoteInfo = Fusuma;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -111,36 +111,40 @@
 		01AE5B7DEB1DCB1C7001DEAC11A5B2BC /* Fusuma.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = Fusuma.modulemap; sourceTree = "<group>"; };
 		087B4BE2A18AB9198741ED5859FEBA98 /* FSAlbumViewCell.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; name = FSAlbumViewCell.xib; path = Sources/FSAlbumViewCell.xib; sourceTree = "<group>"; };
 		0990C82E4BFA3CCE3FEAC228500F4BDD /* FSConstants.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FSConstants.swift; path = Sources/FSConstants.swift; sourceTree = "<group>"; };
-		0992BD4AB3BF172437294BEACA2DE9C0 /* Pods_Recipes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Recipes.framework; path = "Pods-Recipes.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BDCCD61F79266031ED6D08F96004D28 /* FSVideoCameraView.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; name = FSVideoCameraView.xib; path = Sources/FSVideoCameraView.xib; sourceTree = "<group>"; };
 		0BE506C15D0063FB7F980001A4D3ED57 /* IASKMultipleValueSelection.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = IASKMultipleValueSelection.h; path = InAppSettingsKit/Controllers/IASKMultipleValueSelection.h; sourceTree = "<group>"; };
 		0D44C5A384C64184C148BADF793BBE59 /* IASKTextViewCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = IASKTextViewCell.m; path = InAppSettingsKit/Views/IASKTextViewCell.m; sourceTree = "<group>"; };
+		0EA522A63E308096527D3458807A9449 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0F32A44C64AD9BADC7C56C71C0751F3E /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/MessageUI.framework; sourceTree = DEVELOPER_DIR; };
 		182577C03EDF3A9A6C717B491B9C47AB /* InAppSettingsKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "InAppSettingsKit-prefix.pch"; sourceTree = "<group>"; };
 		18D6B792E64DA899C47C56066EA86027 /* IASKSpecifierValuesViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = IASKSpecifierValuesViewController.h; path = InAppSettingsKit/Controllers/IASKSpecifierValuesViewController.h; sourceTree = "<group>"; };
 		1948F63B4305BFB9ED80DA991152F9F5 /* IASKTextView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = IASKTextView.m; path = InAppSettingsKit/Views/IASKTextView.m; sourceTree = "<group>"; };
 		1E288470234132F9DB3336DFF7A2370D /* IASKPSTextFieldSpecifierViewCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = IASKPSTextFieldSpecifierViewCell.m; path = InAppSettingsKit/Views/IASKPSTextFieldSpecifierViewCell.m; sourceTree = "<group>"; };
 		201DD8040D73FFE41DEC3C4799641D1A /* IASKSwitch.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = IASKSwitch.m; path = InAppSettingsKit/Views/IASKSwitch.m; sourceTree = "<group>"; };
-		231887A7BC12D6C8E30EFFC650ACC4B0 /* InAppSettingsKit.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = InAppSettingsKit.bundle; path = InAppSettingsKit.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		2227B615FD2CFD0D7023D2B36991BB51 /* InAppSettingsKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = InAppSettingsKit.framework; path = InAppSettingsKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		238F5873693D7528496BC70AD8F4238E /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Sources/Assets.xcassets; sourceTree = "<group>"; };
-		2938658116ADE72D150E97E9C256721C /* Pods-Recipes.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Recipes.staging.xcconfig"; sourceTree = "<group>"; };
 		2C19672286D69B89AF7CA26A0A46A4F9 /* IASKSpecifierValuesViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = IASKSpecifierValuesViewController.m; path = InAppSettingsKit/Controllers/IASKSpecifierValuesViewController.m; sourceTree = "<group>"; };
+		2DFC741E40D8ADD6C3625B26C8F8C9D4 /* Pods-HomeCooked-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-HomeCooked-acknowledgements.markdown"; sourceTree = "<group>"; };
+		3333AE9DC7A48A8808F9390B021A20F0 /* Pods-HomeCooked.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-HomeCooked.debug.xcconfig"; sourceTree = "<group>"; };
 		34F5BF390127C3EBE92E34A012D6429A /* IASKPSSliderSpecifierViewCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = IASKPSSliderSpecifierViewCell.m; path = InAppSettingsKit/Views/IASKPSSliderSpecifierViewCell.m; sourceTree = "<group>"; };
-		369BD25DF3707125AA8A09DC7770F159 /* Pods-Recipes-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Recipes-umbrella.h"; sourceTree = "<group>"; };
+		35B2E13C6F4BD269866FE89E6A537F37 /* Fusuma.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Fusuma.framework; path = Fusuma.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B24550F4AF5412B934502F8B672F634 /* tr.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = tr.lproj; path = InAppSettingsKit/Resources/tr.lproj; sourceTree = "<group>"; };
 		3EB30B34E977B8B3003F43C4386865F0 /* ResourceBundle-InAppSettingsKit-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-InAppSettingsKit-Info.plist"; sourceTree = "<group>"; };
+		3F6A77724E0AAFD2A43C7FA86BEE9AAF /* Pods-HomeCooked-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-HomeCooked-acknowledgements.plist"; sourceTree = "<group>"; };
 		3F8C855117C1B2BD182DD29EABAD8ABF /* IASKAppSettingsWebViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = IASKAppSettingsWebViewController.h; path = InAppSettingsKit/Controllers/IASKAppSettingsWebViewController.h; sourceTree = "<group>"; };
 		4313B5F15636959EDF412F3C0751FC9A /* IASKAppSettingsViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = IASKAppSettingsViewController.h; path = InAppSettingsKit/Controllers/IASKAppSettingsViewController.h; sourceTree = "<group>"; };
-		436331E6E67749705670838F28335566 /* Pods-Recipes-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Recipes-frameworks.sh"; sourceTree = "<group>"; };
 		47C0AC3A3D2369EBD5F46A46F36CEBC2 /* nl.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = nl.lproj; path = InAppSettingsKit/Resources/nl.lproj; sourceTree = "<group>"; };
 		47F2EF5E89E3F21C5A8B57E1BA5F815A /* pt.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = pt.lproj; path = InAppSettingsKit/Resources/pt.lproj; sourceTree = "<group>"; };
 		4F492D78EB0EAC7E3FCE5CAACCE3F80E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		511B3FEDB0D49C5839A123A541A4C395 /* es.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = es.lproj; path = InAppSettingsKit/Resources/es.lproj; sourceTree = "<group>"; };
 		511B75E1521F09B4CFB7AD505A20E6A0 /* de.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = de.lproj; path = InAppSettingsKit/Resources/de.lproj; sourceTree = "<group>"; };
 		5AE62C89A3B815DAF3BEDA592762A0A4 /* IASKSettingsStoreFile.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = IASKSettingsStoreFile.m; path = InAppSettingsKit/Models/IASKSettingsStoreFile.m; sourceTree = "<group>"; };
+		5B8EC42D72D4E4416DE84595DE31A858 /* Pods-HomeCooked-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-HomeCooked-umbrella.h"; sourceTree = "<group>"; };
 		5BD3286661F26156B2A70BEC0B8406DB /* FSAlbumView.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; name = FSAlbumView.xib; path = Sources/FSAlbumView.xib; sourceTree = "<group>"; };
+		5C95E6180340EB9ACFCADC6CB9008EF9 /* Pods-HomeCooked.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-HomeCooked.staging.xcconfig"; sourceTree = "<group>"; };
 		5CA82CC13CC24579D9DB85D7805BE223 /* InAppSettingsKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "InAppSettingsKit-dummy.m"; sourceTree = "<group>"; };
 		5D81F36ACC3AF8474B1B3F53A7BE40D5 /* IASKPSSliderSpecifierViewCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = IASKPSSliderSpecifierViewCell.h; path = InAppSettingsKit/Views/IASKPSSliderSpecifierViewCell.h; sourceTree = "<group>"; };
+		5E09733823AC32168B820DF8270E1441 /* Pods-HomeCooked.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-HomeCooked.release.xcconfig"; sourceTree = "<group>"; };
 		5E6ECD9ADC2F10EEDC364AA7DE61578F /* FusumaViewController.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; name = FusumaViewController.xib; path = Sources/FusumaViewController.xib; sourceTree = "<group>"; };
 		61D99845C4C19F420D6659C11AB11165 /* FSVideoCameraView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FSVideoCameraView.swift; path = Sources/FSVideoCameraView.swift; sourceTree = "<group>"; };
 		632DD841FF23E8440B2A2C5050028D9B /* Fusuma-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Fusuma-dummy.m"; sourceTree = "<group>"; };
@@ -148,15 +152,14 @@
 		705DDA88E40A107B2F60C013D57A461C /* IASKSwitch.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = IASKSwitch.h; path = InAppSettingsKit/Views/IASKSwitch.h; sourceTree = "<group>"; };
 		7096563A35F6BE49FC84F971E447A6C5 /* InAppSettingsKit.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = InAppSettingsKit.xcconfig; sourceTree = "<group>"; };
 		70DA8BD0453DEFEA04493DB106DFE054 /* IASKSlider.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = IASKSlider.m; path = InAppSettingsKit/Views/IASKSlider.m; sourceTree = "<group>"; };
+		7115FD5830B151976FFAB4BEB4B5121A /* Pods-HomeCooked.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-HomeCooked.development.xcconfig"; sourceTree = "<group>"; };
 		74DCBEDF3B7FA4E97316B80021E9BDA7 /* FSCameraView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FSCameraView.swift; path = Sources/FSCameraView.swift; sourceTree = "<group>"; };
 		798DF989BFB0CF4A0D9516C14670D4E3 /* it.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = it.lproj; path = InAppSettingsKit/Resources/it.lproj; sourceTree = "<group>"; };
-		79E265AAC7FFE72C92FF90EFC35645E1 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7D74353E22FBF8B3F8539EB9DD807AAA /* Base.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = Base.lproj; path = InAppSettingsKit/Resources/Base.lproj; sourceTree = "<group>"; };
 		7D930EE668329D5B38C05789193D66C4 /* ru.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = ru.lproj; path = InAppSettingsKit/Resources/ru.lproj; sourceTree = "<group>"; };
 		802CD77BD547752C657DB264F4926597 /* IASKSpecifier.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = IASKSpecifier.m; path = InAppSettingsKit/Models/IASKSpecifier.m; sourceTree = "<group>"; };
 		80D63A3AE7D6869C44AF9C2E76A02CC7 /* IASKSettingsStoreUserDefaults.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = IASKSettingsStoreUserDefaults.h; path = InAppSettingsKit/Models/IASKSettingsStoreUserDefaults.h; sourceTree = "<group>"; };
 		8442D2BD8910BEFA7298251980ABFCDA /* IASKAppSettingsWebViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = IASKAppSettingsWebViewController.m; path = InAppSettingsKit/Controllers/IASKAppSettingsWebViewController.m; sourceTree = "<group>"; };
-		8447419E8C91F3EB2EF29F8BAC59FCF8 /* InAppSettingsKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = InAppSettingsKit.framework; path = InAppSettingsKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		85CC5E1646199280661E0767C5F13247 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		88D12E6DF4E2BE48590C8BE86E3F122C /* FusumaViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FusumaViewController.swift; path = Sources/FusumaViewController.swift; sourceTree = "<group>"; };
 		907C50F2C4AA14C269B4DCFEFC950886 /* fr.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = fr.lproj; path = InAppSettingsKit/Resources/fr.lproj; sourceTree = "<group>"; };
@@ -164,22 +167,21 @@
 		9329A5C809608AB35B5E58839955DD0E /* IASKSlider.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = IASKSlider.h; path = InAppSettingsKit/Views/IASKSlider.h; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		97D6EE6DE523B99C4DD87824281946E9 /* IASKMultipleValueSelection.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = IASKMultipleValueSelection.m; path = InAppSettingsKit/Controllers/IASKMultipleValueSelection.m; sourceTree = "<group>"; };
-		99A81D36812C94B4CF28E8D0414F0A5C /* Pods-Recipes.development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Recipes.development.xcconfig"; sourceTree = "<group>"; };
-		A5AC299E739ACAAEC072A1DBB0F2C88A /* Pods-Recipes-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Recipes-acknowledgements.plist"; sourceTree = "<group>"; };
-		A8AD018B159A8A6C9AFA4BD12CB8C483 /* Pods-Recipes.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-Recipes.modulemap"; sourceTree = "<group>"; };
+		A3BBC547E87ADDE7C5CCC899BAD3D2DE /* Pods-HomeCooked.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-HomeCooked.modulemap"; sourceTree = "<group>"; };
 		A8BB4F9861C9EDFF01B4D9425F32073A /* Fusuma.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Fusuma.xcconfig; sourceTree = "<group>"; };
 		AABF356E8A36DD55F985F198BBCBA958 /* Fusuma-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Fusuma-umbrella.h"; sourceTree = "<group>"; };
 		AC39E8A722E2A5CBB0FF7DA30F9601C1 /* IASKAppSettingsViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = IASKAppSettingsViewController.m; path = InAppSettingsKit/Controllers/IASKAppSettingsViewController.m; sourceTree = "<group>"; };
 		AD8CF606AB578943DCD67BD8D77E4412 /* IASKSpecifier.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = IASKSpecifier.h; path = InAppSettingsKit/Models/IASKSpecifier.h; sourceTree = "<group>"; };
 		B169D59B32F717E9962AAD536519ACE0 /* FSCameraView.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; name = FSCameraView.xib; path = Sources/FSCameraView.xib; sourceTree = "<group>"; };
+		B43566286A29D68B93A183B65FC4CB2D /* Pods-HomeCooked-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-HomeCooked-frameworks.sh"; sourceTree = "<group>"; };
 		B7288DFB0E1B4A1654844E6B462A0DD2 /* en.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = en.lproj; path = InAppSettingsKit/Resources/en.lproj; sourceTree = "<group>"; };
+		BA09931E05310162855A8072174FC78D /* Pods-HomeCooked-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-HomeCooked-dummy.m"; sourceTree = "<group>"; };
 		BA6E224B873038E3A2C9A03FD54D6340 /* FSImageCropView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FSImageCropView.swift; path = Sources/FSImageCropView.swift; sourceTree = "<group>"; };
 		BD86195BDC2F31B8CD73F9719CED20F3 /* IASKViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = IASKViewController.h; path = InAppSettingsKit/Controllers/IASKViewController.h; sourceTree = "<group>"; };
-		BEEDA07DDFCBFDD7438E54218445A975 /* Pods-Recipes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Recipes.release.xcconfig"; sourceTree = "<group>"; };
 		BF2AEBDBEFBF1A69939DEB356C7E37A9 /* th.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = th.lproj; path = InAppSettingsKit/Resources/th.lproj; sourceTree = "<group>"; };
 		C1A3BAB2C6CDB06FB27FD91FEEFEC173 /* IASKTextField.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = IASKTextField.m; path = InAppSettingsKit/Views/IASKTextField.m; sourceTree = "<group>"; };
-		C22BA5B03A439FF52DB2B7E4BF415996 /* Pods-Recipes-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Recipes-dummy.m"; sourceTree = "<group>"; };
 		C877F501B28591608A31850ABA1A0ABB /* InAppSettingsKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = InAppSettingsKit.modulemap; sourceTree = "<group>"; };
+		C8917998CC5E6799F3A49FA350909653 /* InAppSettingsKit.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = InAppSettingsKit.bundle; path = InAppSettingsKit.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAD9CC83379C43D45A623130E242DE19 /* sv.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = sv.lproj; path = InAppSettingsKit/Resources/sv.lproj; sourceTree = "<group>"; };
 		CC4E73D62C6AE85527DECCEFB58D9F17 /* IASKTextField.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = IASKTextField.h; path = InAppSettingsKit/Views/IASKTextField.h; sourceTree = "<group>"; };
 		CDA9BD1696C9278AB64384D7D973DDCD /* IASKSettingsStore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = IASKSettingsStore.h; path = InAppSettingsKit/Models/IASKSettingsStore.h; sourceTree = "<group>"; };
@@ -187,28 +189,26 @@
 		D2AB2255604684C601DD08A517BF655E /* el.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = el.lproj; path = InAppSettingsKit/Resources/el.lproj; sourceTree = "<group>"; };
 		D8F905B0F6E2D75FEDF0DF49AA53FDBA /* IASKTextViewCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = IASKTextViewCell.h; path = InAppSettingsKit/Views/IASKTextViewCell.h; sourceTree = "<group>"; };
 		D98BBA7ADCD68D181DEA55A5C785682B /* InAppSettingsKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "InAppSettingsKit-umbrella.h"; sourceTree = "<group>"; };
-		DA0FA5C2A618BD7C6A420CC528903C8F /* Pods-Recipes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Recipes.debug.xcconfig"; sourceTree = "<group>"; };
 		DD02D6E3F03BC525F25C536B80C7A8A5 /* IASKSettingsReader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = IASKSettingsReader.h; path = InAppSettingsKit/Models/IASKSettingsReader.h; sourceTree = "<group>"; };
 		E3435FA4DFF8CB08757FCF0D79E19D49 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E4716986754DBFA079BD8FDF0593ED32 /* FSAlbumView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FSAlbumView.swift; path = Sources/FSAlbumView.swift; sourceTree = "<group>"; };
 		E4D4D509A8170143A1C3DBDA636B7107 /* IASKSettingsStoreUserDefaults.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = IASKSettingsStoreUserDefaults.m; path = InAppSettingsKit/Models/IASKSettingsStoreUserDefaults.m; sourceTree = "<group>"; };
-		E4F8E588CFD3BA7A9519ED3F31281C11 /* Fusuma.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Fusuma.framework; path = Fusuma.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E623439AA9587C02E1E7C9C71F9DEFB2 /* Pods_HomeCooked.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_HomeCooked.framework; path = "Pods-HomeCooked.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E68905DB05911D65FE6DBA60FDA896F5 /* IASKSettingsStore.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = IASKSettingsStore.m; path = InAppSettingsKit/Models/IASKSettingsStore.m; sourceTree = "<group>"; };
-		E8440ED4716C418889516039BA28FA36 /* Pods-Recipes-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Recipes-resources.sh"; sourceTree = "<group>"; };
 		EAC03B2DC77786079ED2EBD6F4598556 /* ja.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = ja.lproj; path = InAppSettingsKit/Resources/ja.lproj; sourceTree = "<group>"; };
 		EBF77A336A5293BEE3DDFAFC52D4DBB1 /* pt-PT.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = "pt-PT.lproj"; path = "InAppSettingsKit/Resources/pt-PT.lproj"; sourceTree = "<group>"; };
 		EED858E43D31616FF9A11CD72B6D7830 /* IASKPSTextFieldSpecifierViewCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = IASKPSTextFieldSpecifierViewCell.h; path = InAppSettingsKit/Views/IASKPSTextFieldSpecifierViewCell.h; sourceTree = "<group>"; };
 		F031A1D241ECCD1C61D835AB7C4A7152 /* IASKSettingsStoreFile.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = IASKSettingsStoreFile.h; path = InAppSettingsKit/Models/IASKSettingsStoreFile.h; sourceTree = "<group>"; };
-		F35626D8F2AF1665251DD96B672A2EB7 /* Pods-Recipes-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Recipes-acknowledgements.markdown"; sourceTree = "<group>"; };
+		F3CFA5C905403D403EDB3D9710B19C1F /* Pods-HomeCooked-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-HomeCooked-resources.sh"; sourceTree = "<group>"; };
 		FB20EA70462BEFD65F63070AC8DD35F0 /* IASKSettingsReader.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = IASKSettingsReader.m; path = InAppSettingsKit/Models/IASKSettingsReader.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		4BADAD15B11795400CABBE58BAC112F9 /* Frameworks */ = {
+		74B808A0179A7D0F572A43B3D47D6426 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C83AC50475F94BC1DABEB6A850DA11EC /* Foundation.framework in Frameworks */,
+				183182B8E2FC3493338C45B0385DA73C /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,37 +291,6 @@
 			path = InAppSettingsKit;
 			sourceTree = "<group>";
 		};
-		447B47E49F98D3389AB63D554B6A85C7 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				E4F8E588CFD3BA7A9519ED3F31281C11 /* Fusuma.framework */,
-				231887A7BC12D6C8E30EFFC650ACC4B0 /* InAppSettingsKit.bundle */,
-				8447419E8C91F3EB2EF29F8BAC59FCF8 /* InAppSettingsKit.framework */,
-				0992BD4AB3BF172437294BEACA2DE9C0 /* Pods_Recipes.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		480C4CBC4935DA553CD8E6195EDBB097 /* Pods-Recipes */ = {
-			isa = PBXGroup;
-			children = (
-				79E265AAC7FFE72C92FF90EFC35645E1 /* Info.plist */,
-				A8AD018B159A8A6C9AFA4BD12CB8C483 /* Pods-Recipes.modulemap */,
-				F35626D8F2AF1665251DD96B672A2EB7 /* Pods-Recipes-acknowledgements.markdown */,
-				A5AC299E739ACAAEC072A1DBB0F2C88A /* Pods-Recipes-acknowledgements.plist */,
-				C22BA5B03A439FF52DB2B7E4BF415996 /* Pods-Recipes-dummy.m */,
-				436331E6E67749705670838F28335566 /* Pods-Recipes-frameworks.sh */,
-				E8440ED4716C418889516039BA28FA36 /* Pods-Recipes-resources.sh */,
-				369BD25DF3707125AA8A09DC7770F159 /* Pods-Recipes-umbrella.h */,
-				DA0FA5C2A618BD7C6A420CC528903C8F /* Pods-Recipes.debug.xcconfig */,
-				99A81D36812C94B4CF28E8D0414F0A5C /* Pods-Recipes.development.xcconfig */,
-				BEEDA07DDFCBFDD7438E54218445A975 /* Pods-Recipes.release.xcconfig */,
-				2938658116ADE72D150E97E9C256721C /* Pods-Recipes.staging.xcconfig */,
-			);
-			name = "Pods-Recipes";
-			path = "Target Support Files/Pods-Recipes";
-			sourceTree = "<group>";
-		};
 		4D6E6650E5F7398528CF758B98C6D6D2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -382,8 +351,8 @@
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
 				122DA2E5084A4393C29BE363C764795C /* Frameworks */,
 				CA0462C9CC3B8B81E41BCCF5FD2C60D0 /* Pods */,
-				447B47E49F98D3389AB63D554B6A85C7 /* Products */,
-				CC58E9674999D10322C731A6A2131072 /* Targets Support Files */,
+				D674DF9CB1B3DB0802943A5EA388FAB0 /* Products */,
+				AB2FFBA2DF3B843E4E8CE16DA6C8C006 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
@@ -400,6 +369,14 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		AB2FFBA2DF3B843E4E8CE16DA6C8C006 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				D99A42FEC1399C27DA71223E3EEA441A /* Pods-HomeCooked */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
 		CA0462C9CC3B8B81E41BCCF5FD2C60D0 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -409,12 +386,35 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		CC58E9674999D10322C731A6A2131072 /* Targets Support Files */ = {
+		D674DF9CB1B3DB0802943A5EA388FAB0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				480C4CBC4935DA553CD8E6195EDBB097 /* Pods-Recipes */,
+				35B2E13C6F4BD269866FE89E6A537F37 /* Fusuma.framework */,
+				C8917998CC5E6799F3A49FA350909653 /* InAppSettingsKit.bundle */,
+				2227B615FD2CFD0D7023D2B36991BB51 /* InAppSettingsKit.framework */,
+				E623439AA9587C02E1E7C9C71F9DEFB2 /* Pods_HomeCooked.framework */,
 			);
-			name = "Targets Support Files";
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D99A42FEC1399C27DA71223E3EEA441A /* Pods-HomeCooked */ = {
+			isa = PBXGroup;
+			children = (
+				0EA522A63E308096527D3458807A9449 /* Info.plist */,
+				A3BBC547E87ADDE7C5CCC899BAD3D2DE /* Pods-HomeCooked.modulemap */,
+				2DFC741E40D8ADD6C3625B26C8F8C9D4 /* Pods-HomeCooked-acknowledgements.markdown */,
+				3F6A77724E0AAFD2A43C7FA86BEE9AAF /* Pods-HomeCooked-acknowledgements.plist */,
+				BA09931E05310162855A8072174FC78D /* Pods-HomeCooked-dummy.m */,
+				B43566286A29D68B93A183B65FC4CB2D /* Pods-HomeCooked-frameworks.sh */,
+				F3CFA5C905403D403EDB3D9710B19C1F /* Pods-HomeCooked-resources.sh */,
+				5B8EC42D72D4E4416DE84595DE31A858 /* Pods-HomeCooked-umbrella.h */,
+				3333AE9DC7A48A8808F9390B021A20F0 /* Pods-HomeCooked.debug.xcconfig */,
+				7115FD5830B151976FFAB4BEB4B5121A /* Pods-HomeCooked.development.xcconfig */,
+				5E09733823AC32168B820DF8270E1441 /* Pods-HomeCooked.release.xcconfig */,
+				5C95E6180340EB9ACFCADC6CB9008EF9 /* Pods-HomeCooked.staging.xcconfig */,
+			);
+			name = "Pods-HomeCooked";
+			path = "Target Support Files/Pods-HomeCooked";
 			sourceTree = "<group>";
 		};
 		DE9723432328F24ECC82B8EA82472D6E /* Support Files */ = {
@@ -477,34 +477,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B3DB906E9F9D0263ABB40A736BFF9FB9 /* Headers */ = {
+		ED2D9233E0A0BDF332450AFBDC945C8D /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0AC9A2E6932DF95EE7E80D8AA2729699 /* Pods-Recipes-umbrella.h in Headers */,
+				4FF84A6C504522C3E7ED88EFF06E775F /* Pods-HomeCooked-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		7A17070F0F514817A899A32CF56E4FDB /* Pods-Recipes */ = {
+		6A5C274A3F70F15303999EF2193EE0F1 /* Pods-HomeCooked */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 093310FD060C6EE9E2295C83048188A1 /* Build configuration list for PBXNativeTarget "Pods-Recipes" */;
+			buildConfigurationList = 37231ADFC7FA78211E67B951D308A548 /* Build configuration list for PBXNativeTarget "Pods-HomeCooked" */;
 			buildPhases = (
-				81E1FBCBED63311AEDA38F79B1537716 /* Sources */,
-				4BADAD15B11795400CABBE58BAC112F9 /* Frameworks */,
-				B3DB906E9F9D0263ABB40A736BFF9FB9 /* Headers */,
+				7F47C7DEB84540EF45BF025403827BDC /* Sources */,
+				74B808A0179A7D0F572A43B3D47D6426 /* Frameworks */,
+				ED2D9233E0A0BDF332450AFBDC945C8D /* Headers */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				8DB7BB439C88F2F4B812943328C20649 /* PBXTargetDependency */,
-				A9C5922D0688E03563B8DB7A47C36B11 /* PBXTargetDependency */,
+				46CA8B84F74BAA25DD17004BC427A9D8 /* PBXTargetDependency */,
+				2CCFFFEEA0C04C6D654726454333F6E3 /* PBXTargetDependency */,
 			);
-			name = "Pods-Recipes";
-			productName = "Pods-Recipes";
-			productReference = 0992BD4AB3BF172437294BEACA2DE9C0 /* Pods_Recipes.framework */;
+			name = "Pods-HomeCooked";
+			productName = "Pods-HomeCooked";
+			productReference = E623439AA9587C02E1E7C9C71F9DEFB2 /* Pods_HomeCooked.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		BA7A3BC1907D905684ED18BBAFF11261 /* InAppSettingsKit-InAppSettingsKit */ = {
@@ -521,7 +521,7 @@
 			);
 			name = "InAppSettingsKit-InAppSettingsKit";
 			productName = "InAppSettingsKit-InAppSettingsKit";
-			productReference = 231887A7BC12D6C8E30EFFC650ACC4B0 /* InAppSettingsKit.bundle */;
+			productReference = C8917998CC5E6799F3A49FA350909653 /* InAppSettingsKit.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		D369E8D0C81CC336FAADB86882C9EB8D /* Fusuma */ = {
@@ -539,7 +539,7 @@
 			);
 			name = Fusuma;
 			productName = Fusuma;
-			productReference = E4F8E588CFD3BA7A9519ED3F31281C11 /* Fusuma.framework */;
+			productReference = 35B2E13C6F4BD269866FE89E6A537F37 /* Fusuma.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		D86677F4268749DFB854C7D9551A8D62 /* InAppSettingsKit */ = {
@@ -558,7 +558,7 @@
 			);
 			name = InAppSettingsKit;
 			productName = InAppSettingsKit;
-			productReference = 8447419E8C91F3EB2EF29F8BAC59FCF8 /* InAppSettingsKit.framework */;
+			productReference = 2227B615FD2CFD0D7023D2B36991BB51 /* InAppSettingsKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -578,14 +578,14 @@
 				en,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
-			productRefGroup = 447B47E49F98D3389AB63D554B6A85C7 /* Products */;
+			productRefGroup = D674DF9CB1B3DB0802943A5EA388FAB0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				D369E8D0C81CC336FAADB86882C9EB8D /* Fusuma */,
 				D86677F4268749DFB854C7D9551A8D62 /* InAppSettingsKit */,
 				BA7A3BC1907D905684ED18BBAFF11261 /* InAppSettingsKit-InAppSettingsKit */,
-				7A17070F0F514817A899A32CF56E4FDB /* Pods-Recipes */,
+				6A5C274A3F70F15303999EF2193EE0F1 /* Pods-HomeCooked */,
 			);
 		};
 /* End PBXProject section */
@@ -668,11 +668,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		81E1FBCBED63311AEDA38F79B1537716 /* Sources */ = {
+		7F47C7DEB84540EF45BF025403827BDC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				70335C245C30A0F586B730FA012B4D5D /* Pods-Recipes-dummy.m in Sources */,
+				89BE1927D0151CC2025369D5BCF40C55 /* Pods-HomeCooked-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -694,17 +694,17 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		8DB7BB439C88F2F4B812943328C20649 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Fusuma;
-			target = D369E8D0C81CC336FAADB86882C9EB8D /* Fusuma */;
-			targetProxy = 874112AF1E87D160D82C49534685F7DA /* PBXContainerItemProxy */;
-		};
-		A9C5922D0688E03563B8DB7A47C36B11 /* PBXTargetDependency */ = {
+		2CCFFFEEA0C04C6D654726454333F6E3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = InAppSettingsKit;
 			target = D86677F4268749DFB854C7D9551A8D62 /* InAppSettingsKit */;
-			targetProxy = F90BF4B575A7741E82F744F20756F97A /* PBXContainerItemProxy */;
+			targetProxy = 4AE7F9A2ED221C190F5994F8982C1A9B /* PBXContainerItemProxy */;
+		};
+		46CA8B84F74BAA25DD17004BC427A9D8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Fusuma;
+			target = D369E8D0C81CC336FAADB86882C9EB8D /* Fusuma */;
+			targetProxy = CBB726CE0E2D66CFA6F7C0E688E197A7 /* PBXContainerItemProxy */;
 		};
 		B11D42F139B7C5D98BC47491FB3AD0D1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -861,42 +861,6 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		60E21F7858EE1984B43E1259F73AF7E1 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = DA0FA5C2A618BD7C6A420CC528903C8F /* Pods-Recipes.debug.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-Recipes/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Recipes/Pods-Recipes.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_Recipes;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1064,6 +1028,76 @@
 			};
 			name = Release;
 		};
+		7F37160FC0DFFCB9A9138E1385675C93 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7115FD5830B151976FFAB4BEB4B5121A /* Pods-HomeCooked.development.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-HomeCooked/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-HomeCooked/Pods-HomeCooked.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_HomeCooked;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Development;
+		};
+		85B85F4CD7F14F5DE8F1BDCF42E90F2C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5E09733823AC32168B820DF8270E1441 /* Pods-HomeCooked.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-HomeCooked/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-HomeCooked/Pods-HomeCooked.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_HomeCooked;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		870D2522B229F5DE9C2EFA8A0BE57629 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7096563A35F6BE49FC84F971E447A6C5 /* InAppSettingsKit.xcconfig */;
@@ -1095,6 +1129,42 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
+		};
+		90DA3510B6B3EF0DE508EE4FB8ED06A2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3333AE9DC7A48A8808F9390B021A20F0 /* Pods-HomeCooked.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-HomeCooked/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-HomeCooked/Pods-HomeCooked.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_HomeCooked;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
 		};
 		93280A5A7D91EA564D1AC6FB06F6D967 /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -1192,9 +1262,9 @@
 			};
 			name = Staging;
 		};
-		B12BD762044F36B2414CE4BC292CA1B5 /* Staging */ = {
+		CBE4EF79EA803716C47C960026FDE6CD /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2938658116ADE72D150E97E9C256721C /* Pods-Recipes.staging.xcconfig */;
+			baseConfigurationReference = 5C95E6180340EB9ACFCADC6CB9008EF9 /* Pods-HomeCooked.staging.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -1207,18 +1277,18 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-Recipes/Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-HomeCooked/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Recipes/Pods-Recipes.modulemap";
+				MODULEMAP_FILE = "Target Support Files/Pods-HomeCooked/Pods-HomeCooked.modulemap";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_Recipes;
+				PRODUCT_NAME = Pods_HomeCooked;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1226,76 +1296,6 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Staging;
-		};
-		B4B9F1366DB89AF3A6B56EE82267E682 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = BEEDA07DDFCBFDD7438E54218445A975 /* Pods-Recipes.release.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-Recipes/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Recipes/Pods-Recipes.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_Recipes;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		BDF8F5636489994253B95AA7DB526E57 /* Development */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 99A81D36812C94B4CF28E8D0414F0A5C /* Pods-Recipes.development.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-Recipes/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Recipes/Pods-Recipes.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_Recipes;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Development;
 		};
 		DF930A9DDAB452AE20C740496041C49E /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1350,17 +1350,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		093310FD060C6EE9E2295C83048188A1 /* Build configuration list for PBXNativeTarget "Pods-Recipes" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				60E21F7858EE1984B43E1259F73AF7E1 /* Debug */,
-				BDF8F5636489994253B95AA7DB526E57 /* Development */,
-				B4B9F1366DB89AF3A6B56EE82267E682 /* Release */,
-				B12BD762044F36B2414CE4BC292CA1B5 /* Staging */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		0A19867EE4CDB5384ABB18F405A69B9D /* Build configuration list for PBXNativeTarget "InAppSettingsKit-InAppSettingsKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1401,6 +1390,17 @@
 				93280A5A7D91EA564D1AC6FB06F6D967 /* Development */,
 				73F25D033A640807845472CCEFB880DA /* Release */,
 				947AD79E1C5B4826AC6B89F1E8677BAA /* Staging */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		37231ADFC7FA78211E67B951D308A548 /* Build configuration list for PBXNativeTarget "Pods-HomeCooked" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				90DA3510B6B3EF0DE508EE4FB8ED06A2 /* Debug */,
+				7F37160FC0DFFCB9A9138E1385675C93 /* Development */,
+				85B85F4CD7F14F5DE8F1BDCF42E90F2C /* Release */,
+				CBE4EF79EA803716C47C960026FDE6CD /* Staging */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
