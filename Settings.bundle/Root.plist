@@ -53,7 +53,7 @@
             <string>IASKMailComposeSpecifier</string>
             <key>IASKMailComposeToRecipents</key>
             <array>
-                <string></string>
+                <string>support@iosrecipes.com</string>
             </array>
             <key>IASKMailComposeCcRecipents</key>
             <array/>
