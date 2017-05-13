@@ -12,11 +12,12 @@ import FBSDKLoginKit
 class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     // Outlets
-    @IBOutlet weak var sloganLabel: UILabel!
+    @IBOutlet weak var sloganBottomMargin: NSLayoutConstraint!    
+    @IBOutlet weak var sloganHeight: NSLayoutConstraint!
     
     let alertControllerUtil:AlertControllerUtil = AlertControllerUtil()
     let dataTaskUtil:DataTaskUtil = DataTaskUtil()
-    let margin:CGFloat = 30
+    let loginButtonMargin:CGFloat = 30
     
     // Views to add
     var loginButton:FBSDKLoginButton = FBSDKLoginButton()
@@ -37,7 +38,8 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
             let screenHeight:CGFloat = view.frame.height
             
             // The slogan label is in the middle of the screen, so we put the login button right below
-            self.loginButton.frame = CGRect(x: self.margin, y: (screenHeight / 2) + 30, width: screenWidth - (2 * self.margin), height: 50)
+            let y = screenHeight - self.sloganBottomMargin.constant - self.sloganHeight.constant - 75
+            self.loginButton.frame = CGRect(x: self.loginButtonMargin, y: y, width: screenWidth - (2 * self.loginButtonMargin), height: 50)
             view.addSubview(loginButton)
         }
     }

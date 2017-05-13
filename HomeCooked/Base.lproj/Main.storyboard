@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -929,49 +928,36 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="pQP-Np-dUg">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="When You Make It" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2TG-ar-tZM" userLabel="Slogan Label">
-                                <rect key="frame" x="36" y="296" width="303" height="75"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cooking Isn't Just For Chefs" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nkB-rw-hRY">
+                                <rect key="frame" x="0.0" y="517" width="375" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="75" id="wh3-EW-sfS"/>
+                                    <constraint firstAttribute="height" constant="50" id="tC1-bo-Nxn"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="50"/>
-                                <color key="textColor" red="1" green="0.78799962454672723" blue="0.69397312966112457" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <color key="textColor" red="0.011764705882352941" green="0.10588235294117647" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
-                                <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I'ts Better" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YkG-EP-REg" userLabel="Slogan Label">
-                                <rect key="frame" x="20" y="221" width="335" height="75"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="75" id="ZaH-iT-1vh"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="50"/>
-                                <color key="textColor" red="1" green="0.78799962450000005" blue="0.69397312970000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                                <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="pQP-Np-dUg" secondAttribute="bottom" id="0hW-a4-llV"/>
                             <constraint firstAttribute="trailing" secondItem="pQP-Np-dUg" secondAttribute="trailing" id="AhK-7j-5in"/>
-                            <constraint firstAttribute="trailing" secondItem="YkG-EP-REg" secondAttribute="trailing" constant="20" id="EKi-Zu-FAg"/>
-                            <constraint firstItem="2TG-ar-tZM" firstAttribute="top" secondItem="YkG-EP-REg" secondAttribute="bottom" id="Hkd-vK-tsa"/>
-                            <constraint firstItem="2TG-ar-tZM" firstAttribute="leading" secondItem="A23-kK-zue" secondAttribute="leadingMargin" constant="20" id="SCe-j9-t9n"/>
+                            <constraint firstAttribute="trailing" secondItem="nkB-rw-hRY" secondAttribute="trailing" id="P78-Z6-tuN"/>
                             <constraint firstItem="pQP-Np-dUg" firstAttribute="top" secondItem="A23-kK-zue" secondAttribute="top" id="UUo-Nd-c3I"/>
-                            <constraint firstItem="2TG-ar-tZM" firstAttribute="centerY" secondItem="A23-kK-zue" secondAttribute="centerY" id="VBc-d1-g0S"/>
-                            <constraint firstItem="YkG-EP-REg" firstAttribute="leading" secondItem="A23-kK-zue" secondAttribute="leading" constant="20" id="c0R-RX-oMD"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="2TG-ar-tZM" secondAttribute="trailing" constant="20" id="cah-r9-FTQ"/>
+                            <constraint firstAttribute="bottom" secondItem="nkB-rw-hRY" secondAttribute="bottom" constant="100" id="X4V-ev-oKW"/>
+                            <constraint firstItem="nkB-rw-hRY" firstAttribute="leading" secondItem="A23-kK-zue" secondAttribute="leading" id="caU-dJ-ghk"/>
                             <constraint firstItem="pQP-Np-dUg" firstAttribute="leading" secondItem="A23-kK-zue" secondAttribute="leading" id="tJ3-Ds-skT"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="sloganLabel" destination="2TG-ar-tZM" id="ds3-4m-szi"/>
+                        <outlet property="sloganBottomMargin" destination="X4V-ev-oKW" id="xdZ-g7-9On"/>
+                        <outlet property="sloganHeight" destination="tC1-bo-Nxn" id="5jf-j9-zCV"/>
                         <segue destination="6Ja-in-eAq" kind="show" identifier="toMainView" id="Fuf-OC-fVp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F4p-sa-xal" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1034" y="134"/>
+            <point key="canvasLocation" x="-1034.4000000000001" y="133.5832083958021"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="qAj-aN-Xa7">
@@ -995,7 +981,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="background" width="3144" height="4735"/>
+        <image name="background" width="1280" height="1920"/>
         <image name="chef-hat" width="64" height="64"/>
         <image name="chef-with-hat" width="30" height="30"/>
         <image name="cutting-board-bg" width="2719" height="3058"/>
