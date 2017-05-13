@@ -551,8 +551,8 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3MQ-cQ-O6K">
-                                                    <rect key="frame" x="140" y="39" width="235" height="21.5"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
+                                                    <rect key="frame" x="140" y="41.5" width="235" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                                     <color key="textColor" red="0.01176470588" green="0.1058823529" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -928,12 +928,12 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="pQP-Np-dUg">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cooking Isn't Just For Chefs" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nkB-rw-hRY">
-                                <rect key="frame" x="0.0" y="517" width="375" height="50"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cooking Isn't Just For Chefs" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="nkB-rw-hRY">
+                                <rect key="frame" x="15" y="567" width="345" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="tC1-bo-Nxn"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <color key="textColor" red="0.011764705882352941" green="0.10588235294117647" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -942,10 +942,10 @@
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="pQP-Np-dUg" secondAttribute="bottom" id="0hW-a4-llV"/>
                             <constraint firstAttribute="trailing" secondItem="pQP-Np-dUg" secondAttribute="trailing" id="AhK-7j-5in"/>
-                            <constraint firstAttribute="trailing" secondItem="nkB-rw-hRY" secondAttribute="trailing" id="P78-Z6-tuN"/>
+                            <constraint firstAttribute="trailing" secondItem="nkB-rw-hRY" secondAttribute="trailing" constant="15" id="P78-Z6-tuN"/>
                             <constraint firstItem="pQP-Np-dUg" firstAttribute="top" secondItem="A23-kK-zue" secondAttribute="top" id="UUo-Nd-c3I"/>
-                            <constraint firstAttribute="bottom" secondItem="nkB-rw-hRY" secondAttribute="bottom" constant="100" id="X4V-ev-oKW"/>
-                            <constraint firstItem="nkB-rw-hRY" firstAttribute="leading" secondItem="A23-kK-zue" secondAttribute="leading" id="caU-dJ-ghk"/>
+                            <constraint firstAttribute="bottom" secondItem="nkB-rw-hRY" secondAttribute="bottom" constant="50" id="X4V-ev-oKW"/>
+                            <constraint firstItem="nkB-rw-hRY" firstAttribute="leading" secondItem="A23-kK-zue" secondAttribute="leading" constant="15" id="caU-dJ-ghk"/>
                             <constraint firstItem="pQP-Np-dUg" firstAttribute="leading" secondItem="A23-kK-zue" secondAttribute="leading" id="tJ3-Ds-skT"/>
                         </constraints>
                     </view>
