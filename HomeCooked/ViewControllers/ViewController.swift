@@ -146,15 +146,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.recipesService.retrieveRecipeImages(recipes: self.recipes, cachedRecipes: self.savedRecipesMap) { (recipes) in
             print("done loading images, displaying recipes")
             
-            // If any new recipes have been retrieved, update the recipes file and local cache
-            if self.recipes.count > self.savedRecipesMap.count {
-                print("new recipes found, updating file system and local cache")
-                let recipesFile = UserDefaults.standard.object(forKey: Config.UserDefaultsKey.recipesFilePathKey) as! String
-                self.fileManagerUtil.saveRecipesToFile(recipesToSave: self.recipes, filePath: recipesFile, appendToFile: false)
-                
-                for i in 0 ..< self.recipes.count {
-                    self.savedRecipesMap[self.recipes[i].recipeId] = self.recipes[i]
-                }
+            // Overwrite the recipes file and recreate map in case there are new recipes
+            let recipesFile = UserDefaults.standard.object(forKey: Config.UserDefaultsKey.recipesFilePathKey) as! String
+            self.fileManagerUtil.saveRecipesToFile(recipesToSave: self.recipes, filePath: recipesFile, appendToFile: false)
+            
+            self.savedRecipesMap.removeAll()
+            for i in 0 ..< self.recipes.count {
+                self.savedRecipesMap[self.recipes[i].recipeId] = self.recipes[i]
             }
             
             // Handle either initial load(activity indicator) or user refresh (refresh control)
