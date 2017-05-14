@@ -239,7 +239,7 @@
 					8D84023D1DD4D0E7009BBA62 = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = 522ZNNMW8Z;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Keychain = {
 								enabled = 1;
@@ -444,8 +444,10 @@
 				);
 				INFOPLIST_FILE = HomeCooked/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tusharverma.HomeCooked;
+				PRODUCT_BUNDLE_IDENTIFIER = com.homecooking.HomeCooking;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "10549b80-faad-40ab-821d-2567af31c9f0";
+				PROVISIONING_PROFILE_SPECIFIER = "Development Profile";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Development;
@@ -556,8 +558,10 @@
 				);
 				INFOPLIST_FILE = HomeCooked/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tusharverma.HomeCooked;
+				PRODUCT_BUNDLE_IDENTIFIER = com.homecooking.HomeCooking;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "10549b80-faad-40ab-821d-2567af31c9f0";
+				PROVISIONING_PROFILE_SPECIFIER = "Development Profile";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -569,7 +573,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = HomeCooked/HomeCooked.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = 522ZNNMW8Z;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -577,8 +581,10 @@
 				);
 				INFOPLIST_FILE = HomeCooked/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tusharverma.HomeCooked;
+				PRODUCT_BUNDLE_IDENTIFIER = com.homecooking.HomeCooking;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "550261a9-1b06-43c3-a5cb-bbcb5278f622";
+				PROVISIONING_PROFILE_SPECIFIER = "HomeCooking App Distribution";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -647,8 +653,10 @@
 				);
 				INFOPLIST_FILE = HomeCooked/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tusharverma.HomeCooked;
+				PRODUCT_BUNDLE_IDENTIFIER = com.homecooking.HomeCooking;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "10549b80-faad-40ab-821d-2567af31c9f0";
+				PROVISIONING_PROFILE_SPECIFIER = "Development Profile";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Staging;
