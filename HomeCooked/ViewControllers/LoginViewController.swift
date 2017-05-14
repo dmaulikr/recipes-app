@@ -12,7 +12,8 @@ import FBSDKLoginKit
 class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     // Outlets
-    @IBOutlet weak var sloganBottomMargin: NSLayoutConstraint!    
+    @IBOutlet weak var sloganLabel: UILabel!
+    @IBOutlet weak var sloganBottomMargin: NSLayoutConstraint!
     @IBOutlet weak var sloganHeight: NSLayoutConstraint!
     
     let alertControllerUtil:AlertControllerUtil = AlertControllerUtil()
@@ -33,7 +34,8 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         
         if FBSDKAccessToken.current() == nil {
             print("not logged in")
-        
+            self.sloganLabel.alpha = 1
+            
             let screenWidth:CGFloat = view.frame.width
             let screenHeight:CGFloat = view.frame.height
             
