@@ -52,6 +52,7 @@ class Config: NSObject {
     override init() {
         let path = Bundle.main.path(forResource: "Config", ofType: "plist")!
         let currentConfiguration = Bundle.main.object(forInfoDictionaryKey: "Config")!
+        print("CURRENT CONFIGURATION: \(currentConfiguration)")
         self.configs = NSDictionary(contentsOfFile: path)!.object(forKey: currentConfiguration) as! NSDictionary
     }
     

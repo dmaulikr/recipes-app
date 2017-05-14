@@ -4,7 +4,7 @@
 <dict>
 	<key>Debug</key>
 	<dict>
-		<key>logginLevel</key>
+		<key>loggingLevel</key>
 		<string>DEBUG</string>
 		<key>domainName</key>
 		<string>http://iosrecipes.com/DEV/</string>
@@ -31,6 +31,48 @@
 		<string>http://iosrecipes.com/DEV/</string>
 		<key>apiBaseUrl</key>
 		<string>http://iosrecipes.com/DEV/scripts/</string>
+		<key>saveRecipe</key>
+		<string>save_recipe.php</string>
+		<key>saveRecipeImage</key>
+		<string>save_recipe_image.php</string>
+		<key>saveFBAccount</key>
+		<string>save_fb_account.php</string>
+		<key>retrieveRecipes</key>
+		<string>retrieve_recipes.php</string>
+		<key>updateRecipe</key>
+		<string>update_recipe.php</string>
+		<key>deleteRecipe</key>
+		<string>delete_recipe.php</string>
+	</dict>
+	<key>Staging</key>
+	<dict>
+		<key>loggingLevel</key>
+		<string>INFO</string>
+		<key>domainName</key>
+		<string>http://iosrecipes.com/STAGING/</string>
+		<key>apiBaseUrl</key>
+		<string>http://iosrecipes.com/STAGING/scripts/</string>
+		<key>saveRecipe</key>
+		<string>save_recipe.php</string>
+		<key>saveRecipeImage</key>
+		<string>save_recipe_image.php</string>
+		<key>saveFBAccount</key>
+		<string>save_fb_account.php</string>
+		<key>retrieveRecipes</key>
+		<string>retrieve_recipes.php</string>
+		<key>updateRecipe</key>
+		<string>update_recipe.php</string>
+		<key>deleteRecipe</key>
+		<string>delete_recipe.php</string>
+	</dict>
+	<key>Release</key>
+	<dict>
+		<key>loggingLevel</key>
+		<string>INFO</string>
+		<key>domainName</key>
+		<string>http://iosrecipes.com/PROD/</string>
+		<key>apiBaseUrl</key>
+		<string>http://iosrecipes.com/PROD/scripts/</string>
 		<key>saveRecipe</key>
 		<string>save_recipe.php</string>
 		<key>saveRecipeImage</key>
