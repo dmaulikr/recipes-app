@@ -41,6 +41,10 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
             let y = screenHeight - self.sloganBottomMargin.constant - self.sloganHeight.constant - 75
             self.loginButton.frame = CGRect(x: self.loginButtonMargin, y: y, width: screenWidth - (2 * self.loginButtonMargin), height: 50)
             view.addSubview(loginButton)
+            
+            let x = self.loginButton.frame.origin.x + self.loginButton.frame.width - 50
+            self.activityIndicator.frame = CGRect(x: x, y: self.loginButton.frame.origin.y, width: 50, height: 50)
+            view.addSubview(self.activityIndicator)
         }
     }
     
@@ -48,6 +52,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         if FBSDKAccessToken.current() != nil && self.needToDisplayMainView {
             print("already logged in")
             self.getFBInfo(accessToken: FBSDKAccessToken.current(), completionHandler: { (fbUserId, fbProfileName) in
+                print("FB Profile Name: \(fbProfileName), FB User Id: \(fbUserId)")
                 UserDefaults.standard.set(fbUserId, forKey: Config.UserDefaultsKey.currentUserIdKey)
                 UserDefaults.standard.set(fbProfileName, forKey: Config.UserDefaultsKey.currentUserNameKey)
                 
@@ -117,17 +122,22 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         let buttonText = NSAttributedString(string: "Logging in ...")
         self.loginButton.setAttributedTitle(buttonText, for: .normal)
         
-        let x = self.loginButton.frame.origin.x + self.loginButton.frame.width - 50
-        self.activityIndicator.frame = CGRect(x: x, y: self.loginButton.frame.origin.y, width: 50, height: 50)
         self.activityIndicator.startAnimating()
-        view.addSubview(self.activityIndicator)
         
         self.getFBInfo(accessToken: FBSDKAccessToken.current(), completionHandler: { (fbUserId, fbProfileName) in
             self.saveFBAccount(userId: fbUserId, fbProfileName: fbProfileName, completionHandler: { (success) in
-                // Although we normally want to check for success, and retry if it's false, saving this data isn't necessary
-                // for the user to actually use the app. 
+                
+                // Although we normally want to check for success, and retry if it's false, 
+                // saving this data isn't necessary for all functionalities
+                // The only case where we need to save the data is the first time a user logs in
                 // So, in case there is some issue, we ignore the success flag and just log the user in
                 DispatchQueue.main.async {
+//                    if !success {
+//                        self.alertControllerUtil.displayAlertMessage(presentOn: self, message: "Oops, there was an issue logging in! Please try again")
+//                        self.logout()
+//                        return
+//                    }
+                    
                     UserDefaults.standard.set(fbUserId, forKey: Config.UserDefaultsKey.currentUserIdKey)
                     UserDefaults.standard.set(fbProfileName, forKey: Config.UserDefaultsKey.currentUserNameKey)
                     self.performSegue(withIdentifier: "toMainView", sender: self)
@@ -138,5 +148,15 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
         // Don't need to handle logout from this view
+    }
+    
+    func logout() {
+        self.activityIndicator.stopAnimating()
+
+        let buttonText = NSAttributedString(string: "Log in with Facebook")
+        self.loginButton.setAttributedTitle(buttonText, for: .normal)
+        
+        let loginManager = FBSDKLoginManager()
+        loginManager.logOut()
     }
 }
